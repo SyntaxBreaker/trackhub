@@ -10,7 +10,7 @@ export default function Add() {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        deadline: ''
+        deadline: getCurrentDate()
     })
 
     const { user, isLoading } = useUser();
@@ -33,9 +33,9 @@ export default function Add() {
             <TextField id="name" name="name" label="Name" variant="outlined" sx={{ width: '350px' }} value={formData.name} onChange={handleChange} />
             <TextField id="description" name="description" label="Description" variant="outlined" multiline={true} sx={{ width: '350px' }} value={formData.description} onChange={handleChange} />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateCalendar minDate={getCurrentDate()} onChange={(newValue) => setFormData(prevData => ({
+                <DateCalendar minDate={getCurrentDate()} value={formData.deadline} onChange={(newValue) => setFormData(prevData => ({
                     ...prevData,
-                    deadline: dayjs(newValue).format().split('T').slice(0, 1).join("-")
+                    deadline: dayjs(newValue)
                 }))} />
             </LocalizationProvider>
         </Box>
