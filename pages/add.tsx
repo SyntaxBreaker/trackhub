@@ -6,6 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import getCurrentDate from '../utils/date';
 import dayjs from "dayjs";
 import axios from 'axios';
+import validateField from "../utils/validateField";
 
 export default function Add() {
     const [formData, setFormData] = useState({
@@ -32,6 +33,8 @@ export default function Add() {
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
+        if(!validateField(formData.name)) return
+
         const data = {
             ...formData
         }
@@ -47,18 +50,57 @@ export default function Add() {
     }
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', marginTop: '32px' }}>
-            <Typography variant="h5" component="h2">Create a new task</Typography>
-            {error && <Typography variant="body1" paragraph={true} sx={{ color: 'error.light' }}>{error}</Typography>}
-            <TextField id="name" name="name" label="Name" variant="outlined" sx={{ width: '350px' }} value={formData.name} onChange={handleChange} />
-            <TextField id="description" name="description" label="Description" variant="outlined" multiline={true} sx={{ width: '350px' }} value={formData.description} onChange={handleChange} />
+        <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', marginTop: '32px' }}>
+            <Typography
+                variant="h5"
+                component="h2">
+                Create a new task
+            </Typography>
+            {error && <Typography
+                variant="body1"
+                paragraph={true}
+                sx={{ color: 'error.light' }}>
+                {error}
+            </Typography>}
+            <TextField
+                error={!validateField(formData.name) ? true : false}
+                helperText={!validateField(formData.name) && "This name should have at least one character."}
+                id="name"
+                name="name"
+                label="Name"
+                variant="outlined"
+                sx={{ width: '350px' }}
+                value={formData.name}
+                onChange={handleChange}
+            />
+            <TextField
+                id="description"
+                name="description"
+                label="Description"
+                variant="outlined"
+                multiline={true}
+                sx={{ width: '350px' }}
+                value={formData.description}
+                onChange={handleChange}
+            />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateCalendar minDate={getCurrentDate()} value={formData.deadline} onChange={(newValue) => setFormData(prevData => ({
-                    ...prevData,
-                    deadline: dayjs(newValue)
-                }))} />
+                <DateCalendar
+                    minDate={getCurrentDate()}
+                    value={formData.deadline}
+                    onChange={(newValue) => setFormData(prevData => ({
+                        ...prevData,
+                        deadline: dayjs(newValue)
+                    }))} />
             </LocalizationProvider>
-            <Button type="submit" variant="contained" color="primary">Add a new task</Button>
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary">
+                Add a new task
+            </Button>
         </Box>
     )
 }
