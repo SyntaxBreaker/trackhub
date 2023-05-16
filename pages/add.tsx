@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, Button } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import getCurrentDate from '../utils/date';
 import dayjs from "dayjs";
+import axios from 'axios';
 
 export default function Add() {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
         deadline: getCurrentDate()
-    })
+    });
+    const [error, setError] = useState<null | string>(null);
 
     const { user, isLoading } = useUser();
 
@@ -27,9 +29,27 @@ export default function Add() {
         }))
     }
 
+    const handleSubmit = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+
+        const data = {
+            ...formData
+        }
+
+        axios.post('/api/add', {
+            ...data
+        })
+            .then(res => {
+                setError('')
+                window.location.href = '/'
+            })
+            .catch(err => setError(err.message))
+    }
+
     return (
-        <Box component="form" sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', marginTop: '32px' }}>
-            <Typography variant="h6" component="h2">Create a new task</Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', marginTop: '32px' }}>
+            <Typography variant="h5" component="h2">Create a new task</Typography>
+            {error && <Typography variant="body1" paragraph={true} sx={{ color: 'error.light' }}>{error}</Typography>}
             <TextField id="name" name="name" label="Name" variant="outlined" sx={{ width: '350px' }} value={formData.name} onChange={handleChange} />
             <TextField id="description" name="description" label="Description" variant="outlined" multiline={true} sx={{ width: '350px' }} value={formData.description} onChange={handleChange} />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -38,6 +58,7 @@ export default function Add() {
                     deadline: dayjs(newValue)
                 }))} />
             </LocalizationProvider>
+            <Button type="submit" variant="contained" color="primary">Add a new task</Button>
         </Box>
     )
 }
