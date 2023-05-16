@@ -36,7 +36,8 @@ export default function Add() {
         if(!validateField(formData.name)) return
 
         const data = {
-            ...formData
+            ...formData,
+            authorId: user?.email
         }
 
         axios.post('/api/add', {

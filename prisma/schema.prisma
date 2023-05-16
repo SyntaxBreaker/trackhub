@@ -15,4 +15,5 @@ model Task {
   name        String
   description String?
   deadline    String
+  authorId    String
 }
