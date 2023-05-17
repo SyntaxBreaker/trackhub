@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
       <Sidebar />
-      <Box sx={{ marginLeft: { sm: '240px' } }}>
+      <Box>
         <Component {...pageProps} />
       </Box>
     </UserProvider>

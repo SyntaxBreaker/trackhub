@@ -1,38 +1,61 @@
 import * as React from 'react';
+import { styled, useTheme } from '@mui/material/styles';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';;
 import {
-  AppBar,
   Box,
-  CssBaseline,
-  Divider,
   Drawer,
+  CssBaseline,
   IconButton,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
   ListItemIcon,
-  ListItemText,
   Toolbar,
+  List,
+  Divider,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Link
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListIcon from '@mui/icons-material/List';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import Header from '../Header';
 
-
 const drawerWidth = 240;
 
-interface Props {
-  window?: () => Window;
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
 }
 
-export default function Sidebar(props: Props) {
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
+
+export default function PersistentDrawerLeft() {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
 
   const menuItems = [
     {
@@ -49,83 +72,66 @@ export default function Sidebar(props: Props) {
     }
   ]
 
-  const drawer = (
-    <div>
-      <Toolbar />
-      <Divider />
-      <List>
-        {menuItems.map((menuItem) => (
-          <Link href={menuItem.link} underline="none" color="inherit" key={menuItem.id}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <menuItem.icon />
-                </ListItemIcon>
-                <ListItemText primary={menuItem.name} />
-              </ListItemButton>
-            </ListItem>
-          </Link>
-        ))}
-      </List>
-    </div>
-  );
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box>
       <CssBaseline />
-      <AppBar
-        position="static"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      >
+      <AppBar position="static" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
+            onClick={handleDrawerOpen}
             edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
           <Header />
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
       >
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {menuItems.map((menuItem) => (
+            <Link href={menuItem.link} underline="none" color="inherit" key={menuItem.id}>
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <menuItem.icon />
+                  </ListItemIcon>
+                  <ListItemText primary={menuItem.name} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          ))}
+
+        </List>
+      </Drawer>
     </Box>
   );
 }
