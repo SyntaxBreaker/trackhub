@@ -37,7 +37,9 @@ export default function Add() {
 
         const data = {
             ...formData,
-            authorId: user?.email
+            authorId: user?.email,
+            authorName: user?.nickname,
+            authorAvatar: user?.picture
         }
 
         axios.post('/api/add', {
