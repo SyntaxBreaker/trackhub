@@ -3,7 +3,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import getCurrentDate from '../utils/date';
+import {getCurrentDate} from '../utils/date';
 import dayjs from "dayjs";
 import axios from 'axios';
 import validateField from "../utils/validateField";

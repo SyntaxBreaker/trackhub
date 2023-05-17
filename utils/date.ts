@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export default function () {
+function getCurrentDate() {
     const currentDate = new Date();
 
     return dayjs(currentDate);
@@ -13,5 +13,6 @@ function calculateRemainingDays(date: string) {
 }
 
 export {
+    getCurrentDate,
     calculateRemainingDays
 }
