@@ -5,3 +5,13 @@ export default function () {
 
     return dayjs(currentDate);
 }
+
+function calculateRemainingDays(date: string) {
+    const currentDate = new Date();
+
+    return dayjs(date).diff(currentDate, 'days');
+}
+
+export {
+    calculateRemainingDays
+}

@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
       <Sidebar />
-      <Box>
+      <Box sx={{ p: 1 }}>
         <Component {...pageProps} />
       </Box>
     </UserProvider>
