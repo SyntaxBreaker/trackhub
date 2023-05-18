@@ -24,7 +24,7 @@ function Home({ projects }: { projects: IProject[] }) {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h5" component="h2">
           Project list:
         </Typography>
@@ -42,7 +42,7 @@ function Home({ projects }: { projects: IProject[] }) {
           </TableHead>
           <TableBody>
             {projects.map(project => (
-              <TableRow>
+              <TableRow key={project.id}>
                 <TableCell>{project.name}</TableCell>
                 <TableCell>{project.description}</TableCell>
                 <TableCell>{project.creator}</TableCell>

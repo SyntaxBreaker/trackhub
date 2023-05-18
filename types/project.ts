@@ -1,7 +1,7 @@
 export default interface IProject {
-    id: String;
-    name: String;
-    description: String;
-    creator: String;
-    assignee: String[];
+    id: string;
+    name: string;
+    description: string;
+    creator: string;
+    assignee: string[];
 }
