@@ -19,7 +19,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListIcon from '@mui/icons-material/List';
-import AddTaskIcon from '@mui/icons-material/AddTask';
 import Header from '../Header';
 
 const drawerWidth = 240;
@@ -59,17 +58,11 @@ export default function PersistentDrawerLeft() {
 
   const menuItems = [
     {
-      id: 'taskList',
-      name: 'Task list',
+      id: 'projectList',
+      name: 'Project list',
       icon: ListIcon,
-      link: '/'
+      link: '/projects'
     },
-    {
-      id: 'addTask',
-      name: 'Add task',
-      icon: AddTaskIcon,
-      link: '/add'
-    }
   ]
 
   const handleDrawerOpen = () => {
@@ -129,7 +122,6 @@ export default function PersistentDrawerLeft() {
               </ListItem>
             </Link>
           ))}
-
         </List>
       </Drawer>
     </Box>
