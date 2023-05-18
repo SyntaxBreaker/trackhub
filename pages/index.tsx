@@ -1,46 +1,61 @@
-import { Avatar, AvatarGroup, Box, Button, Card, CardContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-import Link from 'next/link';
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useEffect } from "react";
+import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { PrismaClient } from "@prisma/client";
+import IProject from "../types/project";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Link from "next/link";
 import AddIcon from '@mui/icons-material/Add';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ITask from '../types/task';
-import { calculateRemainingDays } from '../utils/date';
-import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-function Home({ tasks }: { tasks: ITask[] }) {
+function Home({ projects }: { projects: IProject[] }) {
+  const { user, isLoading } = useUser();
+
+  useEffect(() => {
+    if (!isLoading && !user) window.location.href = '/api/auth/login';
+  }, [user, isLoading]);
+
   return (
     <Box sx={{ p: 2 }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '16px' }}>
-        <Typography variant='h5'>Recent Tasks ({tasks.length})</Typography>
-        <Button component={Link} href="/add" startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="h5" component="h2">
+          Project list:
+        </Typography>
+        <Button component={Link} href="/tasks/create" startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
       </Box>
-      <Grid container spacing={4} direction="row">
-        {tasks.map(task => (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={task.id}>
-            <Card>
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                    <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> Due in {calculateRemainingDays(task.deadline)} days
-                  </Typography>
+      <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Creator</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {projects.map(project => (
+              <TableRow>
+                <TableCell>{project.name}</TableCell>
+                <TableCell>{project.description}</TableCell>
+                <TableCell>{project.creator}</TableCell>
+                <TableCell>
                   <IconButton>
                     <MoreVertIcon fontSize="small" />
                   </IconButton>
-                </Box>
-                <Typography variant="h5" component="h3" sx={{ marginTop: 1 }}>{task.name}</Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', marginTop: 1 }}>{task.description}</Typography>
-                <AvatarGroup sx={{ justifyContent: 'flex-end', marginTop: 2 }}>
-                  <Tooltip title={task.authorName} arrow>
-                    <Avatar src={task.authorAvatar} alt={task.authorName} sx={{ width: 24, height: 24 }} />
-                  </Tooltip>
-                </AvatarGroup>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   )
 }
@@ -50,17 +65,17 @@ export const getServerSideProps = withPageAuthRequired({
     const session = await getSession(ctx.req, ctx.res);
     const prisma = new PrismaClient();
 
-    const tasks = await prisma.task.findMany(
+    const projects = await prisma.project.findMany(
       {
         where: {
-          authorId: session?.user.email
+          creator: session?.user.email
         }
       }
     );
 
     return {
       props: {
-        tasks
+        projects
       }
     }
   },
