@@ -11,11 +11,19 @@ datasource db {
 }
 
 model Task {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String?
+  deadline     String
+  authorId     String
+  authorName   String
+  authorAvatar String
+}
+
+model Project {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String?
-  deadline    String
-  authorId    String
-  authorName String
-  authorAvatar String
+  creator     String
+  assignee    String[]
 }
