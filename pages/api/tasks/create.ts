@@ -5,13 +5,20 @@ const prisma = new PrismaClient();
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const task = req.body;
+        const { task, id } = req.body;
 
-        await prisma.task.create({
+        await prisma.project.update({
+            where: {
+                id: id
+            },
             data: {
-                ...task
+                tasks: {
+                    create: {
+                        ...task
+                    }
+                }
             }
-        })
+        });
 
         res.status(200).json('Task was created');
     } catch (err) {

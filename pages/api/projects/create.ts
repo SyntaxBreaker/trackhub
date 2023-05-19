@@ -9,7 +9,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         await prisma.project.create({
             data: {
-                ...project
+                ...project,
+                tasks: {
+                    create: []
+                }
             }
         })
 

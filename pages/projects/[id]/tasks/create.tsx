@@ -3,10 +3,11 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import {getCurrentDate} from '../../utils/date';
+import { getCurrentDate } from '../../../../utils/date';
 import dayjs from "dayjs";
 import axios from 'axios';
-import validateField from "../../utils/validateField";
+import validateField from "../../../../utils/validateField";
+import { useRouter } from "next/router";
 
 export default function Create() {
     const [formData, setFormData] = useState({
@@ -17,6 +18,8 @@ export default function Create() {
     const [error, setError] = useState<null | string>(null);
 
     const { user, isLoading } = useUser();
+    const router = useRouter();
+    const { id } = router.query;
 
     useEffect(() => {
         if (!isLoading && !user) window.location.href = '/api/auth/login';
@@ -33,7 +36,7 @@ export default function Create() {
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        if(!validateField(formData.name)) return
+        if (!validateField(formData.name)) return
 
         const data = {
             ...formData,
@@ -43,11 +46,12 @@ export default function Create() {
         }
 
         axios.post('/api/tasks/create', {
-            ...data
+            task: data,
+            id
         })
             .then(res => {
                 setError(null)
-                window.location.href = '/'
+                window.location.href = `/projects/${id}/tasks`
             })
             .catch(err => setError(err.message))
     }

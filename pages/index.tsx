@@ -28,7 +28,7 @@ function Home({ projects }: { projects: IProject[] }) {
         <Typography variant="h5" component="h2">
           Project list:
         </Typography>
-        <Button component={Link} href="/tasks/create" startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
+        <Button component={Link} href="/projects/create" startIcon={<AddIcon />} variant="contained" color="primary">New project</Button>
       </Box>
       <TableContainer component={Paper} sx={{ marginTop: 2 }}>
         <Table aria-label="simple table">
@@ -46,7 +46,7 @@ function Home({ projects }: { projects: IProject[] }) {
                 <TableCell>{project.name}</TableCell>
                 <TableCell>{project.description}</TableCell>
                 <TableCell>{project.creator}</TableCell>
-                <TableCell>
+                <TableCell align="right">
                   <IconButton>
                     <MoreVertIcon fontSize="small" />
                   </IconButton>

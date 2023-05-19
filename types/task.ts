@@ -6,4 +6,5 @@ export default interface ITask {
     description: string;
     id: string;
     name: string;
+    projectId: string;
 }
