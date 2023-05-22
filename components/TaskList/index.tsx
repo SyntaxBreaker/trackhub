@@ -5,13 +5,20 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Link from 'next/link';
 import { calculateRemainingDays } from '../../utils/date';
 import ITask from '../../types/task';
+import { useEffect, useState } from 'react';
 
 export default function TaskList({ tasks }: { tasks: ITask[] }) {
+    const [ID, setID] = useState<null | string>(null);
+
+    useEffect(() => {
+        setID(window.location.href.split('/')[4]);
+    }, []);
+
     return (
         <Box sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <Typography variant='h5'>Recent Tasks ({tasks.length})</Typography>
-                <Button component={Link} href={`/projects/${tasks[0]?.projectId}/tasks/create`} startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
+                <Button component={Link} href={`/projects/${ID}/tasks/create`} startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
             </Box>
             <Grid container spacing={4} direction="row">
                 {tasks.map(task => (
