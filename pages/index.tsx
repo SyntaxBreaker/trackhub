@@ -1,6 +1,6 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { PrismaClient } from "@prisma/client";
 import IProject from "../types/project";
@@ -14,13 +14,28 @@ import Paper from '@mui/material/Paper';
 import Link from "next/link";
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useRouter } from "next/router";
 
 function Home({ projects }: { projects: IProject[] }) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedItem, setSelectedItem] = useState<IProject | null>(null);
+
   const { user, isLoading } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     if (!isLoading && !user) window.location.href = '/api/auth/login';
   }, [user, isLoading]);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, item: IProject) => {
+    setAnchorEl(e.currentTarget);
+    setSelectedItem(item);
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setSelectedItem(null);
+  }
 
   return (
     <Box sx={{ p: 2 }}>
@@ -42,16 +57,37 @@ function Home({ projects }: { projects: IProject[] }) {
           </TableHead>
           <TableBody>
             {projects.map(project => (
-              <TableRow key={project.id}>
-                <TableCell>{project.name}</TableCell>
-                <TableCell>{project.description}</TableCell>
-                <TableCell>{project.creator}</TableCell>
-                <TableCell align="right">
-                  <IconButton>
-                    <MoreVertIcon fontSize="small" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+              <Fragment key={project.id}>
+                <TableRow>
+                  <TableCell>{project.name}</TableCell>
+                  <TableCell>{project.description}</TableCell>
+                  <TableCell>{project.creator}</TableCell>
+                  <TableCell align="right">
+                    <IconButton onClick={(e) => handleClick(e, project)}>
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+                <Menu
+                  open={Boolean(anchorEl) && selectedItem === project}
+                  onClose={handleClose}
+                  anchorEl={anchorEl}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      handleClose()
+                      router.push(`projects/${project.id}/tasks`)
+                    }}
+                  >
+                    Go to Project
+                  </MenuItem>
+                  <MenuItem
+                    onClick={handleClose}
+                  >
+                    Delete project
+                  </MenuItem>
+                </Menu>
+              </Fragment>
             ))}
           </TableBody>
         </Table>
