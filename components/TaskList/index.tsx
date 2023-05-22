@@ -2,6 +2,7 @@ import { Avatar, AvatarGroup, Box, Button, Card, CardContent, Grid, IconButton, 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
 import { calculateRemainingDays } from '../../utils/date';
 import ITask from '../../types/task';
@@ -18,7 +19,10 @@ export default function TaskList({ tasks }: { tasks: ITask[] }) {
         <Box sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <Typography variant='h5'>Recent Tasks ({tasks.length})</Typography>
-                <Button component={Link} href={`/projects/${ID}/tasks/create`} startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button component={Link} href={`/`} startIcon={<ArrowBackIcon />} variant="contained" color="primary">Back to projects</Button>
+                    <Button component={Link} href={`/projects/${ID}/tasks/create`} startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
+                </Box>
             </Box>
             <Grid container spacing={4} direction="row">
                 {tasks.map(task => (
