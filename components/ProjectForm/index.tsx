@@ -3,13 +3,17 @@ import { Box, Typography, TextField, Button } from "@mui/material"
 import validateField from "../../utils/validateField";
 import axios from "axios";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
+import IProject from "../../types/project";
+import { useRouter } from "next/router";
 
-export default function ProjectForm({ user, method }: { user: UserProfile | undefined, method: string }) {
+export default function ProjectForm({ user, method, project }: { user: UserProfile | undefined, method: string, project?: IProject }) {
     const [formData, setFormData] = useState({
-        name: '',
-        description: ''
+        name: project?.name ?? '',
+        description: project?.description ?? ''
     });
     const [error, setError] = useState(null);
+    const router = useRouter();
+    const { id } = router.query;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prev => ({
@@ -40,6 +44,17 @@ export default function ProjectForm({ user, method }: { user: UserProfile | unde
                 .catch(err => {
                     setError(err.message);
                 })
+        } else {
+            axios.patch('/api/projects/edit', {
+                project: data,
+                id: id
+            }).then(res => {
+                setError(null);
+                window.location.href = '/';
+            })
+                .catch(err => {
+                    setError(err.message);
+                })
         }
     }
 
@@ -52,7 +67,7 @@ export default function ProjectForm({ user, method }: { user: UserProfile | unde
             <Typography
                 variant="h5"
                 component="h2">
-                Create a new project
+                {method === 'POST' ? 'Create a new project' : 'Edit the task'}
             </Typography>
             {error && <Typography
                 variant="body1"
@@ -85,7 +100,7 @@ export default function ProjectForm({ user, method }: { user: UserProfile | unde
                 type="submit"
                 variant="contained"
                 color="primary">
-                Add a new project
+                {method === 'POST' ? 'Add a new project' : 'Edit the task'}
             </Button>
         </Box>
     )
