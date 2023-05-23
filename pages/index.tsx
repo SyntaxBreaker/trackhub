@@ -82,6 +82,14 @@ function Home({ projects }: { projects: IProject[] }) {
                     Go to Project
                   </MenuItem>
                   <MenuItem
+                    onClick={() => {
+                      handleClose()
+                      router.push(`projects/${project.id}/edit`)
+                    }}
+                  >
+                    Edit project
+                  </MenuItem>
+                  <MenuItem
                     onClick={handleClose}
                   >
                     Delete project
