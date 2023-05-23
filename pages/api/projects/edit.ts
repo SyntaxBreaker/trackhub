@@ -16,7 +16,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             }
         });
 
-        res.status(200).json('Project was created');
+        res.status(200).json('Project was updated');
     } catch (err) {
         res.status(500).json(err);
     }
