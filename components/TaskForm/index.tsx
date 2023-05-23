@@ -8,17 +8,18 @@ import { useRouter } from "next/router";
 import axios from 'axios';
 import validateField from "../../utils/validateField";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
+import ITask from "../../types/task";
 
-export default function TaskForm({ user, method }: { user: UserProfile | undefined, method: string }) {
+export default function TaskForm({ user, method, task }: { user: UserProfile | undefined, method: string, task?: ITask }) {
     const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        deadline: getCurrentDate()
+        name: task?.name ?? '',
+        description: task?.description ?? '',
+        deadline: dayjs(task?.deadline) ?? getCurrentDate()
     });
     const [error, setError] = useState<null | string>(null);
 
     const router = useRouter();
-    const { id } = router.query;
+    const { id, taskID } = router.query;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prevData => ({
@@ -49,6 +50,16 @@ export default function TaskForm({ user, method }: { user: UserProfile | undefin
                     window.location.href = `/projects/${id}/tasks`
                 })
                 .catch(err => setError(err.message))
+        } else {
+            axios.patch('/api/tasks/edit', {
+                task: data,
+                id: taskID
+            })
+                .then(res => {
+                    setError(null)
+                    window.location.href = `/projects/${id}/tasks`
+                })
+                .catch(err => setError(err.message))
         }
     }
 
@@ -60,7 +71,7 @@ export default function TaskForm({ user, method }: { user: UserProfile | undefin
             <Typography
                 variant="h5"
                 component="h2">
-                Create a new task
+                {method === "POST" ? "Create a new task" : "Edit the task"}
             </Typography>
             {error && <Typography
                 variant="body1"
@@ -102,7 +113,7 @@ export default function TaskForm({ user, method }: { user: UserProfile | undefin
                 type="submit"
                 variant="contained"
                 color="primary">
-                Add a new task
+                {method === "POST" ? "Add a new task" : "Edit the task"}
             </Button>
         </Box>
     )
