@@ -67,7 +67,7 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
             <Typography
                 variant="h5"
                 component="h2">
-                {method === 'POST' ? 'Create a new project' : 'Edit the task'}
+                {method === 'POST' ? 'Create a new project' : 'Edit the project'}
             </Typography>
             {error && <Typography
                 variant="body1"
@@ -100,7 +100,7 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                 type="submit"
                 variant="contained"
                 color="primary">
-                {method === 'POST' ? 'Add a new project' : 'Edit the task'}
+                {method === 'POST' ? 'Add a new project' : 'Edit the project'}
             </Button>
         </Box>
     )
