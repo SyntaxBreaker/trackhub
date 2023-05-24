@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, Typography, TextField, Button } from "@mui/material"
+import { Box, Typography, TextField, Button, Alert } from "@mui/material"
 import validateField from "../../utils/validateField";
 import axios from "axios";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
@@ -69,12 +69,7 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                 component="h2">
                 {method === 'POST' ? 'Create a new project' : 'Edit the project'}
             </Typography>
-            {error && <Typography
-                variant="body1"
-                paragraph={true}
-                sx={{ color: 'error.light' }}>
-                {error}
-            </Typography>}
+            {error && <Alert severity="error">{error}</Alert>}
             <TextField
                 error={!validateField(formData.name) ? true : false}
                 helperText={!validateField(formData.name) && "This name should have at least one character."}
