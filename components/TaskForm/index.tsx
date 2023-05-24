@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, TextField, Typography, Button } from "@mui/material";
+import { Box, TextField, Typography, Button, Alert } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
@@ -73,12 +73,7 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
                 component="h2">
                 {method === "POST" ? "Create a new task" : "Edit the task"}
             </Typography>
-            {error && <Typography
-                variant="body1"
-                paragraph={true}
-                sx={{ color: 'error.light' }}>
-                {error}
-            </Typography>}
+            {error && <Alert severity="error">{error}</Alert>}
             <TextField
                 error={!validateField(formData.name) ? true : false}
                 helperText={!validateField(formData.name) && "This name should have at least one character."}
