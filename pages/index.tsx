@@ -15,6 +15,7 @@ import Link from "next/link";
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useRouter } from "next/router";
+import axios from "axios";
 
 function Home({ projects }: { projects: IProject[] }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -24,7 +25,7 @@ function Home({ projects }: { projects: IProject[] }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !user) window.location.href = '/api/auth/login';
+    if (!isLoading && !user) router.push('/api/auth/login');
   }, [user, isLoading]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>, item: IProject) => {
@@ -35,6 +36,17 @@ function Home({ projects }: { projects: IProject[] }) {
   const handleClose = () => {
     setAnchorEl(null);
     setSelectedItem(null);
+  }
+
+  const handleDeleteProject = () => {
+    axios.delete(`/api/projects/delete/${selectedItem?.id}`, {
+      
+  })
+      .then(res => {
+          console.log(res);
+          router.push('/');
+      })
+      .catch(err => console.log(err))
   }
 
   return (
@@ -90,7 +102,10 @@ function Home({ projects }: { projects: IProject[] }) {
                     Edit project
                   </MenuItem>
                   <MenuItem
-                    onClick={handleClose}
+                    onClick={() => {
+                      handleClose()
+                      handleDeleteProject()
+                    }}
                   >
                     Delete project
                   </MenuItem>
