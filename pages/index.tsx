@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { Alert, Box, Button, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Fragment, useEffect, useState } from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
@@ -20,6 +20,7 @@ import axios from "axios";
 function Home({ projects }: { projects: IProject[] }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedItem, setSelectedItem] = useState<IProject | null>(null);
+  const [error, setError] = useState('');
 
   const { user, isLoading } = useUser();
   const router = useRouter();
@@ -40,13 +41,13 @@ function Home({ projects }: { projects: IProject[] }) {
 
   const handleDeleteProject = () => {
     axios.delete(`/api/projects/delete/${selectedItem?.id}`, {
-      
-  })
+
+    })
       .then(res => {
-          console.log(res);
-          router.push('/');
+        setError('');
+        router.push('/');
       })
-      .catch(err => console.log(err))
+      .catch(err => setError(err.message))
   }
 
   return (
@@ -57,6 +58,7 @@ function Home({ projects }: { projects: IProject[] }) {
         </Typography>
         <Button component={Link} href="/projects/create" startIcon={<AddIcon />} variant="contained" color="primary">New project</Button>
       </Box>
+      {error && <Alert severity="error" sx={{ marginTop: 2 }}>{error}</Alert>}
       <TableContainer component={Paper} sx={{ marginTop: 2 }}>
         <Table aria-label="simple table">
           <TableHead>
