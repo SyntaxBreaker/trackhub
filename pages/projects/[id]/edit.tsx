@@ -4,16 +4,30 @@ import IProject from "../../../types/project";
 import ProjectForm from "../../../components/ProjectForm";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { Alert } from "@mui/material";
 
-export default function Edit({ project }: { project: IProject }) {
+export default function Edit({ project, isAuthorised }: { project: IProject, isAuthorised: boolean }) {
     const { user, isLoading } = useUser();
+    const router = useRouter();
 
     useEffect(() => {
         if (!isLoading && !user) window.location.href = '/api/auth/login';
     }, [user, isLoading]);
 
+    useEffect(() => {
+        if (!isAuthorised) {
+            setTimeout(() => {
+                router.push('/');
+            }, 3000)
+        }
+    }, [isAuthorised])
+
     return (
-        <ProjectForm user={user} method="PATCH" project={project} />
+        <>
+            {!isAuthorised && <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert>}
+            {isAuthorised && <ProjectForm user={user} method="PATCH" project={project} />}
+        </>
     )
 }
 
@@ -34,17 +48,26 @@ export const getServerSideProps = withPageAuthRequired({
             );
 
             if (project?.creator === session?.user.email) {
-                data = project;
+                data = {
+                    project,
+                    isAuthorised: true,
+                };
             } else {
-                data = {}
+                data = {
+                    project: {},
+                    isAuthorised: false,
+                }
             }
         } else {
-            data = {}
+            data = {
+                project: {},
+                isAuthorised: false,
+            }
         }
 
         return {
             props: {
-                project: data
+                ...data
             }
         }
     },

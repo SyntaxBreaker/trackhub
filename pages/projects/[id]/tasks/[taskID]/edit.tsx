@@ -4,16 +4,30 @@ import ITask from "../../../../../types/task";
 import TaskForm from "../../../../../components/TaskForm";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { Alert } from "@mui/material";
 
-export default function Edit({ task }: { task: ITask }) {
+export default function Edit({ task, isAuthorised }: { task: ITask, isAuthorised: boolean }) {
     const { user, isLoading } = useUser();
+    const router = useRouter();
 
     useEffect(() => {
         if (!isLoading && !user) window.location.href = '/api/auth/login';
     }, [user, isLoading]);
 
+    useEffect(() => {
+        if (!isAuthorised) {
+            setTimeout(() => {
+                router.push('/');
+            }, 3000)
+        }
+    }, [isAuthorised])
+
     return (
-        <TaskForm user={user} method="PATCH" task={task} />
+        <>
+            {!isAuthorised && <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert>}
+            {isAuthorised && <TaskForm user={user} method="PATCH" task={task} />}
+        </>
     )
 }
 
@@ -34,17 +48,26 @@ export const getServerSideProps = withPageAuthRequired({
             );
 
             if (task?.authorId === session?.user.email) {
-                data = task;
+                data = {
+                    task,
+                    isAuthorised: true,
+                }
             } else {
-                data = {}
+                data = {
+                    task,
+                    isAuthorised: false
+                }
             }
         } else {
-            data = {}
+            data = {
+                task: {},
+                isAuthorised: false
+            }
         }
 
         return {
             props: {
-                task: data
+                ...data
             }
         }
     },
