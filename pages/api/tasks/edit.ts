@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { task, id } = req.body;
-        console.log(task);
 
         await prisma.task.update({
             where: {

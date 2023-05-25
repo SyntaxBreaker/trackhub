@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box, Button, Card, CardContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Button, Card, CardContent, Grid, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -7,13 +7,28 @@ import Link from 'next/link';
 import { calculateRemainingDays } from '../../utils/date';
 import ITask from '../../types/task';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function TaskList({ tasks }: { tasks: ITask[] }) {
     const [ID, setID] = useState<null | string>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [selectedItem, setSelectedItem] = useState<ITask | null>(null);
+
+    const router = useRouter();
 
     useEffect(() => {
         setID(window.location.href.split('/')[4]);
     }, []);
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>, item: ITask) => {
+        setAnchorEl(e.currentTarget);
+        setSelectedItem(item);
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        setSelectedItem(null);
+    }
 
     return (
         <Box sx={{ p: 2 }}>
@@ -33,7 +48,7 @@ export default function TaskList({ tasks }: { tasks: ITask[] }) {
                                     <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                         <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> Due in {calculateRemainingDays(task.deadline)} days
                                     </Typography>
-                                    <IconButton>
+                                    <IconButton onClick={(e) => handleClick(e, task)}>
                                         <MoreVertIcon fontSize="small" />
                                     </IconButton>
                                 </Box>
@@ -46,6 +61,20 @@ export default function TaskList({ tasks }: { tasks: ITask[] }) {
                                 </AvatarGroup>
                             </CardContent>
                         </Card>
+                        <Menu
+                            open={Boolean(anchorEl) && selectedItem === task}
+                            onClose={handleClose}
+                            anchorEl={anchorEl}
+                        >
+                            <MenuItem
+                                onClick={() => {
+                                    handleClose();
+                                    router.push(`/projects/${ID}/tasks/${task.id}/edit`)
+                                }}
+                            >
+                                Edit task
+                            </MenuItem>
+                        </Menu>
                     </Grid>
                 ))}
             </Grid>
