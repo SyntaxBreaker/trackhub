@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box, Button, Card, CardContent, Grid, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Alert, Avatar, AvatarGroup, Box, Button, Card, CardContent, Grid, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -8,11 +8,13 @@ import { calculateRemainingDays } from '../../utils/date';
 import ITask from '../../types/task';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 export default function TaskList({ tasks }: { tasks: ITask[] }) {
     const [ID, setID] = useState<null | string>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = useState<ITask | null>(null);
+    const [error, setError] = useState('');
 
     const router = useRouter();
 
@@ -30,6 +32,15 @@ export default function TaskList({ tasks }: { tasks: ITask[] }) {
         setSelectedItem(null);
     }
 
+    const handleDeleteTask = () => {
+        axios.delete(`/api/tasks/delete/${selectedItem?.id}`)
+            .then(res => {
+                setError('');
+                router.push(`/projects/${ID}/tasks/`)
+            })
+            .catch(err => setError(err.message))
+    }
+
     return (
         <Box sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '16px' }}>
@@ -39,6 +50,7 @@ export default function TaskList({ tasks }: { tasks: ITask[] }) {
                     <Button component={Link} href={`/projects/${ID}/tasks/create`} startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
                 </Box>
             </Box>
+            {error && <Alert severity="error" sx={{ marginY: 2 }}>{error}</Alert>}
             <Grid container spacing={4} direction="row">
                 {tasks.map(task => (
                     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={task.id}>
@@ -73,6 +85,14 @@ export default function TaskList({ tasks }: { tasks: ITask[] }) {
                                 }}
                             >
                                 Edit task
+                            </MenuItem>
+                            <MenuItem
+                                onClick={() => {
+                                    handleClose();
+                                    handleDeleteTask();
+                                }}
+                            >
+                                Remove task
                             </MenuItem>
                         </Menu>
                     </Grid>
