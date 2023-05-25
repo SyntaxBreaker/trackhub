@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-export default function TaskList({ tasks }: { tasks: ITask[] }) {
+export default function TaskList({ tasks }: { tasks?: ITask[] }) {
     const [ID, setID] = useState<null | string>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = useState<ITask | null>(null);
@@ -44,7 +44,7 @@ export default function TaskList({ tasks }: { tasks: ITask[] }) {
     return (
         <Box sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <Typography variant='h5'>Recent Tasks ({tasks.length})</Typography>
+                <Typography variant='h5'>Recent Tasks ({tasks?.length})</Typography>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button component={Link} href={`/`} startIcon={<ArrowBackIcon />} variant="contained" color="primary">Back to projects</Button>
                     <Button component={Link} href={`/projects/${ID}/tasks/create`} startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
@@ -52,7 +52,7 @@ export default function TaskList({ tasks }: { tasks: ITask[] }) {
             </Box>
             {error && <Alert severity="error" sx={{ marginY: 2 }}>{error}</Alert>}
             <Grid container spacing={4} direction="row">
-                {tasks.map(task => (
+                {tasks?.map(task => (
                     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={task.id}>
                         <Card>
                             <CardContent>
