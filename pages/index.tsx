@@ -1,4 +1,4 @@
-import { Alert, Box, Button, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { Alert, Box, Button, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Fragment, useEffect, useState } from "react";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
@@ -14,6 +14,9 @@ import Paper from '@mui/material/Paper';
 import Link from "next/link";
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from "next/router";
 import axios from "axios";
 
@@ -93,7 +96,12 @@ function Home({ projects }: { projects: IProject[] }) {
                       router.push(`projects/${project.id}/tasks`)
                     }}
                   >
-                    Go to Project
+                    <ListItemIcon>
+                      <ArrowForwardIcon fontSize="medium" />
+                    </ListItemIcon>
+                    <ListItemText>
+                      Go to Project
+                    </ListItemText>
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
@@ -101,7 +109,12 @@ function Home({ projects }: { projects: IProject[] }) {
                       router.push(`projects/${project.id}/edit`)
                     }}
                   >
-                    Edit project
+                    <ListItemIcon>
+                      <EditIcon fontSize="medium" />
+                    </ListItemIcon>
+                    <ListItemText>
+                      Edit project
+                    </ListItemText>
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
@@ -109,7 +122,12 @@ function Home({ projects }: { projects: IProject[] }) {
                       handleDeleteProject()
                     }}
                   >
-                    Delete project
+                    <ListItemIcon>
+                      <DeleteIcon fontSize="medium" />
+                    </ListItemIcon>
+                    <ListItemText>
+                      Delete project
+                    </ListItemText>
                   </MenuItem>
                 </Menu>
               </Fragment>
