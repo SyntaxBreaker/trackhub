@@ -19,8 +19,9 @@ export default function Tasks({ tasks, isAuthorised }: { tasks?: ITask[], isAuth
 
     return (
         <>
-            {!isAuthorised && <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert>}
-            {isAuthorised && <TaskList tasks={tasks} />}
+            {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <TaskList 
+                tasks={tasks} 
+            />}
         </>
     )
 }

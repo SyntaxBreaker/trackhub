@@ -25,8 +25,11 @@ export default function Edit({ task, isAuthorised }: { task: ITask, isAuthorised
 
     return (
         <>
-            {!isAuthorised && <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert>}
-            {isAuthorised && <TaskForm user={user} method="PATCH" task={task} />}
+            {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <TaskForm
+                user={user}
+                method="PATCH"
+                task={task}
+            />}
         </>
     )
 }

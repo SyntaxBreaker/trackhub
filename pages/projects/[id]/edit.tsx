@@ -25,8 +25,11 @@ export default function Edit({ project, isAuthorised }: { project: IProject, isA
 
     return (
         <>
-            {!isAuthorised && <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert>}
-            {isAuthorised && <ProjectForm user={user} method="PATCH" project={project} />}
+            {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <ProjectForm
+                user={user}
+                method="PATCH"
+                project={project}
+            />}
         </>
     )
 }
