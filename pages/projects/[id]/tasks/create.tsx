@@ -45,7 +45,7 @@ export const getServerSideProps = withPageAuthRequired({
             }
         })
 
-        const isAuthorised = project?.creator === session?.user.email;
+        const isAuthorised = project?.creator === session?.user.email || project?.assignees.includes(session?.user.email);
 
         return {
             props: {

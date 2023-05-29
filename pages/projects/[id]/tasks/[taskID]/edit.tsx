@@ -42,15 +42,17 @@ export const getServerSideProps = withPageAuthRequired({
         let data;
 
         if (/^[0-9a-fA-F]{24}$/.test(taskID as string)) {
-            const task = await prisma.task.findUnique(
-                {
-                    where: {
-                        id: taskID as string,
-                    }
+            const task = await prisma.task.findUnique({
+                where: {
+                    id: taskID as string,
+                },
+                include: {
+                    Project: true
                 }
+            }
             );
 
-            if (task?.authorId === session?.user.email) {
+            if (task?.authorId === session?.user.email || task?.Project.assignees.includes(session?.user.email)) {
                 data = {
                     task,
                     isAuthorised: true,

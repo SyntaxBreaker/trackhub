@@ -9,7 +9,8 @@ import { useRouter } from "next/router";
 export default function ProjectForm({ user, method, project }: { user: UserProfile | undefined, method: string, project?: IProject }) {
     const [formData, setFormData] = useState({
         name: project?.name ?? '',
-        description: project?.description ?? ''
+        description: project?.description ?? '',
+        assignee: ''
     });
     const [error, setError] = useState(null);
     const router = useRouter();
@@ -27,10 +28,13 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
 
         if (!validateField(formData.name)) return
 
+        const assignees = project?.assignees ?? [];
+
         const data = {
-            ...formData,
+            name: formData.name,
+            description: formData.description,
             creator: user?.email,
-            assignee: []
+            assignees: formData.assignee.length !== 0 ? [...assignees, formData.assignee] : assignees
         }
 
         if (method === "POST") {
@@ -89,6 +93,16 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                 multiline={true}
                 sx={{ width: '350px' }}
                 value={formData.description}
+                onChange={handleChange}
+            />
+            <TextField
+                id="assignee"
+                name="assignee"
+                label="Assignee"
+                variant="outlined"
+                multiline={true}
+                sx={{ width: '350px' }}
+                value={formData.assignee}
                 onChange={handleChange}
             />
             <Button

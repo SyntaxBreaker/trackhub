@@ -19,8 +19,8 @@ export default function Tasks({ tasks, isAuthorised }: { tasks?: ITask[], isAuth
 
     return (
         <>
-            {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <TaskList 
-                tasks={tasks} 
+            {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <TaskList
+                tasks={tasks}
             />}
         </>
     )
@@ -37,10 +37,11 @@ export const getServerSideProps = withPageAuthRequired({
             const tasks = await prisma.task.findMany({
                 where: {
                     projectId: id as string
-                }
+                },
+                include: { Project: true },
             })
 
-            if (tasks.some(task => task.authorId === session?.user.email)) {
+            if (tasks.some(task => task.authorId === session?.user.email || task.Project.assignees.includes(session?.user.email))) {
                 data = {
                     tasks,
                     isAuthorised: true

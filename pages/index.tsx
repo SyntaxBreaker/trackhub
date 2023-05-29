@@ -147,7 +147,13 @@ export const getServerSideProps = withPageAuthRequired({
     const projects = await prisma.project.findMany(
       {
         where: {
-          creator: session?.user.email
+          OR: [{
+            creator: session?.user.email
+          }, {
+            assignees: {
+              has: session?.user.email
+            }
+          }]
         }
       }
     );
