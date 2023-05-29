@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Task {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   description  String?
   deadline     String
@@ -27,6 +27,6 @@ model Project {
   name        String
   description String?
   creator     String
-  assignee    String[]
+  assignees   String[]
   tasks       Task[]
 }

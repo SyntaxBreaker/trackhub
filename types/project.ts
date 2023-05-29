@@ -3,5 +3,5 @@ export default interface IProject {
     name: string;
     description: string;
     creator: string;
-    assignee: string[];
+    assignees: string[];
 }
