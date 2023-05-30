@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, Typography, TextField, Button, Alert, List, ListItemText, IconButton, ListItem } from "@mui/material"
+import { Box, Typography, TextField, Button, Alert, Paper, IconButton, TableContainer, Table, TableCell, TableHead, TableRow, TableBody } from "@mui/material"
 import validateField from "../../utils/validateField";
 import axios from "axios";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
@@ -113,47 +113,63 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
             />
             {method === "PATCH" &&
                 <>
-                    <Box sx={{ maxWidth: '350px', display: 'flex', flexDirection: 'row', gap: 1 }}>
-                        <TextField
-                            id="assignee"
-                            name="assignee"
-                            label="Assignee"
-                            variant="outlined"
-                            multiline={false}
-                            sx={{ width: '300px' }}
-                            value={formData.assignee}
-                            onChange={handleChange}
-                            onKeyDown={e => {
-                                if(e.key === 'Enter') {
-                                    e.preventDefault();
-                                    handleAssigneeAddition();
-                                }
-                            }}
-                        />
-                        <IconButton onClick={handleAssigneeAddition}>
-                            <AddIcon />
-                        </IconButton>
-                    </Box>
                     {assignees.length > 0 &&
                         <>
                             <Typography
                                 variant="h6"
                                 component="p"
+                                sx={{ marginTop: 2 }}
                             >
                                 Assignee list:
                             </Typography>
-                            <List>
-                                {assignees.map(assignee => (
-                                    <ListItem key={assignee} sx={{ display: 'flex', gap: 1 }}>
-                                        <ListItemText>
-                                            {assignee}
-                                        </ListItemText>
-                                        <IconButton onClick={() => handleRemoveAssignee(assignee)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </ListItem>
-                                ))}
-                            </List>
+                            <TableContainer sx={{ maxWidth: '350px' }} component={Paper} elevation={16}>
+                                <Table aria-label="assignee list">
+                                    <TableHead sx={{ backgroundColor: 'primary.main' }}>
+                                        <TableRow>
+                                            <TableCell sx={{ color: 'white' }}>Email:</TableCell>
+                                            <TableCell align="right"></TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {assignees.map(assignee => (
+                                            <TableRow key={assignee}>
+                                                <TableCell>
+                                                    {assignee}
+                                                </TableCell>
+                                                <TableCell align="right">
+                                                    <IconButton onClick={() => handleRemoveAssignee(assignee)}>
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                        <TableRow>
+                                            <TableCell>
+                                                <TextField
+                                                    id="assignee"
+                                                    name="assignee"
+                                                    label="Assignee"
+                                                    variant="standard"
+                                                    multiline={false}
+                                                    value={formData.assignee}
+                                                    onChange={handleChange}
+                                                    onKeyDown={e => {
+                                                        if (e.key === 'Enter') {
+                                                            e.preventDefault();
+                                                            handleAssigneeAddition();
+                                                        }
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <IconButton onClick={handleAssigneeAddition}>
+                                                    <AddIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </>
                     }
                 </>
@@ -161,7 +177,8 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
             <Button
                 type="submit"
                 variant="contained"
-                color="primary">
+                color="primary"
+                sx={{ marginTop: 4 }}>
                 {method === 'POST' ? 'Add a new project' : 'Edit the project'}
             </Button>
         </Box>
