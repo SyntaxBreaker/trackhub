@@ -20,6 +20,7 @@ model Task {
   authorAvatar String
   Project      Project @relation(fields: [projectId], references: [id])
   projectId    String  @db.ObjectId
+  status       Status  @default(IN_PROGRESS)
 }
 
 model Project {
@@ -29,4 +30,9 @@ model Project {
   creator     String
   assignees   String[]
   tasks       Task[]
+}
+
+enum Status {
+  IN_PROGRESS
+  COMPLETED
 }

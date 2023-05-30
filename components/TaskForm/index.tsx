@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, TextField, Typography, Button, Alert } from "@mui/material";
+import { Box, TextField, Typography, Button, Alert, FormControlLabel, Checkbox } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
@@ -14,7 +14,8 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
     const [formData, setFormData] = useState({
         name: task?.name ?? '',
         description: task?.description ?? '',
-        deadline: dayjs(task?.deadline) ?? getCurrentDate()
+        deadline: dayjs(task?.deadline) ?? getCurrentDate(),
+        status: task?.status ?? 'IN_PROGRESS'
     });
     const [error, setError] = useState<null | string>(null);
 
@@ -95,6 +96,16 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
                 value={formData.description}
                 onChange={handleChange}
             />
+            {method === "PATCH" && <FormControlLabel
+                control={<Checkbox
+                    checked={formData.status === "COMPLETED" ? true : false}
+                    onChange={event => setFormData(prevData => ({
+                        ...prevData,
+                        status: event.target.checked ? "COMPLETED" : "IN_PROGRESS"
+                    }))}
+                />}
+                label="Completed"
+            />}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar
                     minDate={getCurrentDate()}
