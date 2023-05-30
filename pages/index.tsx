@@ -104,34 +104,34 @@ function Home({ projects }: { projects: IProject[] }) {
                     </ListItemText>
                   </MenuItem>
                   {project.creator === user?.email &&
-                    <>
-                      <MenuItem
-                        onClick={() => {
-                          handleClose()
-                          router.push(`projects/${project.id}/edit`)
-                        }}
-                      >
-                        <ListItemIcon>
-                          <EditIcon fontSize="medium" />
-                        </ListItemIcon>
-                        <ListItemText>
-                          Edit project
-                        </ListItemText>
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          handleClose()
-                          handleDeleteProject()
-                        }}
-                      >
-                        <ListItemIcon>
-                          <DeleteIcon fontSize="medium" />
-                        </ListItemIcon>
-                        <ListItemText>
-                          Delete project
-                        </ListItemText>
-                      </MenuItem>
-                    </>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose()
+                        router.push(`projects/${project.id}/edit`)
+                      }}
+                    >
+                      <ListItemIcon>
+                        <EditIcon fontSize="medium" />
+                      </ListItemIcon>
+                      <ListItemText>
+                        Edit project
+                      </ListItemText>
+                    </MenuItem>
+                  }
+                  {project.creator === user?.email &&
+                    <MenuItem
+                      onClick={() => {
+                        handleClose()
+                        handleDeleteProject()
+                      }}
+                    >
+                      <ListItemIcon>
+                        <DeleteIcon fontSize="medium" />
+                      </ListItemIcon>
+                      <ListItemText>
+                        Delete project
+                      </ListItemText>
+                    </MenuItem>
                   }
                 </Menu>
               </Fragment>
