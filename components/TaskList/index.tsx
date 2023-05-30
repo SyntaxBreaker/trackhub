@@ -52,7 +52,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
             </Box>
             {error && <Alert severity="error" sx={{ marginY: 2 }}>{error}</Alert>}
             {tasks?.map(task => (
-                calculateRemainingDays(task.deadline) < 0 && <Alert severity="warning" sx={{ marginY: 2 }} key={task.id} action={<Button onClick={() => router.push(`/projects/${ID}/tasks/${task.id}/edit`)}>Edit</Button>}>Important: Task "{task.name}" is overdue. You can change the deadline.</Alert>
+                task.status === 'IN_PROGRESS' && calculateRemainingDays(task.deadline) < 0 && <Alert severity="warning" sx={{ marginY: 2 }} key={task.id} action={<Button onClick={() => router.push(`/projects/${ID}/tasks/${task.id}/edit`)}>Edit</Button>}>Important: Task "{task.name}" is overdue. You can change the deadline.</Alert>
             ))}
             <Grid container spacing={4} direction="row">
                 {tasks?.map(task => (
