@@ -119,10 +119,16 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                             name="assignee"
                             label="Assignee"
                             variant="outlined"
-                            multiline={true}
+                            multiline={false}
                             sx={{ width: '300px' }}
                             value={formData.assignee}
                             onChange={handleChange}
+                            onKeyDown={e => {
+                                if(e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleAssigneeAddition();
+                                }
+                            }}
                         />
                         <IconButton onClick={handleAssigneeAddition}>
                             <AddIcon />
@@ -138,7 +144,7 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                             </Typography>
                             <List>
                                 {assignees.map(assignee => (
-                                    <ListItem key="assignee" sx={{ display: 'flex', gap: 1 }}>
+                                    <ListItem key={assignee} sx={{ display: 'flex', gap: 1 }}>
                                         <ListItemText>
                                             {assignee}
                                         </ListItemText>
