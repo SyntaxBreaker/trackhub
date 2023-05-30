@@ -51,6 +51,9 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                 </Box>
             </Box>
             {error && <Alert severity="error" sx={{ marginY: 2 }}>{error}</Alert>}
+            {tasks?.map(task => (
+                calculateRemainingDays(task.deadline) < 0 && <Alert severity="warning" sx={{ marginY: 2 }} key={task.id} action={<Button onClick={() => router.push(`/projects/${ID}/tasks/${task.id}/edit`)}>Edit</Button>}>Important: Task "{task.name}" is overdue. You can change the deadline.</Alert>
+            ))}
             <Grid container spacing={4} direction="row">
                 {tasks?.map(task => (
                     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={task.id}>
@@ -58,7 +61,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                             <CardContent>
                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                        <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> Due in {calculateRemainingDays(task.deadline)} days
+                                        <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> {calculateRemainingDays(task.deadline) >= 1 ? `Due in ${calculateRemainingDays(task.deadline)} ${calculateRemainingDays(task.deadline) === 1 ? 'day' : 'days'}` : calculateRemainingDays(task.deadline) === 0 ? 'Due is Today' : 'Overdue'}
                                     </Typography>
                                     <IconButton onClick={(e) => handleClick(e, task)}>
                                         <MoreVertIcon fontSize="small" />
