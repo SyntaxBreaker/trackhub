@@ -15,6 +15,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = useState<ITask | null>(null);
     const [error, setError] = useState('');
+    const [isDesriptionCollapsed, setIsDesriptionCollapsed] = useState(false);
 
     const router = useRouter();
 
@@ -58,7 +59,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                 {tasks?.map(task => (
                     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={task.id}>
                         <Card>
-                            <CardContent>
+                            <CardContent sx={{ position: 'relative' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Typography sx={{ fontSize: 12 }} color="text.secondary">
                                         <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> {task.status === 'COMPLETED' ? 'Completed' : calculateRemainingDays(task.deadline) >= 1 ? `Due in ${calculateRemainingDays(task.deadline)} ${calculateRemainingDays(task.deadline) === 1 ? 'day' : 'days'}` : calculateRemainingDays(task.deadline) === 0 ? 'Due is Today' : 'Overdue'}
@@ -67,13 +68,24 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                                         <MoreVertIcon fontSize="small" />
                                     </IconButton>
                                 </Box>
-                                <Typography variant="h5" component="h3" sx={{ marginTop: 1 }}>{task.name}</Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', marginTop: 1 }}>{task.description}</Typography>
-                                <AvatarGroup sx={{ justifyContent: 'flex-end', marginTop: 2 }}>
-                                    <Tooltip title={task.authorName} arrow>
-                                        <Avatar src={task.authorAvatar} alt={task.authorName} sx={{ width: 24, height: 24 }} />
-                                    </Tooltip>
-                                </AvatarGroup>
+                                <Typography variant="h5" component="h3" sx={{ marginTop: .5 }}>{task.name}</Typography>
+                                {isDesriptionCollapsed && selectedItem?.id === task.id ? <Typography variant="body2" color="text.secondary">{task.description}</Typography> : <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', marginTop: .5 }}>{task.description}</Typography>}
+                                <Button variant="outlined" sx={{ marginTop: 2, position: 'absolute', right: '16px' }} onClick={() => {
+                                    if (!isDesriptionCollapsed || selectedItem?.id !== task.id) {
+                                        setIsDesriptionCollapsed(true);
+                                        setSelectedItem(task)
+                                    } else {
+                                        setIsDesriptionCollapsed(false);
+                                        setSelectedItem(null);
+                                    }
+                                }}>{isDesriptionCollapsed && selectedItem?.id === task.id ? 'Show less' : 'Show more'}</Button>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
+                                    <AvatarGroup>
+                                        <Tooltip title={task.authorName} arrow>
+                                            <Avatar src={task.authorAvatar} alt={task.authorName} sx={{ width: 24, height: 24 }} />
+                                        </Tooltip>
+                                    </AvatarGroup>
+                                </Box>
                             </CardContent>
                         </Card>
                         <Menu
