@@ -77,7 +77,7 @@ function Home({ projects }: { projects: IProject[] }) {
               <Fragment key={project.id}>
                 <TableRow>
                   <TableCell>{project.name}</TableCell>
-                  <TableCell>{project.description}</TableCell>
+                  <TableCell sx={{whiteSpace: 'pre-wrap'}}>{project.description}</TableCell>
                   <TableCell>{project.creator}</TableCell>
                   <TableCell align="right">
                     <IconButton onClick={(e) => handleClick(e, project)}>
