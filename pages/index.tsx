@@ -64,20 +64,20 @@ function Home({ projects }: { projects: IProject[] }) {
       {error && <Alert severity="error" sx={{ marginTop: 2 }}>{error}</Alert>}
       <TableContainer component={Paper} sx={{ marginTop: 2 }}>
         <Table aria-label="simple table">
-          <TableHead>
+          <TableHead sx={{ backgroundColor: 'primary.main' }}>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Creator</TableCell>
+              <TableCell sx={{ color: 'white' }}>Name</TableCell>
+              <TableCell sx={{ color: 'white' }}>Description</TableCell>
+              <TableCell sx={{ color: 'white' }}>Creator</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {projects.map(project => (
               <Fragment key={project.id}>
-                <TableRow>
+                <TableRow sx={{ ":hover": { backgroundColor: '#e9ecef' } }}>
                   <TableCell>{project.name}</TableCell>
-                  <TableCell sx={{whiteSpace: 'pre-wrap'}}>{project.description}</TableCell>
+                  <TableCell sx={{ whiteSpace: 'pre-wrap' }}>{project.description}</TableCell>
                   <TableCell>{project.creator}</TableCell>
                   <TableCell align="right">
                     <IconButton onClick={(e) => handleClick(e, project)}>
