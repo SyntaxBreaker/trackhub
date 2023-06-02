@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
       <Sidebar />
-      <Box sx={{ p: 1 }}>
+      <Box sx={{ p: 1, maxWidth: '1280px', marginX: 'auto' }}>
         <Component {...pageProps} />
       </Box>
     </UserProvider>
