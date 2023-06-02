@@ -69,7 +69,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                                     </IconButton>
                                 </Box>
                                 <Typography variant="h5" component="h3" sx={{ marginTop: .5 }}>{task.name}</Typography>
-                                {isDesriptionCollapsed && selectedItem?.id === task.id ? <Typography variant="body2" color="text.secondary" sx={{whiteSpace: 'pre-wrap'}}>{task.description}</Typography> : <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', marginTop: .5, whiteSpace: 'pre-wrap' }}>{task.description}</Typography>}
+                                {isDesriptionCollapsed && selectedItem?.id === task.id ? <Typography variant="body2" color="text.secondary" sx={{whiteSpace: 'pre-wrap', marginTop: .5}}>{task.description}</Typography> : <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', marginTop: .5, whiteSpace: 'pre-wrap' }}>{task.description}</Typography>}
                                 <Button variant="outlined" sx={{ marginTop: 2, position: 'absolute', right: '16px' }} onClick={() => {
                                     if (!isDesriptionCollapsed || selectedItem?.id !== task.id) {
                                         setIsDesriptionCollapsed(true);
