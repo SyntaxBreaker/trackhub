@@ -57,7 +57,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
             ))}
             <Grid container spacing={4} direction="row">
                 {tasks?.map(task => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={task.id}>
+                    <Grid item xs={12} sm={6} md={4} key={task.id}>
                         <Card>
                             <CardContent sx={{ position: 'relative' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
