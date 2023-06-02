@@ -61,15 +61,15 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                         <Card>
                             <CardContent sx={{ position: 'relative' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                        <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> {task.status === 'COMPLETED' ? 'Completed' : calculateRemainingDays(task.deadline) >= 1 ? `Due in ${calculateRemainingDays(task.deadline)} ${calculateRemainingDays(task.deadline) === 1 ? 'day' : 'days'}` : calculateRemainingDays(task.deadline) === 0 ? 'Due is Today' : 'Overdue'}
-                                    </Typography>
+                                    <Typography variant="h5" component="h3">{task.name}</Typography>
                                     <IconButton onClick={(e) => handleClick(e, task)}>
                                         <MoreVertIcon fontSize="small" />
                                     </IconButton>
                                 </Box>
-                                <Typography variant="h5" component="h3" sx={{ marginTop: .5 }}>{task.name}</Typography>
-                                {isDesriptionCollapsed && selectedItem?.id === task.id ? <Typography variant="body2" color="text.secondary" sx={{whiteSpace: 'pre-wrap', marginTop: .5}}>{task.description}</Typography> : <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', marginTop: .5, whiteSpace: 'pre-wrap' }}>{task.description}</Typography>}
+                                <Typography sx={{ fontSize: 12, marginTop: .5 }} color="text.secondary">
+                                    <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> {task.status === 'COMPLETED' ? 'Completed' : calculateRemainingDays(task.deadline) >= 1 ? `Due in ${calculateRemainingDays(task.deadline)} ${calculateRemainingDays(task.deadline) === 1 ? 'day' : 'days'}` : calculateRemainingDays(task.deadline) === 0 ? 'Due is Today' : 'Overdue'}
+                                </Typography>
+                                {isDesriptionCollapsed && selectedItem?.id === task.id ? <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-wrap', marginTop: 2 }}>{task.description}</Typography> : <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', marginTop: 2, whiteSpace: 'pre-wrap' }}>{task.description}</Typography>}
                                 <Button variant="outlined" sx={{ marginTop: 2, position: 'absolute', right: '16px' }} onClick={() => {
                                     if (!isDesriptionCollapsed || selectedItem?.id !== task.id) {
                                         setIsDesriptionCollapsed(true);
