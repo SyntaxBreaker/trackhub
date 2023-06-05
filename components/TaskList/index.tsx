@@ -58,18 +58,15 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
             <Grid container spacing={4} direction="row">
                 {tasks?.map(task => (
                     <Grid item xs={12} sm={6} md={4} key={task.id}>
-                        <Card>
-                            <CardContent sx={{ position: 'relative' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Typography variant="h5" component="h3">{task.name}</Typography>
+                        <Card sx={{ padding: .5 }} elevation={3}>
+                            <CardContent sx={{ position: 'relative', paddingBottom: '16px !important' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>{task.name}</Typography>
                                     <IconButton onClick={(e) => handleClick(e, task)}>
-                                        <MoreVertIcon fontSize="small" />
+                                        <MoreVertIcon fontSize="medium" />
                                     </IconButton>
                                 </Box>
-                                <Typography sx={{ fontSize: 12, marginTop: .5 }} color="text.secondary">
-                                    <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> {task.status === 'COMPLETED' ? 'Completed' : calculateRemainingDays(task.deadline) >= 1 ? `Due in ${calculateRemainingDays(task.deadline)} ${calculateRemainingDays(task.deadline) === 1 ? 'day' : 'days'}` : calculateRemainingDays(task.deadline) === 0 ? 'Due is Today' : 'Overdue'}
-                                </Typography>
-                                {isDesriptionCollapsed && selectedItem?.id === task.id ? <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-wrap', marginTop: 2 }}>{task.description}</Typography> : <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', marginTop: 2, whiteSpace: 'pre-wrap' }}>{task.description}</Typography>}
+                                {isDesriptionCollapsed && selectedItem?.id === task.id ? <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-wrap', marginTop: 1, fontSize: '12px' }}>{task.description}</Typography> : <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', marginTop: 1, whiteSpace: 'pre-wrap', fontSize: '12px' }}>{task.description}</Typography>}
                                 <Button variant="outlined" sx={{ marginTop: 2, position: 'absolute', right: '16px' }} onClick={() => {
                                     if (!isDesriptionCollapsed || selectedItem?.id !== task.id) {
                                         setIsDesriptionCollapsed(true);
@@ -80,6 +77,9 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                                     }
                                 }}>{isDesriptionCollapsed && selectedItem?.id === task.id ? 'Show less' : 'Show more'}</Button>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
+                                    <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                        <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: 'text-top' }} /> {task.status === 'COMPLETED' ? 'Completed' : calculateRemainingDays(task.deadline) >= 1 ? `Due in ${calculateRemainingDays(task.deadline)} ${calculateRemainingDays(task.deadline) === 1 ? 'day' : 'days'}` : calculateRemainingDays(task.deadline) === 0 ? 'Due is Today' : 'Overdue'}
+                                    </Typography>
                                     <AvatarGroup>
                                         <Tooltip title={task.authorName} arrow>
                                             <Avatar src={task.authorAvatar} alt={task.authorName} sx={{ width: 24, height: 24 }} />
