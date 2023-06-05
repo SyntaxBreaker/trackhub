@@ -61,7 +61,7 @@ export default function PersistentDrawerLeft() {
       id: 'projectList',
       name: 'Project list',
       icon: ListIcon,
-      link: '/projects'
+      link: '/'
     },
   ]
 
