@@ -78,7 +78,7 @@ export default function ProjectList({ projects }: { projects: IProject[] }) {
                                     <TableCell sx={{ whiteSpace: 'pre-wrap' }}>{project.description}</TableCell>
                                     <TableCell>{project.creator}</TableCell>
                                     <TableCell align="right">
-                                        <IconButton onClick={(e) => handleClick(e, project)}>
+                                        <IconButton onClick={(e) => handleClick(e, project)} aria-label="Options">
                                             <MoreVertIcon fontSize="small" />
                                         </IconButton>
                                     </TableCell>

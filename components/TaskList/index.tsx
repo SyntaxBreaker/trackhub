@@ -62,7 +62,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                             <CardContent sx={{ position: 'relative', paddingBottom: '16px !important' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>{task.name}</Typography>
-                                    <IconButton onClick={(e) => handleClick(e, task)}>
+                                    <IconButton onClick={(e) => handleClick(e, task)} aria-label="Options">
                                         <MoreVertIcon fontSize="medium" />
                                     </IconButton>
                                 </Box>
