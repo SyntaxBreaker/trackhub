@@ -45,7 +45,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
     return (
         <Box sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <Typography variant='h5'>Recent Tasks ({tasks?.length})</Typography>
+                <Typography variant='h5' component="h2">Recent Tasks ({tasks?.length})</Typography>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button component={Link} href={`/`} startIcon={<ArrowBackIcon />} variant="contained" color="primary">Back to projects</Button>
                     <Button component={Link} href={`/projects/${ID}/tasks/create`} startIcon={<AddIcon />} variant="contained" color="primary">New task</Button>
