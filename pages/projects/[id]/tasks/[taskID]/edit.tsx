@@ -6,6 +6,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Alert } from "@mui/material";
+import Head from "next/head";
 
 export default function Edit({ task, isAuthorised }: { task: ITask, isAuthorised: boolean }) {
     const { user, isLoading } = useUser();
@@ -25,6 +26,9 @@ export default function Edit({ task, isAuthorised }: { task: ITask, isAuthorised
 
     return (
         <>
+            <Head>
+                <title>Edit task</title>
+            </Head>
             {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <TaskForm
                 user={user}
                 method="PATCH"

@@ -6,6 +6,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Alert } from "@mui/material";
+import Head from "next/head";
 
 export default function Edit({ project, isAuthorised }: { project: IProject, isAuthorised: boolean }) {
     const { user, isLoading } = useUser();
@@ -25,6 +26,9 @@ export default function Edit({ project, isAuthorised }: { project: IProject, isA
 
     return (
         <>
+            <Head>
+                <title>Edit project</title>
+            </Head>
             {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <ProjectForm
                 user={user}
                 method="PATCH"

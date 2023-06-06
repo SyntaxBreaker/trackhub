@@ -5,6 +5,7 @@ import TaskList from "../../../../components/TaskList";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Alert } from "@mui/material";
+import Head from "next/head";
 
 export default function Tasks({ tasks, isAuthorised }: { tasks?: ITask[], isAuthorised: boolean }) {
     const router = useRouter();
@@ -19,6 +20,9 @@ export default function Tasks({ tasks, isAuthorised }: { tasks?: ITask[], isAuth
 
     return (
         <>
+            <Head>
+                <title>Task List</title>
+            </Head>
             {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <TaskList
                 tasks={tasks}
             />}

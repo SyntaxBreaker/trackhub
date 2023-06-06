@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useUser } from "@auth0/nextjs-auth0/client";
 import ProjectForm from "../../components/ProjectForm";
+import Head from "next/head";
 
 export default function Create() {
     const { user, isLoading } = useUser();
@@ -10,9 +11,14 @@ export default function Create() {
     }, [user, isLoading]);
 
     return (
-        <ProjectForm
-            user={user}
-            method="POST"
-        />
+        <>
+            <Head>
+                <title>Create a new project</title>
+            </Head>
+            <ProjectForm
+                user={user}
+                method="POST"
+            />
+        </>
     )
 }

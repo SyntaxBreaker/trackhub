@@ -2,10 +2,16 @@ import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { PrismaClient } from "@prisma/client";
 import IProject from "../types/project";
 import ProjectList from "../components/ProjectList";
+import Head from "next/head";
 
 function Home({ projects }: { projects: IProject[] }) {
   return (
-    <ProjectList projects={projects} />
+    <>
+      <Head>
+        <title>Project List</title>
+      </Head>
+      <ProjectList projects={projects} />
+    </>
   )
 }
 

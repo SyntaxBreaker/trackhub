@@ -5,6 +5,7 @@ import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/router";
 import { Alert } from "@mui/material";
+import Head from "next/head";
 
 export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
     const { user, isLoading } = useUser();
@@ -25,6 +26,9 @@ export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
 
     return (
         <>
+            <Head>
+                <title>Create a new task</title>
+            </Head>
             {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <TaskForm
                 user={user}
                 method="POST"
