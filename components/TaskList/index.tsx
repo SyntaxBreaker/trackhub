@@ -1,4 +1,4 @@
-import { Alert, Avatar, AvatarGroup, Box, Button, Card, CardContent, Grid, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Alert, Avatar, AvatarGroup, Box, Button, Card, CardContent, Grid, IconButton, Menu, MenuItem, Modal, Tooltip, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -9,6 +9,7 @@ import ITask from '../../types/task';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import TaskModal from '../TaskModal';
 
 export default function TaskList({ tasks }: { tasks?: ITask[] }) {
     const [ID, setID] = useState<null | string>(null);
@@ -16,6 +17,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
     const [selectedItem, setSelectedItem] = useState<ITask | null>(null);
     const [error, setError] = useState('');
     const [isDesriptionCollapsed, setIsDesriptionCollapsed] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const router = useRouter();
 
@@ -58,16 +60,17 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
             <Grid container spacing={4} direction="row">
                 {tasks?.map(task => (
                     <Grid item xs={12} sm={6} md={4} key={task.id}>
-                        <Card sx={{ padding: .5, borderRadius: 2, boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)' }}>
+                        <Card sx={{ padding: .5, borderRadius: 2, boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)' }} onClick={() => { setIsOpen(true); setSelectedItem(task) }}>
                             <CardContent sx={{ position: 'relative', paddingBottom: '16px !important' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>{task.name}</Typography>
-                                    <IconButton onClick={(e) => handleClick(e, task)} aria-label="Options">
+                                    <IconButton onClick={(e) => { e.stopPropagation(); handleClick(e, task) }} aria-label="Options">
                                         <MoreVertIcon fontSize="medium" />
                                     </IconButton>
                                 </Box>
                                 {isDesriptionCollapsed && selectedItem?.id === task.id ? <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-wrap', marginTop: 1, fontSize: '12px' }}>{task.description}</Typography> : <Typography variant="body2" color="text.secondary" sx={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', marginTop: 1, whiteSpace: 'pre-wrap', fontSize: '12px' }}>{task.description}</Typography>}
-                                <Button variant="outlined" sx={{ marginTop: 2, position: 'absolute', right: '16px' }} onClick={() => {
+                                <Button variant="outlined" sx={{ marginTop: 2, position: 'absolute', right: '16px' }} onClick={(e) => {
+                                    e.stopPropagation();
                                     if (!isDesriptionCollapsed || selectedItem?.id !== task.id) {
                                         setIsDesriptionCollapsed(true);
                                         setSelectedItem(task)
@@ -89,7 +92,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                             </CardContent>
                         </Card>
                         <Menu
-                            open={Boolean(anchorEl) && selectedItem === task}
+                            open={Boolean(anchorEl) && selectedItem?.id === task.id}
                             onClose={handleClose}
                             anchorEl={anchorEl}
                         >
@@ -110,6 +113,13 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                                 Remove task
                             </MenuItem>
                         </Menu>
+                        <TaskModal
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                            selectedItem={selectedItem}
+                            setSelectedItem={setSelectedItem}
+                            task={task}
+                        />
                     </Grid>
                 ))}
             </Grid>
