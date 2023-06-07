@@ -60,7 +60,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
             <Grid container spacing={4} direction="row">
                 {tasks?.map(task => (
                     <Grid item xs={12} sm={6} md={4} key={task.id}>
-                        <Card sx={{ padding: .5, borderRadius: 2, boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)' }} onClick={() => { setIsOpen(true); setSelectedItem(task) }}>
+                        <Card sx={{ padding: .5, borderRadius: 2, boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)', '&:hover': { cursor: 'pointer', transform: 'scale3d(1.006, 1.006, 1)' } }} onClick={() => { setIsOpen(true); setSelectedItem(task) }}>
                             <CardContent sx={{ position: 'relative', paddingBottom: '16px !important' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>{task.name}</Typography>
