@@ -17,11 +17,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from "next/router";
 import axios from "axios";
+import ProjectModal from "../ProjectModal";
 
 export default function ProjectList({ projects }: { projects: IProject[] }) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = useState<IProject | null>(null);
     const [error, setError] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const { user, isLoading } = useUser();
     const router = useRouter();
@@ -105,7 +107,8 @@ export default function ProjectList({ projects }: { projects: IProject[] }) {
                                         <MenuItem
                                             onClick={() => {
                                                 handleClose()
-                                                router.push(`projects/${project.id}/edit`)
+                                                setSelectedItem(project)
+                                                setIsOpen(true)
                                             }}
                                         >
                                             <ListItemIcon>
@@ -132,6 +135,14 @@ export default function ProjectList({ projects }: { projects: IProject[] }) {
                                         </MenuItem>
                                     }
                                 </Menu>
+                                <ProjectModal
+                                    isOpen={isOpen}
+                                    setIsOpen={setIsOpen}
+                                    selectedItem={selectedItem}
+                                    setSelectedItem={setSelectedItem}
+                                    project={project}
+                                    user={user}
+                                />
                             </Fragment>
                         ))}
                     </TableBody>

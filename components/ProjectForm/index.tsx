@@ -4,7 +4,6 @@ import validateField from "../../utils/validateField";
 import axios from "axios";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import IProject from "../../types/project";
-import { useRouter } from "next/router";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -16,8 +15,6 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
     });
     const [assignees, setAssignees] = useState(project?.assignees ?? []);
     const [error, setError] = useState(null);
-    const router = useRouter();
-    const { id } = router.query;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prev => ({
@@ -67,7 +64,7 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
         } else {
             axios.patch('/api/projects/edit', {
                 project: data,
-                id: id
+                id: project?.id
             }).then(res => {
                 setError(null);
                 window.location.href = '/';
