@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import TaskModal from '../TaskModal';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 export default function TaskList({ tasks }: { tasks?: ITask[] }) {
     const [ID, setID] = useState<null | string>(null);
@@ -20,6 +21,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const router = useRouter();
+    const { user } = useUser();
 
     useEffect(() => {
         setID(window.location.href.split('/')[4]);
@@ -55,7 +57,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
             </Box>
             {error && <Alert severity="error" sx={{ marginY: 2 }}>{error}</Alert>}
             {tasks?.map(task => (
-                task.status === 'IN_PROGRESS' && calculateRemainingDays(task.deadline) < 0 && <Alert severity="warning" variant="outlined" sx={{ marginY: 2 }} key={task.id} action={<Button color="warning" onClick={() => router.push(`/projects/${ID}/tasks/${task.id}/edit`)}>Edit</Button>}>Important: Task &quot;{task.name}&quot; is overdue. You can change the deadline.</Alert>
+                task.status === 'IN_PROGRESS' && calculateRemainingDays(task.deadline) < 0 && <Alert severity="warning" variant="outlined" sx={{ marginY: 2 }} key={task.id} action={<Button color="warning" onClick={() => {setIsOpen(true); setSelectedItem(task)}}>Edit</Button>}>Important: Task &quot;{task.name}&quot; is overdue. You can change the deadline.</Alert>
             ))}
             <Grid container spacing={4} direction="row">
                 {tasks?.map(task => (
@@ -98,8 +100,8 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                         >
                             <MenuItem
                                 onClick={() => {
-                                    handleClose();
-                                    router.push(`/projects/${ID}/tasks/${task.id}/edit`)
+                                    setIsOpen(true);
+                                    setSelectedItem(task);
                                 }}
                             >
                                 Edit task
@@ -119,6 +121,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                             selectedItem={selectedItem}
                             setSelectedItem={setSelectedItem}
                             task={task}
+                            user={user}
                         />
                     </Grid>
                 ))}

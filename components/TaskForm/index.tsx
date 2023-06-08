@@ -20,7 +20,7 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
     const [error, setError] = useState<null | string>(null);
 
     const router = useRouter();
-    const { id, taskID } = router.query;
+    const { id } = router.query;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prevData => ({
@@ -54,7 +54,7 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
         } else {
             axios.patch('/api/tasks/edit', {
                 task: data,
-                id: taskID
+                id: task?.id
             })
                 .then(res => {
                     setError(null)
