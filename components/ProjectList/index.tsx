@@ -66,16 +66,16 @@ export default function ProjectList({ projects }: { projects: IProject[] }) {
                 <Table aria-label="simple table">
                     <TableHead sx={{ backgroundColor: 'primary.main' }}>
                         <TableRow>
-                            <TableCell sx={{ color: 'white' }}>Name</TableCell>
-                            <TableCell sx={{ color: 'white' }}>Description</TableCell>
-                            <TableCell sx={{ color: 'white' }}>Creator</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Name</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Description</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Creator</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {projects.map(project => (
                             <Fragment key={project.id}>
-                                <TableRow sx={{ ":hover": { backgroundColor: '#e9ecef' } }}>
+                                <TableRow sx={{ ":hover": { backgroundColor: 'action.hover' } }}>
                                     <TableCell>{project.name}</TableCell>
                                     <TableCell sx={{ whiteSpace: 'pre-wrap' }}>{project.description}</TableCell>
                                     <TableCell>{project.creator}</TableCell>

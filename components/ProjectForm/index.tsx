@@ -123,7 +123,7 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                                 <Table aria-label="assignee list">
                                     <TableHead sx={{ backgroundColor: 'primary.main' }}>
                                         <TableRow>
-                                            <TableCell sx={{ color: 'white' }}>Email:</TableCell>
+                                            <TableCell sx={{ color: 'primary.contrastText' }}>Email:</TableCell>
                                             <TableCell align="right"></TableCell>
                                         </TableRow>
                                     </TableHead>
