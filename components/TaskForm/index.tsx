@@ -68,7 +68,7 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
         <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', marginTop: '32px' }}>
+            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px' }}>
             <Typography
                 variant="h5"
                 component="h2">

@@ -4,7 +4,7 @@ import TaskForm from "../../../../components/TaskForm";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/router";
-import { Alert } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import Head from "next/head";
 
 export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
@@ -29,10 +29,12 @@ export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
             <Head>
                 <title>Create a new task</title>
             </Head>
-            {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <TaskForm
-                user={user}
-                method="POST"
-            />}
+            {!isAuthorised ? <Alert severity="error">You are not authorised to access this page. You will be redirected to the homepage.</Alert> : <Box sx={{ marginTop: '32px' }}>
+                <TaskForm
+                    user={user}
+                    method="POST"
+                />
+            </Box>}
         </>
     )
 }

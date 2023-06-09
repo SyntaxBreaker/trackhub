@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useUser } from "@auth0/nextjs-auth0/client";
 import ProjectForm from "../../components/ProjectForm";
 import Head from "next/head";
+import { Box } from "@mui/material";
 
 export default function Create() {
     const { user, isLoading } = useUser();
@@ -15,10 +16,12 @@ export default function Create() {
             <Head>
                 <title>Create a new project</title>
             </Head>
-            <ProjectForm
-                user={user}
-                method="POST"
-            />
+            <Box sx={{ marginTop: '32px' }}>
+                <ProjectForm
+                    user={user}
+                    method="POST"
+                />
+            </Box>
         </>
     )
 }

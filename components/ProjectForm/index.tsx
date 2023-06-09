@@ -80,7 +80,7 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
         <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', marginTop: '32px' }}>
+            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px' }}>
             <Typography
                 variant="h5"
                 component="h2">
