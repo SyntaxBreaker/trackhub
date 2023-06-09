@@ -51,9 +51,22 @@ export const getServerSideProps = withPageAuthRequired({
                     isAuthorised: true
                 }
             } else {
-                data = {
-                    tasks: [],
-                    isAuthorised: false
+                const project = await prisma.project.findFirst({
+                    where: {
+                        id: id as string
+                    }
+                })
+
+                if (project?.creator === session?.user.email || project?.assignees.includes(session?.user.email)) {
+                    data = {
+                        tasks: [],
+                        isAuthorised: true
+                    }
+                } else {
+                    data = {
+                        tasks: [],
+                        isAuthorised: false
+                    }
                 }
             }
 
