@@ -147,7 +147,7 @@ export default function ProjectList({ projects }: { projects: IProject[] }) {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer> : <Alert severity="info" variant="filled" sx={{ marginTop: 2 }}>You are currently not engaged in any project.</Alert>}
+            </TableContainer> : <Alert severity="info" variant="outlined" sx={{ marginTop: 2 }}>You are currently not engaged in any project.</Alert>}
         </Box>
     )
 }
