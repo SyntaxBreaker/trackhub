@@ -57,10 +57,10 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
             </Box>
             {error && <Alert severity="error" sx={{ marginY: 2 }}>{error}</Alert>}
             {tasks?.map(task => (
-                task.status === 'IN_PROGRESS' && calculateRemainingDays(task.deadline) < 0 && <Alert severity="warning" variant="outlined" sx={{ marginY: 2 }} key={task.id} action={<Button color="warning" onClick={() => {setIsOpen(true); setSelectedItem(task)}}>Edit</Button>}>Important: Task &quot;{task.name}&quot; is overdue. You can change the deadline.</Alert>
+                task.status === 'IN_PROGRESS' && calculateRemainingDays(task.deadline) < 0 && <Alert severity="warning" variant="outlined" sx={{ marginY: 2 }} key={task.id} action={<Button color="warning" onClick={() => { setIsOpen(true); setSelectedItem(task) }}>Edit</Button>}>Important: Task &quot;{task.name}&quot; is overdue. You can change the deadline.</Alert>
             ))}
-            <Grid container spacing={4} direction="row">
-                {tasks?.map(task => (
+            {tasks && tasks.length > 0 ? <Grid container spacing={4} direction="row">
+                {tasks.map(task => (
                     <Grid item xs={12} sm={6} md={4} key={task.id}>
                         <Card sx={{ padding: .5, borderRadius: 2, boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)', '&:hover': { cursor: 'pointer', transform: 'scale3d(1.006, 1.006, 1)' } }} onClick={() => { setIsOpen(true); setSelectedItem(task) }}>
                             <CardContent sx={{ position: 'relative', paddingBottom: '16px !important' }}>
@@ -125,7 +125,7 @@ export default function TaskList({ tasks }: { tasks?: ITask[] }) {
                         />
                     </Grid>
                 ))}
-            </Grid>
+            </Grid> : <Alert severity="info" variant="outlined">There are no tasks.</Alert>}
         </Box>
     )
 }
