@@ -18,7 +18,7 @@ model Task {
   authorId     String
   authorName   String
   authorAvatar String
-  Project      Project  @relation(fields: [projectId], references: [id])
+  Project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId    String   @db.ObjectId
   status       Status   @default(IN_PROGRESS)
   priority     Priority @default(LOW)
