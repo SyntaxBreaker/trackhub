@@ -62,7 +62,7 @@ export default function ProjectList({ projects }: { projects: IProject[] }) {
                 <Button component={Link} href="/projects/create" startIcon={<AddIcon />} variant="contained" color="primary">New project</Button>
             </Box>
             {error && <Alert severity="error" sx={{ marginTop: 2 }}>{error}</Alert>}
-            <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+            {projects.length > 0 ? <TableContainer component={Paper} sx={{ marginTop: 2 }}>
                 <Table aria-label="simple table">
                     <TableHead sx={{ backgroundColor: 'primary.main' }}>
                         <TableRow>
@@ -147,7 +147,7 @@ export default function ProjectList({ projects }: { projects: IProject[] }) {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer> : <Alert severity="info" variant="filled" sx={{ marginTop: 2 }}>You are currently not engaged in any project.</Alert>}
         </Box>
     )
 }
