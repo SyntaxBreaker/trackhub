@@ -7,5 +7,6 @@ export default interface ITask {
     id: string;
     name: string;
     projectId: string;
-    status: "IN_PROGRESS" | "COMPLETED"
+    status: "IN_PROGRESS" | "COMPLETED";
+    priority: "LOW" | "MEDIUM" | "HIGH"
 }

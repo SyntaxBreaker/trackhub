@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Task {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   description  String?
   deadline     String
   authorId     String
   authorName   String
   authorAvatar String
-  Project      Project @relation(fields: [projectId], references: [id])
-  projectId    String  @db.ObjectId
-  status       Status  @default(IN_PROGRESS)
+  Project      Project  @relation(fields: [projectId], references: [id])
+  projectId    String   @db.ObjectId
+  status       Status   @default(IN_PROGRESS)
+  priority     Priority @default(LOW)
 }
 
 model Project {
@@ -35,4 +36,10 @@ model Project {
 enum Status {
   IN_PROGRESS
   COMPLETED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
 }

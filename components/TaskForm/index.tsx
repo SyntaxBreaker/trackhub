@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, TextField, Typography, Button, Alert, FormControlLabel, Checkbox } from "@mui/material";
+import { Box, TextField, Typography, Button, Alert, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
@@ -15,7 +15,8 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
         name: task?.name ?? '',
         description: task?.description ?? '',
         deadline: dayjs(task?.deadline) ?? getCurrentDate(),
-        status: task?.status ?? 'IN_PROGRESS'
+        status: task?.status ?? 'IN_PROGRESS',
+        priority: task?.priority ?? 'LOW'
     });
     const [error, setError] = useState<null | string>(null);
 
@@ -68,7 +69,7 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
         <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px' }}>
+            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', maxWidth: '350px', margin: '0 auto' }}>
             <Typography
                 variant="h5"
                 component="h2">
@@ -82,7 +83,7 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
                 name="name"
                 label="Name"
                 variant="outlined"
-                sx={{ width: '350px' }}
+                fullWidth
                 value={formData.name}
                 onChange={handleChange}
             />
@@ -92,20 +93,37 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
                 label="Description"
                 variant="outlined"
                 multiline={true}
-                sx={{ width: '350px' }}
+                fullWidth
                 value={formData.description}
                 onChange={handleChange}
             />
-            {method === "PATCH" && <FormControlLabel
-                control={<Checkbox
-                    checked={formData.status === "COMPLETED" ? true : false}
-                    onChange={event => setFormData(prevData => ({
+            <FormControl fullWidth>
+                <InputLabel>Priority:</InputLabel>
+                <Select
+                    value={formData.priority}
+                    label="priority"
+                    name="priority"
+                    onChange={(event) => setFormData(prevData => ({
                         ...prevData,
-                        status: event.target.checked ? "COMPLETED" : "IN_PROGRESS"
+                        [event.target.name]: event.target.value
                     }))}
+                >
+                    <MenuItem value="LOW">LOW</MenuItem>
+                    <MenuItem value="MEDIUM">MEDIUM</MenuItem>
+                    <MenuItem value="HIGH">HIGH</MenuItem>
+                </Select>
+            </FormControl>
+            {method === "PATCH" &&
+                <FormControlLabel
+                    control={<Checkbox
+                        checked={formData.status === "COMPLETED" ? true : false}
+                        onChange={event => setFormData(prevData => ({
+                            ...prevData,
+                            status: event.target.checked ? "COMPLETED" : "IN_PROGRESS"
+                        }))}
+                    />}
+                    label="Completed"
                 />}
-                label="Completed"
-            />}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar
                     minDate={getCurrentDate()}
