@@ -42,7 +42,7 @@ export const getServerSideProps = withPageAuthRequired({
                 where: {
                     projectId: id as string
                 },
-                include: { Project: true },
+                include: { Project: true, comments: true },
             })
 
             if (tasks.some(task => task.authorId === session?.user.email || task.Project.assignees.includes(session?.user.email))) {

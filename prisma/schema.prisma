@@ -11,17 +11,18 @@ datasource db {
 }
 
 model Task {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   description  String?
   deadline     String
   authorId     String
   authorName   String
   authorAvatar String
-  Project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId    String   @db.ObjectId
-  status       Status   @default(IN_PROGRESS)
-  priority     Priority @default(LOW)
+  Project      Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId    String    @db.ObjectId
+  status       Status    @default(IN_PROGRESS)
+  priority     Priority  @default(LOW)
+  comments     Comment[]
 }
 
 model Project {
@@ -31,6 +32,16 @@ model Project {
   creator     String
   assignees   String[]
   tasks       Task[]
+}
+
+model Comment {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  authorId     String
+  authorName   String
+  authorAvatar String
+  text         String
+  Task         Task?   @relation(fields: [taskId], references: [id])
+  taskId       String? @db.ObjectId
 }
 
 enum Status {
