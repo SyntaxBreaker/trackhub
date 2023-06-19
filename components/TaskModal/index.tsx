@@ -9,6 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 import validateField from "../../utils/validateField";
 import CommentList from "../CommentList";
+import { useRouter } from "next/router";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -33,12 +34,17 @@ export default function TaskModal({ isOpen, setIsOpen, setSelectedItem, selected
     const [comment, setComment] = useState('');
     const [error, setError] = useState(null);
 
+    const router = useRouter();
+    const { id } = router.query;
+
     const handleClose = () => {
         setIsOpen(false);
         setSelectedItem(null);
     }
 
     const handleSubmit = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+
         axios.post('/api/comments/create', {
             comment: {
                 authorId: user?.email,
@@ -50,7 +56,7 @@ export default function TaskModal({ isOpen, setIsOpen, setSelectedItem, selected
         })
             .then(res => {
                 setError(null);
-                handleClose();
+                window.location.href = `/projects/${id}/tasks`
             })
             .catch(err => {
                 setError(err.message);
