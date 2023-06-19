@@ -16,7 +16,11 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     maxHeight: '90%',
-    width: '500px',
+    width: {
+        xs: '350px',
+        sm: '500px',
+        lg: '750px'
+    },
     bgcolor: 'background.paper',
     borderRadius: 2,
     boxShadow: 24,
@@ -82,7 +86,7 @@ export default function TaskModal({ isOpen, setIsOpen, setSelectedItem, selected
                         {error && <Alert severity="error">{error}</Alert>}
                         <TextField
                             label="Leave a comment"
-                            sx={{ width: '350px' }}
+                            sx={{ width: '100%' }}
                             error={!validateField(comment) ? true : false}
                             helperText={!validateField(comment) && "This comment should have at least one character."}
                             id="comment"

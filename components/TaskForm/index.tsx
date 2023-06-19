@@ -69,7 +69,7 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
         <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', maxWidth: '350px', margin: '0 auto' }}>
+            sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '16px', margin: '0 auto' }}>
             <Typography
                 variant="h5"
                 component="h2">
@@ -83,7 +83,12 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
                 name="name"
                 label="Name"
                 variant="outlined"
-                fullWidth
+                fullWidth={method !== "POST"}
+                sx={[
+                    method === "POST" && {
+                        width: '350px'
+                    }
+                ]}
                 value={formData.name}
                 onChange={handleChange}
             />
@@ -93,11 +98,23 @@ export default function TaskForm({ user, method, task }: { user: UserProfile | u
                 label="Description"
                 variant="outlined"
                 multiline={true}
-                fullWidth
+                fullWidth={method !== "POST"}
+                sx={[
+                    method === "POST" && {
+                        width: '350px'
+                    }
+                ]}
                 value={formData.description}
                 onChange={handleChange}
             />
-            <FormControl fullWidth>
+            <FormControl
+                fullWidth={method !== "POST"}
+                sx={[
+                    method === "POST" && {
+                        width: '350px'
+                    }
+                ]}
+            >
                 <InputLabel>Priority:</InputLabel>
                 <Select
                     value={formData.priority}

@@ -94,7 +94,12 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                 name="name"
                 label="Name"
                 variant="outlined"
-                sx={{ width: '350px' }}
+                fullWidth={method !== "POST"}
+                sx={[
+                    method === "POST" && {
+                        width: '350px'
+                    } 
+                ]}
                 value={formData.name}
                 onChange={handleChange}
             />
@@ -104,7 +109,12 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                 label="Description"
                 variant="outlined"
                 multiline={true}
-                sx={{ width: '350px' }}
+                fullWidth={method !== "POST"}
+                sx={[
+                    method === "POST" && {
+                        width: '350px'
+                    } 
+                ]}
                 value={formData.description}
                 onChange={handleChange}
             />
@@ -119,7 +129,7 @@ export default function ProjectForm({ user, method, project }: { user: UserProfi
                             >
                                 Assignee list:
                             </Typography>
-                            <TableContainer sx={{ maxWidth: '350px' }} component={Paper} elevation={16}>
+                            <TableContainer component={Paper} elevation={16}>
                                 <Table aria-label="assignee list">
                                     <TableHead sx={{ backgroundColor: 'primary.main' }}>
                                         <TableRow>
