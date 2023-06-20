@@ -1,4 +1,5 @@
 import IComment from "./comment";
+import IProject from "./project";
 
 export default interface ITask {
 	authorId: string;
@@ -12,4 +13,6 @@ export default interface ITask {
 	status: "IN_PROGRESS" | "COMPLETED";
 	priority: "LOW" | "MEDIUM" | "HIGH";
 	comments: IComment[];
+	assignedUser?: string;
+	Project: IProject
 }

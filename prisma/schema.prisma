@@ -23,6 +23,7 @@ model Task {
   status       Status    @default(IN_PROGRESS)
   priority     Priority  @default(LOW)
   comments     Comment[]
+  assignedUser String?
 }
 
 model Project {
