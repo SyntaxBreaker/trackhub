@@ -31,7 +31,7 @@ const style = {
 	transform: "translate(-50%, -50%)",
 	maxHeight: "90%",
 	width: {
-		xs: "350px",
+		xs: "360px",
 		sm: "500px",
 		lg: "750px",
 	},

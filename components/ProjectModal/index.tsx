@@ -10,7 +10,7 @@ const style = {
 	left: "50%",
 	transform: "translate(-50%, -50%)",
 	width: {
-		xs: "350px",
+		xs: "360px",
 		sm: "500px",
 		lg: "750px",
 	},
