@@ -14,5 +14,6 @@ export default interface ITask {
 	priority: "LOW" | "MEDIUM" | "HIGH";
 	comments: IComment[];
 	assignedUser?: string;
-	Project: IProject
+	Project: IProject;
+	duration: number;
 }

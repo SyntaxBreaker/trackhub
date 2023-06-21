@@ -24,6 +24,7 @@ model Task {
   priority     Priority  @default(LOW)
   comments     Comment[]
   assignedUser String?
+  duration     Int       @default(0)
 }
 
 model Project {

@@ -22,6 +22,7 @@ import validateField from "../../utils/validateField";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import ITask from "../../types/task";
 import IProject from "../../types/project";
+import Timer from "../Timer";
 
 export default function TaskForm({
     user,
@@ -43,6 +44,7 @@ export default function TaskForm({
         assignedUser: task?.assignedUser ?? "",
     });
     const [error, setError] = useState<null | string>(null);
+    const [duration, setDuration] = useState(task?.duration || 0);
 
     const router = useRouter();
     const { id } = router.query;
@@ -64,6 +66,7 @@ export default function TaskForm({
             authorId: user?.email,
             authorName: user?.nickname,
             authorAvatar: user?.picture,
+            duration: duration,
         };
 
         if (method === "POST") {
@@ -164,44 +167,47 @@ export default function TaskForm({
                 </Select>
             </FormControl>
             {method === "PATCH" && (
-                <FormControl sx={{ width: "100%" }}>
-                    <InputLabel>Assigned user:</InputLabel>
-                    <Select
-                        value={formData.assignedUser}
-                        label="assignedUser"
-                        name="assignedUser"
-                        onChange={(event) =>
-                            setFormData((prevData) => ({
-                                ...prevData,
-                                [event.target.name]: event.target.value,
-                            }))
-                        }
-                    >
-                        <MenuItem value=" ">&nbsp;</MenuItem>
-                        <MenuItem value={task?.authorName}>{task?.authorId}</MenuItem>
-                        {project?.assignees.map((assignee) => (
-                            <MenuItem key={assignee} value={assignee}>
-                                {assignee}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            )}
-            {method === "PATCH" && (
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={formData.status === "COMPLETED" ? true : false}
+                <>
+                    <FormControl sx={{ width: "100%" }}>
+                        <InputLabel>Assigned user:</InputLabel>
+                        <Select
+                            value={formData.assignedUser}
+                            label="assignedUser"
+                            name="assignedUser"
                             onChange={(event) =>
                                 setFormData((prevData) => ({
                                     ...prevData,
-                                    status: event.target.checked ? "COMPLETED" : "IN_PROGRESS",
+                                    [event.target.name]: event.target.value,
                                 }))
                             }
-                        />
-                    }
-                    label="Completed"
-                />
+                        >
+                            <MenuItem value=" ">&nbsp;</MenuItem>
+                            <MenuItem value={task?.authorId}>{task?.authorId}</MenuItem>
+                            {project?.assignees.map((assignee) => (
+                                <MenuItem key={assignee} value={assignee}>
+                                    {assignee}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={formData.status === "COMPLETED" ? true : false}
+                                onChange={(event) =>
+                                    setFormData((prevData) => ({
+                                        ...prevData,
+                                        status: event.target.checked ? "COMPLETED" : "IN_PROGRESS",
+                                    }))
+                                }
+                            />
+                        }
+                        label="Completed"
+                    />
+                    {task && user?.email === task.assignedUser && (
+                        <Timer id={task.id} duration={duration} setDuration={setDuration} handleSubmit={handleSubmit} />
+                    )}
+                </>
             )}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar
