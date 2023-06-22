@@ -7,10 +7,9 @@ import {
     Tooltip,
     Avatar,
     TextField,
-    FormControlLabel,
-    Checkbox,
     Button,
     Alert,
+    InputAdornment,
 } from "@mui/material";
 import ITask from "../../types/task";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,9 +19,9 @@ import TaskForm from "../TaskForm";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import axios from "axios";
 import { useState } from "react";
-import validateField from "../../utils/validateField";
 import CommentList from "../CommentList";
 import { useRouter } from "next/router";
+import SendIcon from "@mui/icons-material/Send";
 
 const style = {
     position: "absolute" as "absolute",
@@ -106,7 +105,12 @@ export default function TaskModal({
                     <CommentList comments={comments} />
                     <Box
                         component="form"
-                        onSubmit={handleSubmit}
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            if (comment.length >= 1) {
+                                handleSubmit(e);
+                            }
+                        }}
                         sx={{
                             display: "flex",
                             flexDirection: "column",
@@ -118,13 +122,31 @@ export default function TaskModal({
                         <TextField
                             label="Leave a comment"
                             sx={{ width: "100%" }}
-                            error={!validateField(comment) ? true : false}
-                            helperText={!validateField(comment) && "This comment should have at least one character."}
                             id="comment"
                             name="comment"
                             variant="outlined"
                             value={comment}
+                            multiline
                             onChange={(event) => setComment(event.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <Button
+                                            variant="text"
+                                            disabled={comment.length <= 0}
+                                            endIcon={<SendIcon />}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                if (comment.length >= 1) {
+                                                    handleSubmit(e);
+                                                }
+                                            }}
+                                        >
+                                            Send
+                                        </Button>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                     </Box>
                 </>
