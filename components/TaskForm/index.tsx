@@ -29,11 +29,15 @@ export default function TaskForm({
     method,
     task,
     project,
+    setTasks,
+    setIsOpen,
 }: {
     user: UserProfile | undefined;
     method: string;
     task?: ITask;
     project?: IProject;
+    setTasks?: React.Dispatch<React.SetStateAction<ITask[] | undefined>>;
+    setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [formData, setFormData] = useState({
         name: task?.name ?? "",
@@ -88,7 +92,10 @@ export default function TaskForm({
                 })
                 .then((res) => {
                     setError(null);
-                    window.location.href = `/projects/${id}/tasks`;
+                    const { updatedTask } = res.data;
+                    setTasks &&
+                        setTasks((tasks) => tasks?.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
+                    setIsOpen && setIsOpen(false);
                 })
                 .catch((err) => setError(err.message));
         }

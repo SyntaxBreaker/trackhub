@@ -48,6 +48,7 @@ export default function TaskModal({
     selectedItem,
     task,
     user,
+    setTasks,
 }: {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,6 +56,7 @@ export default function TaskModal({
     selectedItem: ITask | null;
     task: ITask;
     user: UserProfile | undefined;
+    setTasks: React.Dispatch<React.SetStateAction<ITask[] | undefined>>;
 }) {
     const [comments, setComments] = useState(task.comments || []);
     const [comment, setComment] = useState("");
@@ -101,7 +103,14 @@ export default function TaskModal({
                             <CloseIcon />
                         </IconButton>
                     </Box>
-                    <TaskForm user={user} method="PATCH" task={task} project={task.Project} />
+                    <TaskForm
+                        user={user}
+                        method="PATCH"
+                        task={task}
+                        project={task.Project}
+                        setTasks={setTasks}
+                        setIsOpen={setIsOpen}
+                    />
                     <CommentList comments={comments} setComments={setComments} />
                     <Box
                         component="form"
