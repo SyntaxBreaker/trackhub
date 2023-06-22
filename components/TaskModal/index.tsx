@@ -83,7 +83,7 @@ export default function TaskModal({
             })
             .then((res) => {
                 setError(null);
-                window.location.href = `/projects/${id}/tasks`;
+                setComments(res.data.comments);
             })
             .catch((err) => {
                 setError(err.message);
@@ -102,7 +102,7 @@ export default function TaskModal({
                         </IconButton>
                     </Box>
                     <TaskForm user={user} method="PATCH" task={task} project={task.Project} />
-                    <CommentList comments={comments} />
+                    <CommentList comments={comments} setComments={setComments} />
                     <Box
                         component="form"
                         onSubmit={(e) => {
