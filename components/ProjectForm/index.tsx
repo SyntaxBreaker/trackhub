@@ -25,10 +25,14 @@ export default function ProjectForm({
     user,
     method,
     project,
+    setIsOpen,
+    setProjects,
 }: {
     user: UserProfile | undefined;
     method: string;
     project?: IProject;
+    setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    setProjects?: React.Dispatch<React.SetStateAction<IProject[]>>;
 }) {
     const [formData, setFormData] = useState({
         name: project?.name ?? "",
@@ -90,7 +94,12 @@ export default function ProjectForm({
                 })
                 .then((res) => {
                     setError(null);
-                    window.location.href = "/";
+                    const { updatedProject } = res.data;
+                    setProjects &&
+                        setProjects((projects) =>
+                            projects?.map((project) => (project.id === updatedProject.id ? updatedProject : project))
+                        );
+                    setIsOpen && setIsOpen(false);
                 })
                 .catch((err) => {
                     setError(err.message);

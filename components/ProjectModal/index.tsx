@@ -5,53 +5,61 @@ import CloseIcon from "@mui/icons-material/Close";
 import ProjectForm from "../ProjectForm";
 
 const style = {
-	position: "absolute" as "absolute",
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: {
-		xs: "360px",
-		sm: "500px",
-		lg: "750px",
-	},
-	bgcolor: "background.paper",
-	borderRadius: 2,
-	boxShadow: 24,
-	p: 2,
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: {
+        xs: "360px",
+        sm: "500px",
+        lg: "750px",
+    },
+    bgcolor: "background.paper",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 2,
 };
 
 export default function ProjectModal({
-	isOpen,
-	setIsOpen,
-	selectedItem,
-	setSelectedItem,
-	project,
-	user,
+    isOpen,
+    setIsOpen,
+    selectedItem,
+    setSelectedItem,
+    project,
+    user,
+    setProjects,
 }: {
-	isOpen: boolean;
-	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	selectedItem: IProject | null;
-	setSelectedItem: React.Dispatch<React.SetStateAction<IProject | null>>;
-	project: IProject;
-	user: UserProfile | undefined;
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    selectedItem: IProject | null;
+    setSelectedItem: React.Dispatch<React.SetStateAction<IProject | null>>;
+    project: IProject;
+    user: UserProfile | undefined;
+    setProjects: React.Dispatch<React.SetStateAction<IProject[]>>;
 }) {
-	const handleClose = () => {
-		setIsOpen(false);
-		setSelectedItem(null);
-	};
+    const handleClose = () => {
+        setIsOpen(false);
+        setSelectedItem(null);
+    };
 
-	return (
-		<Modal open={isOpen && selectedItem?.id === project.id} onClose={() => setIsOpen(!isOpen)}>
-			<Box sx={style}>
-				<>
-					<Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-						<IconButton onClick={handleClose}>
-							<CloseIcon />
-						</IconButton>
-					</Box>
-					<ProjectForm user={user} method="PATCH" project={project} />
-				</>
-			</Box>
-		</Modal>
-	);
+    return (
+        <Modal open={isOpen && selectedItem?.id === project.id} onClose={() => setIsOpen(!isOpen)}>
+            <Box sx={style}>
+                <>
+                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                        <IconButton onClick={handleClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
+                    <ProjectForm
+                        user={user}
+                        method="PATCH"
+                        project={project}
+                        setIsOpen={setIsOpen}
+                        setProjects={setProjects}
+                    />
+                </>
+            </Box>
+        </Modal>
+    );
 }
