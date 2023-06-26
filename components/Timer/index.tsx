@@ -30,18 +30,6 @@ export default function Timer({
         };
     }, [isStarted]);
 
-    useEffect(() => {
-        if (typeof localStorage != "undefined") {
-            const item = localStorage.getItem(id);
-
-            if (item !== null) {
-                setDuration(JSON.parse(item));
-            }
-        } else {
-            setDuration(0);
-        }
-    }, []);
-
     const secondsToDhms = (time: number) => {
         let d = Math.floor(time / (3600 * 24));
         let h = Math.floor((time % (3600 * 24)) / 3600);
