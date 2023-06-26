@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     Box,
     TextField,
@@ -13,7 +13,6 @@ import {
     MenuItem,
     Tabs,
     Tab,
-    Paper,
 } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -27,6 +26,7 @@ import ITask from "../../types/task";
 import IProject from "../../types/project";
 import Timer from "../Timer";
 import ReactMarkdown from "react-markdown";
+import styles from "../../styles/markdown.module.css";
 
 export default function TaskForm({
     user,
@@ -163,7 +163,7 @@ export default function TaskForm({
                             onChange={handleChange}
                         />
                     ) : (
-                        <ReactMarkdown>{formData.description}</ReactMarkdown>
+                        <ReactMarkdown className={styles.reactMarkdown}>{formData.description}</ReactMarkdown>
                     )}
                 </Box>
             </Box>

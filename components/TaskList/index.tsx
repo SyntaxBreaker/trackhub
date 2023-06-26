@@ -10,7 +10,6 @@ import {
     IconButton,
     Menu,
     MenuItem,
-    Modal,
     Tooltip,
     Typography,
 } from "@mui/material";
@@ -27,6 +26,7 @@ import axios from "axios";
 import TaskModal from "../TaskModal";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import styles from "../../styles/markdown.module.css";
 
 export default function TaskList({
     tasks,
@@ -190,7 +190,9 @@ export default function TaskList({
                                                 fontSize: "12px",
                                             }}
                                         >
-                                            <ReactMarkdown>{task.description}</ReactMarkdown>
+                                            <ReactMarkdown className={styles.reactMarkdown}>
+                                                {task.description}
+                                            </ReactMarkdown>
                                         </Typography>
                                     ) : (
                                         <Typography
@@ -207,7 +209,9 @@ export default function TaskList({
                                                 fontSize: "12px",
                                             }}
                                         >
-                                            <ReactMarkdown>{task.description}</ReactMarkdown>
+                                            <ReactMarkdown className={styles.reactMarkdown}>
+                                                {task.description}
+                                            </ReactMarkdown>
                                         </Typography>
                                     )}
                                     <Button
