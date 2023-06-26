@@ -26,6 +26,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import TaskModal from "../TaskModal";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 export default function TaskList({
     tasks,
@@ -182,18 +183,20 @@ export default function TaskList({
                                         <Typography
                                             variant="body2"
                                             color="text.secondary"
+                                            component={Box}
                                             sx={{
                                                 whiteSpace: "pre-wrap",
                                                 marginTop: 1,
                                                 fontSize: "12px",
                                             }}
                                         >
-                                            {task.description}
+                                            <ReactMarkdown>{task.description}</ReactMarkdown>
                                         </Typography>
                                     ) : (
                                         <Typography
                                             variant="body2"
                                             color="text.secondary"
+                                            component={Box}
                                             sx={{
                                                 overflow: "hidden",
                                                 display: "-webkit-box",
@@ -204,7 +207,7 @@ export default function TaskList({
                                                 fontSize: "12px",
                                             }}
                                         >
-                                            {task.description}
+                                            <ReactMarkdown>{task.description}</ReactMarkdown>
                                         </Typography>
                                     )}
                                     <Button

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Box,
     TextField,
@@ -11,6 +11,9 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    Tabs,
+    Tab,
+    Paper,
 } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -23,6 +26,7 @@ import { UserProfile } from "@auth0/nextjs-auth0/client";
 import ITask from "../../types/task";
 import IProject from "../../types/project";
 import Timer from "../Timer";
+import ReactMarkdown from "react-markdown";
 
 export default function TaskForm({
     user,
@@ -49,6 +53,7 @@ export default function TaskForm({
     });
     const [error, setError] = useState<null | string>(null);
     const [duration, setDuration] = useState(task?.duration || 0);
+    const [currentTabValue, setCurrentTabValue] = useState("Edit");
 
     const router = useRouter();
     const { id } = router.query;
@@ -133,21 +138,35 @@ export default function TaskForm({
                 value={formData.name}
                 onChange={handleChange}
             />
-            <TextField
-                id="description"
-                name="description"
-                label="Description"
-                variant="outlined"
-                multiline={true}
-                fullWidth={method !== "POST"}
-                sx={[
-                    method === "POST" && {
-                        width: "350px",
-                    },
-                ]}
-                value={formData.description}
-                onChange={handleChange}
-            />
+            <Box
+                sx={{
+                    width: method === "POST" ? "350px" : "100%",
+                    padding: 1,
+                    borderRadius: 2,
+                    boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+                }}
+            >
+                <Tabs value={currentTabValue} onChange={(e, newValue) => setCurrentTabValue(newValue)}>
+                    <Tab label="Edit" value="Edit" />
+                    <Tab label="Preview" value="Preview" />
+                </Tabs>
+                <Box sx={{ marginTop: 2 }}>
+                    {currentTabValue === "Edit" ? (
+                        <TextField
+                            id="description"
+                            name="description"
+                            label="Description"
+                            variant="outlined"
+                            multiline={true}
+                            fullWidth
+                            value={formData.description}
+                            onChange={handleChange}
+                        />
+                    ) : (
+                        <ReactMarkdown>{formData.description}</ReactMarkdown>
+                    )}
+                </Box>
+            </Box>
             <FormControl
                 fullWidth={method !== "POST"}
                 sx={[
