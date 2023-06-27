@@ -30,9 +30,9 @@ const style = {
     transform: "translate(-50%, -50%)",
     maxHeight: "90%",
     width: {
-        xs: "360px",
-        sm: "500px",
-        lg: "750px",
+        xs: "350px",
+        sm: "550px",
+        md: "750px",
     },
     bgcolor: "background.paper",
     borderRadius: 2,

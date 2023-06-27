@@ -10,9 +10,9 @@ const style = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: {
-        xs: "360px",
-        sm: "500px",
-        lg: "750px",
+        xs: "350px",
+        sm: "550px",
+        md: "750px",
     },
     bgcolor: "background.paper",
     borderRadius: 2,
