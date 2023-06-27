@@ -13,6 +13,7 @@ import {
     MenuItem,
     Tabs,
     Tab,
+    Paper,
 } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -138,19 +139,19 @@ export default function TaskForm({
                 value={formData.name}
                 onChange={handleChange}
             />
-            <Box
+            <Paper
+                elevation={3}
                 sx={{
                     width: method === "POST" ? "350px" : "100%",
                     padding: 1,
                     borderRadius: 2,
-                    boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
                 }}
             >
                 <Tabs value={currentTabValue} onChange={(e, newValue) => setCurrentTabValue(newValue)}>
                     <Tab label="Edit" value="Edit" />
                     <Tab label="Preview" value="Preview" />
                 </Tabs>
-                <Box sx={{ marginTop: 2 }}>
+                <Box sx={{ marginTop: 2, padding: 1 }}>
                     {currentTabValue === "Edit" ? (
                         <TextField
                             id="description"
@@ -166,7 +167,7 @@ export default function TaskForm({
                         <ReactMarkdown className={styles.reactMarkdown}>{formData.description}</ReactMarkdown>
                     )}
                 </Box>
-            </Box>
+            </Paper>
             <FormControl
                 fullWidth={method !== "POST"}
                 sx={[
