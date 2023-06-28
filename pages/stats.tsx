@@ -9,6 +9,7 @@ import { PrismaClient } from "@prisma/client";
 import { calculateRemainingDays } from "../utils/date";
 import { secondsToDhms } from "../utils/time";
 import Statistic from "../components/Statistic";
+import Head from "next/head";
 
 function UserStats({
     totalTime,
@@ -24,36 +25,41 @@ function UserStats({
     const { user } = useUser();
 
     return (
-        <Box sx={{ paddingTop: 1 }}>
-            <Typography variant="h4" component="h1">
-                Welcome back, {user?.nickname}
-            </Typography>
-            <Typography variant="h5" component="p">
-                Here's what's happening with your stats:
-            </Typography>
-            <Grid container spacing={2} direction="row" sx={{ marginTop: 1 }}>
-                <Statistic
-                    icon={<TimerIcon fontSize="large" />}
-                    title="Total Time Tracker"
-                    description={secondsToDhms(totalTime)}
-                />
-                <Statistic
-                    icon={<DoneIcon fontSize="large" />}
-                    title="Completed Tasks Overview"
-                    description={`${completedTasks} Tasks`}
-                />
-                <Statistic
-                    icon={<AccessTimeIcon fontSize="large" />}
-                    title="Average Time per Task Analysis"
-                    description={secondsToDhms(averageTimePerTask)}
-                />
-                <Statistic
-                    icon={<EventBusyIcon fontSize="large" />}
-                    title="Missed Deadlines Report"
-                    description={`${missedDeadlines} Tasks`}
-                />
-            </Grid>
-        </Box>
+        <>
+            <Head>
+                <title>Stats Overview</title>
+            </Head>
+            <Box sx={{ paddingTop: 1 }}>
+                <Typography variant="h4" component="h1">
+                    Welcome back, {user?.nickname}
+                </Typography>
+                <Typography variant="h5" component="p">
+                    Here's what's happening with your stats:
+                </Typography>
+                <Grid container spacing={2} direction="row" sx={{ marginTop: 1 }}>
+                    <Statistic
+                        icon={<TimerIcon fontSize="large" />}
+                        title="Total Time Tracker"
+                        description={secondsToDhms(totalTime)}
+                    />
+                    <Statistic
+                        icon={<DoneIcon fontSize="large" />}
+                        title="Completed Tasks Overview"
+                        description={`${completedTasks} Tasks`}
+                    />
+                    <Statistic
+                        icon={<AccessTimeIcon fontSize="large" />}
+                        title="Average Time per Task Analysis"
+                        description={secondsToDhms(averageTimePerTask)}
+                    />
+                    <Statistic
+                        icon={<EventBusyIcon fontSize="large" />}
+                        title="Missed Deadlines Report"
+                        description={`${missedDeadlines} Tasks`}
+                    />
+                </Grid>
+            </Box>
+        </>
     );
 }
 
