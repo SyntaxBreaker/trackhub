@@ -21,6 +21,9 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListIcon from "@mui/icons-material/List";
 import Header from "../Header";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const drawerWidth = 240;
 
@@ -56,6 +59,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const { user } = useUser();
 
     const menuItems = [
         {
@@ -129,6 +133,31 @@ export default function PersistentDrawerLeft() {
                             </ListItem>
                         </Link>
                     ))}
+                </List>
+                <List sx={{ width: "100%", position: "absolute", bottom: 0, backgroundColor: "primary.dark" }}>
+                    {user ? (
+                        <Link href="/api/auth/logout" underline="none" color="white">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <LoginIcon sx={{ color: "white" }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Logout" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    ) : (
+                        <Link href="/api/auth/login" underline="none" color="white">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <LoginIcon sx={{ color: "white" }} />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Login" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    )}
                 </List>
             </Drawer>
         </Box>
