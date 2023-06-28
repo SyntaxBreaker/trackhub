@@ -78,6 +78,8 @@ export default function TaskList({
                     flexDirection: "row",
                     justifyContent: "space-between",
                     marginBottom: "16px",
+                    gap: "8px",
+                    flexWrap: "wrap",
                 }}
             >
                 <Typography variant="h5" component="h2">
