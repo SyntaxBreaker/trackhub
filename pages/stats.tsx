@@ -30,10 +30,10 @@ function UserStats({
                 <title>Stats Overview</title>
             </Head>
             <Box sx={{ paddingTop: 1 }}>
-                <Typography variant="h4" component="h1">
-                    Welcome back, {user?.nickname}
+                <Typography variant="h5" component="h1">
+                    Welcome back, {user?.nickname}!
                 </Typography>
-                <Typography variant="h5" component="p">
+                <Typography variant="body1" component="p">
                     Here's what's happening with your stats:
                 </Typography>
                 <Grid container spacing={2} direction="row" sx={{ marginTop: 1 }}>
