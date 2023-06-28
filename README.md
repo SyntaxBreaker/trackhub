@@ -43,7 +43,7 @@ A list of key features of the project, each described in detail:
 
 - Project Management: Users can create and manage multiple projects, set deadlines, and assign tasks to team members. They can also track the overall progress of each project, ensuring everything stays organized.
 
-- Task Management: Within each project, users can create tasks, set priorities, and assign them to specific team members. They can track task completion status, add comments, and attach relevant files.
+- Task Management: Within each project, users can create tasks, set priorities, and assign them to specific team members. They can track task completion status and add comments.
 
 - Time Tracking: "TrackHub" offers built-in time tracking functionality, allowing users to record the time spent on each task. It helps freelancers and businesses accurately track billable hours and maintain transparency with clients.
 
