@@ -134,24 +134,26 @@ export default function PersistentDrawerLeft() {
                         </Link>
                     ))}
                 </List>
-                <List sx={{ width: "100%", position: "absolute", bottom: 0, backgroundColor: "primary.dark" }}>
+                <List
+                    sx={{ width: "100%", position: "absolute", bottom: 0, borderTop: "1px solid rgba(0, 0, 0, 0.12)" }}
+                >
                     {user ? (
-                        <Link href="/api/auth/logout" underline="none" color="white">
+                        <Link href="/api/auth/logout" underline="none" color="inherit">
                             <ListItem disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <LoginIcon sx={{ color: "white" }} />
+                                        <LoginIcon />
                                     </ListItemIcon>
                                     <ListItemText primary="Logout" />
                                 </ListItemButton>
                             </ListItem>
                         </Link>
                     ) : (
-                        <Link href="/api/auth/login" underline="none" color="white">
+                        <Link href="/api/auth/login" underline="none" color="inherit">
                             <ListItem disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <LoginIcon sx={{ color: "white" }} />
+                                        <LoginIcon />
                                     </ListItemIcon>
                                     <ListItemText primary="Login" />
                                 </ListItemButton>
