@@ -158,7 +158,7 @@ export default function ProjectForm({
                     <Typography variant="h6" component="p" sx={{ marginTop: 2 }}>
                         Assignee list:
                     </Typography>
-                    <TableContainer component={Paper} elevation={16}>
+                    <TableContainer component={Paper} elevation={3}>
                         <Table aria-label="assignee list">
                             <TableHead sx={{ backgroundColor: "primary.main" }}>
                                 <TableRow>
@@ -212,7 +212,7 @@ export default function ProjectForm({
                     </TableContainer>
                 </>
             )}
-            <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 4 }}>
+            <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 1 }}>
                 {method === "POST" ? "Add a new project" : "Edit the project"}
             </Button>
         </Box>
