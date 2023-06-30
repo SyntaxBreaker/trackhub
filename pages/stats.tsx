@@ -34,7 +34,7 @@ function UserStats({
                     Welcome back, {user?.nickname}!
                 </Typography>
                 <Typography variant="body1" component="p">
-                    Here's what's happening with your stats:
+                    Here&apos;s what&apos;s happening with your stats:
                 </Typography>
                 <Grid container spacing={2} direction="row" sx={{ marginTop: 1 }}>
                     <Statistic
