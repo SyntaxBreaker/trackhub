@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				size="large"
 				color="inherit"
 				onClick={changeTheme}
-				sx={{ position: "absolute", bottom: "20px", right: "20px" }}
+				sx={{ position: "fixed", bottom: "20px", right: "20px" }}
 			>
 				{mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
 			</IconButton>
