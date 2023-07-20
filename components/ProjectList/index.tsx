@@ -18,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/router";
 import axios from "axios";
 import ProjectModal from "../ProjectModal";
+import useIsMobileView from "../../hooks/useIsMobileView";
 
 export default function ProjectList({ projects: propProjects }: { projects: IProject[] }) {
     const [projects, setProjects] = useState(propProjects);
@@ -28,12 +29,13 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
 
     const { user, isLoading } = useUser();
     const router = useRouter();
+    const isMobile = useIsMobileView();
 
     useEffect(() => {
         if (!isLoading && !user) router.push("/api/auth/login");
     }, [user, isLoading]);
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>, item: IProject) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLTableRowElement>, item: IProject) => {
         setAnchorEl(e.currentTarget);
         setSelectedItem(item);
     };
@@ -103,6 +105,7 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
                                                 backgroundColor: "action.hover",
                                             },
                                         }}
+                                        onClick={(e) => isMobile && handleClick(e, project)}
                                     >
                                         <TableCell>{project.name}</TableCell>
                                         <TableCell sx={{ whiteSpace: "pre-wrap" }}>{project.description}</TableCell>
