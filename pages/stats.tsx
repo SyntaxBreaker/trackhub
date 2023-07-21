@@ -10,17 +10,29 @@ import { calculateRemainingDays } from "../utils/date";
 import { secondsToDhms } from "../utils/time";
 import Statistic from "../components/Statistic";
 import Head from "next/head";
+import ITask from "../types/task";
+
+interface IStatsPerProject {
+    [key: string]: {
+        totalTime: number;
+        completedTasks: number;
+        missedDeadlines: number;
+        averageTime: number;
+    };
+}
 
 function UserStats({
     totalTime,
     completedTasks,
     averageTimePerTask,
     missedDeadlines,
+    statsPerProject,
 }: {
     totalTime: number;
     completedTasks: number;
     averageTimePerTask: number;
     missedDeadlines: number;
+    statsPerProject: IStatsPerProject;
 }) {
     const { user } = useUser();
 
@@ -79,6 +91,7 @@ export const getServerSideProps = withPageAuthRequired({
                     },
                 ],
             },
+            include: { Project: true, comments: true },
         });
 
         const totalTime = tasks.reduce((acc, curr) => acc + curr.duration, 0);
@@ -88,6 +101,42 @@ export const getServerSideProps = withPageAuthRequired({
             (task) => task.status !== "COMPLETED" && calculateRemainingDays(task.deadline) < 0
         ).length;
 
+        let statsPerProject: IStatsPerProject = {};
+
+        let projectGroup: {
+            [key: string]: {
+                tasks: ITask[];
+            };
+        } = {};
+
+        tasks.forEach((task) => {
+            const { projectId } = task;
+            projectGroup[projectId] = projectGroup[projectId] || { tasks: [] };
+            projectGroup[projectId]["tasks"] = [...projectGroup[projectId]["tasks"], task as ITask];
+        });
+
+        for (const project in projectGroup) {
+            let totalTimePerProject = 0;
+            let completedTasksPerProject = 0;
+            let missedDeadlinesPerProject = 0;
+            projectGroup[project]["tasks"].forEach((task) => {
+                totalTimePerProject += task.duration;
+                task.status === "COMPLETED" && (completedTasksPerProject += 1);
+                task.status !== "COMPLETED" &&
+                    calculateRemainingDays(task.deadline) < 0 &&
+                    (missedDeadlinesPerProject += 1);
+            });
+
+            statsPerProject[project] = {
+                totalTime: totalTimePerProject,
+                completedTasks: completedTasksPerProject,
+                missedDeadlines: missedDeadlinesPerProject,
+                averageTime:
+                    totalTimePerProject /
+                        projectGroup[project].tasks.filter((task) => task.status === "COMPLETED").length || 0,
+            };
+        }
+
         return {
             props: {
                 tasks,
@@ -95,6 +144,7 @@ export const getServerSideProps = withPageAuthRequired({
                 completedTasks: completedTasks.length,
                 averageTimePerTask,
                 missedDeadlines,
+                statsPerProject,
             },
         };
     },
