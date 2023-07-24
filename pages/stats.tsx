@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import TimerIcon from "@mui/icons-material/Timer";
 import DoneIcon from "@mui/icons-material/Done";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -11,15 +11,8 @@ import { secondsToDhms } from "../utils/time";
 import Statistic from "../components/Statistic";
 import Head from "next/head";
 import ITask from "../types/task";
-
-interface IStatsPerProject {
-    [key: string]: {
-        totalTime: number;
-        completedTasks: number;
-        missedDeadlines: number;
-        averageTime: number;
-    };
-}
+import ProjectStats from "../components/ProjectStats";
+import { IStatsPerProject } from "../types/project";
 
 function UserStats({
     totalTime,
@@ -70,6 +63,7 @@ function UserStats({
                         description={`${missedDeadlines} Tasks`}
                     />
                 </Grid>
+                <ProjectStats statsPerProject={statsPerProject} />
             </Box>
         </>
     );
@@ -105,6 +99,7 @@ export const getServerSideProps = withPageAuthRequired({
 
         let projectGroup: {
             [key: string]: {
+                name: string;
                 tasks: ITask[];
             };
         } = {};
@@ -112,6 +107,7 @@ export const getServerSideProps = withPageAuthRequired({
         tasks.forEach((task) => {
             const { projectId } = task;
             projectGroup[projectId] = projectGroup[projectId] || { tasks: [] };
+            projectGroup[projectId]["name"] = task.Project.name;
             projectGroup[projectId]["tasks"] = [...projectGroup[projectId]["tasks"], task as ITask];
         });
 
@@ -128,6 +124,7 @@ export const getServerSideProps = withPageAuthRequired({
             });
 
             statsPerProject[project] = {
+                name: projectGroup[project]["name"],
                 totalTime: totalTimePerProject,
                 completedTasks: completedTasksPerProject,
                 missedDeadlines: missedDeadlinesPerProject,
