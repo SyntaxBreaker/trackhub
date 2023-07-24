@@ -199,6 +199,12 @@ export default function ProjectForm({
                                                     handleAssigneeAddition();
                                                 }
                                             }}
+                                            sx={{
+                                                width: {
+                                                    xs: "100%",
+                                                    sm: "65%",
+                                                },
+                                            }}
                                         />
                                     </TableCell>
                                     <TableCell align="right">
