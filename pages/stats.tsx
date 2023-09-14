@@ -45,7 +45,7 @@ function UserStats({
                     <Statistic
                         icon={<TimerIcon fontSize="large" />}
                         title="Total Time Tracker"
-                        description={secondsToDhms(totalTime) ? secondsToDhms(totalTime) : "0S"}
+                        description={secondsToDhms(totalTime) ? secondsToDhms(totalTime) : "-"}
                     />
                     <Statistic
                         icon={<DoneIcon fontSize="large" />}
@@ -55,7 +55,7 @@ function UserStats({
                     <Statistic
                         icon={<AccessTimeIcon fontSize="large" />}
                         title="Average Time per Task Analysis"
-                        description={secondsToDhms(averageTimePerTask) ? secondsToDhms(averageTimePerTask) : "0S"}
+                        description={secondsToDhms(averageTimePerTask) ? secondsToDhms(averageTimePerTask) : "-"}
                     />
                     <Statistic
                         icon={<EventBusyIcon fontSize="large" />}

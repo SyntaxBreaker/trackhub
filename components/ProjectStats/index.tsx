@@ -30,8 +30,8 @@ export default function ProjectStats({ statsPerProject }: { statsPerProject: ISt
                                 {stat.name}
                             </TableCell>
                             <TableCell align="left">{stat.completedTasks}</TableCell>
-                            <TableCell align="left">{secondsToDhms(stat.totalTime) || "0S"}</TableCell>
-                            <TableCell align="left">{secondsToDhms(stat.averageTime) || "0S"}</TableCell>
+                            <TableCell align="left">{secondsToDhms(stat.totalTime) || "-"}</TableCell>
+                            <TableCell align="left">{secondsToDhms(stat.averageTime) || "-"}</TableCell>
                             <TableCell align="left">{stat.missedDeadlines}</TableCell>
                         </TableRow>
                     ))}
