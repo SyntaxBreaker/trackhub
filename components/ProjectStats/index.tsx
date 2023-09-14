@@ -5,7 +5,7 @@ import { IStatsPerProject } from "../../types/project";
 export default function ProjectStats({ statsPerProject }: { statsPerProject: IStatsPerProject }) {
     return (
         <TableContainer component={Paper} elevation={4} sx={{ mt: 4 }}>
-            <Table aria-aria-label="Project Statistics">
+            <Table aria-label="Project Statistics">
                 <TableHead sx={{ backgroundColor: "primary.main" }}>
                     <TableRow>
                         <TableCell sx={{ color: "primary.contrastText" }}>Project name</TableCell>
