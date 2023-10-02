@@ -50,3 +50,8 @@ A list of key features of the project, each described in detail:
 ## License
 
 The project is under the MIT License.
+
+
+## Authors
+
+- [@SyntaxBreaker](https://www.github.com/SyntaxBreaker)
