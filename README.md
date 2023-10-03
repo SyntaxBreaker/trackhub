@@ -25,7 +25,7 @@ What you need to install the software and how to install them:
 
 Step-by-step instructions on how to install the project:
 
-1. Clone the repository: `git clone https://github.com/xMetaneRx/TrackHub.git`
+1. Clone the repository: `git clone https://github.com/SyntaxBreaker/TrackHub.git`
 2. Navigate to the project directory: `cd trackhub`
 3. Install the dependencies: `npm install`
 
@@ -50,3 +50,8 @@ A list of key features of the project, each described in detail:
 ## License
 
 The project is under the MIT License.
+
+
+## Authors
+
+- [@SyntaxBreaker](https://www.github.com/SyntaxBreaker)
