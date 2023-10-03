@@ -5,8 +5,6 @@ import {
     Box,
     Button,
     Card,
-    CardContent,
-    Grid,
     IconButton,
     Menu,
     MenuItem,
@@ -21,7 +19,6 @@ import Link from "next/link";
 import { calculateRemainingDays } from "../../utils/date";
 import ITask from "../../types/task";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import axios from "axios";
 import TaskModal from "../TaskModal";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -39,10 +36,8 @@ export default function TaskList({
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedItem, setSelectedItem] = useState<ITask | null>(null);
     const [error, setError] = useState("");
-    const [isDesriptionCollapsed, setIsDesriptionCollapsed] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    const router = useRouter();
     const { user } = useUser();
 
     useEffect(() => {
@@ -137,148 +132,96 @@ export default function TaskList({
                     )
             )}
             {tasks && tasks.length > 0 ? (
-                <Grid container spacing={4} direction="row">
+                <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                     {tasks.map((task) => (
-                        <Grid item xs={12} sm={6} md={4} key={task.id}>
-                            <Card
-                                sx={{
-                                    padding: 0.5,
-                                    borderRadius: 2,
-                                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                                    "&:hover": {
-                                        cursor: "pointer",
-                                        transform: "scale3d(1.006, 1.006, 1)",
-                                    },
-                                }}
-                                onClick={() => {
-                                    setIsOpen(true);
-                                    setSelectedItem(task);
-                                }}
-                            >
-                                <CardContent
+                        <Card
+                            key={task.id}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsOpen(true);
+                                setSelectedItem(task);
+                            }}
+                            sx={{
+                                padding: 1,
+                                borderRadius: 2,
+                                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                                "&:hover": {
+                                    cursor: "pointer",
+                                    transform: "scale3d(1.006, 1.006, 1)",
+                                },
+                            }}
+                        >
+                            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
+                                    {task.name}
+                                </Typography>
+                                <IconButton
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleClick(e, task);
+                                    }}
+                                    aria-label="Options"
+                                >
+                                    <MoreVertIcon fontSize="medium" />
+                                </IconButton>
+                            </Box>
+                            {task.description && (
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    component={Box}
                                     sx={{
-                                        position: "relative",
-                                        paddingBottom: "16px !important",
+                                        marginTop: 1,
+                                        overflow: "hidden",
+                                        display: "-webkit-box",
+                                        WebkitLineClamp: 1,
+                                        WebkitBoxOrient: "vertical",
+                                        whiteSpace: "pre-wrap",
+                                        fontSize: "12px",
                                     }}
                                 >
-                                    <Box
+                                    <ReactMarkdown className={styles.reactMarkdown}>{task.description}</ReactMarkdown>
+                                </Typography>
+                            )}
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    marginTop: task.description ? 1 : 0,
+                                }}
+                            >
+                                <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                                    <AccessTimeIcon
+                                        color="warning"
                                         sx={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
+                                            fontSize: 12,
+                                            verticalAlign: "text-top",
                                         }}
-                                    >
-                                        <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
-                                            {task.name}
-                                        </Typography>
-                                        <IconButton
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleClick(e, task);
-                                            }}
-                                            aria-label="Options"
-                                        >
-                                            <MoreVertIcon fontSize="medium" />
-                                        </IconButton>
-                                    </Box>
-                                    {isDesriptionCollapsed && selectedItem?.id === task.id ? (
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            component={Box}
+                                    />{" "}
+                                    {task.status === "COMPLETED"
+                                        ? "Completed"
+                                        : calculateRemainingDays(task.deadline) >= 1
+                                        ? `Due in ${calculateRemainingDays(task.deadline)} ${
+                                              calculateRemainingDays(task.deadline) === 1 ? "day" : "days"
+                                          }`
+                                        : calculateRemainingDays(task.deadline) === 0
+                                        ? "Due is Today"
+                                        : "Overdue"}
+                                </Typography>
+                                <AvatarGroup sx={{ marginRight: 0.75 }}>
+                                    <Tooltip title={task.authorName} arrow>
+                                        <Avatar
+                                            src={task.authorAvatar}
+                                            alt={task.authorName}
                                             sx={{
-                                                whiteSpace: "pre-wrap",
-                                                marginTop: 1,
-                                                fontSize: "12px",
+                                                width: 24,
+                                                height: 24,
                                             }}
-                                        >
-                                            <ReactMarkdown className={styles.reactMarkdown}>
-                                                {task.description}
-                                            </ReactMarkdown>
-                                        </Typography>
-                                    ) : (
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            component={Box}
-                                            sx={{
-                                                overflow: "hidden",
-                                                display: "-webkit-box",
-                                                WebkitLineClamp: 2,
-                                                WebkitBoxOrient: "vertical",
-                                                marginTop: 1,
-                                                whiteSpace: "pre-wrap",
-                                                fontSize: "12px",
-                                            }}
-                                        >
-                                            <ReactMarkdown className={styles.reactMarkdown}>
-                                                {task.description}
-                                            </ReactMarkdown>
-                                        </Typography>
-                                    )}
-                                    <Button
-                                        variant="outlined"
-                                        sx={{
-                                            marginTop: 2,
-                                            position: "absolute",
-                                            right: "16px",
-                                        }}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (!isDesriptionCollapsed || selectedItem?.id !== task.id) {
-                                                setIsDesriptionCollapsed(true);
-                                                setSelectedItem(task);
-                                            } else {
-                                                setIsDesriptionCollapsed(false);
-                                                setSelectedItem(null);
-                                            }
-                                        }}
-                                    >
-                                        {isDesriptionCollapsed && selectedItem?.id === task.id
-                                            ? "Show less"
-                                            : "Show more"}
-                                    </Button>
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            alignItems: "center",
-                                            marginTop: 8,
-                                        }}
-                                    >
-                                        <Typography sx={{ fontSize: 12 }} color="text.secondary">
-                                            <AccessTimeIcon
-                                                color="warning"
-                                                sx={{
-                                                    fontSize: 12,
-                                                    verticalAlign: "text-top",
-                                                }}
-                                            />{" "}
-                                            {task.status === "COMPLETED"
-                                                ? "Completed"
-                                                : calculateRemainingDays(task.deadline) >= 1
-                                                ? `Due in ${calculateRemainingDays(task.deadline)} ${
-                                                      calculateRemainingDays(task.deadline) === 1 ? "day" : "days"
-                                                  }`
-                                                : calculateRemainingDays(task.deadline) === 0
-                                                ? "Due is Today"
-                                                : "Overdue"}
-                                        </Typography>
-                                        <AvatarGroup>
-                                            <Tooltip title={task.authorName} arrow>
-                                                <Avatar
-                                                    src={task.authorAvatar}
-                                                    alt={task.authorName}
-                                                    sx={{
-                                                        width: 24,
-                                                        height: 24,
-                                                    }}
-                                                />
-                                            </Tooltip>
-                                        </AvatarGroup>
-                                    </Box>
-                                </CardContent>
-                            </Card>
+                                        />
+                                    </Tooltip>
+                                </AvatarGroup>
+                            </Box>
                             <Menu
                                 open={Boolean(anchorEl) && selectedItem?.id === task.id}
                                 onClose={handleClose}
@@ -310,9 +253,9 @@ export default function TaskList({
                                 user={user}
                                 setTasks={setTasks}
                             />
-                        </Grid>
+                        </Card>
                     ))}
-                </Grid>
+                </Box>
             ) : (
                 <Alert severity="info" variant="outlined">
                     There are no tasks.

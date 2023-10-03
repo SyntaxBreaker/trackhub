@@ -20,7 +20,6 @@ import { UserProfile } from "@auth0/nextjs-auth0/client";
 import axios from "axios";
 import { useState } from "react";
 import CommentList from "../CommentList";
-import { useRouter } from "next/router";
 import SendIcon from "@mui/icons-material/Send";
 
 const style = {
@@ -62,10 +61,8 @@ export default function TaskModal({
     const [comment, setComment] = useState("");
     const [error, setError] = useState(null);
 
-    const router = useRouter();
-    const { id } = router.query;
-
-    const handleClose = () => {
+    const handleClose = (e: React.SyntheticEvent) => {
+        e.stopPropagation();
         setIsOpen(false);
         setSelectedItem(null);
     };

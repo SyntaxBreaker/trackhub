@@ -54,7 +54,7 @@ export default function TaskForm({
     });
     const [error, setError] = useState<null | string>(null);
     const [duration, setDuration] = useState(task?.duration || 0);
-    const [currentTabValue, setCurrentTabValue] = useState("Edit");
+    const [currentTabValue, setCurrentTabValue] = useState("Preview");
 
     const router = useRouter();
     const { id } = router.query;
@@ -148,8 +148,8 @@ export default function TaskForm({
                 }}
             >
                 <Tabs value={currentTabValue} onChange={(e, newValue) => setCurrentTabValue(newValue)}>
-                    <Tab label="Edit" value="Edit" />
                     <Tab label="Preview" value="Preview" />
+                    <Tab label="Edit" value="Edit" />
                 </Tabs>
                 <Box sx={{ marginTop: 2, padding: 1 }}>
                     {currentTabValue === "Edit" ? (
