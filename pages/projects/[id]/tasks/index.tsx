@@ -8,90 +8,89 @@ import { Alert } from "@mui/material";
 import Head from "next/head";
 
 export default function Tasks({ tasks: propTasks, isAuthorised }: { tasks?: ITask[]; isAuthorised: boolean }) {
-    const [tasks, setTasks] = useState(propTasks);
-    const router = useRouter();
+  const [tasks, setTasks] = useState(propTasks);
+  const router = useRouter();
 
-    useEffect(() => {
-        if (!isAuthorised) {
-            setTimeout(() => {
-                router.push("/");
-            }, 3000);
-        }
-    }, [isAuthorised]);
+  useEffect(() => {
+    if (!isAuthorised) {
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+    }
+  }, [isAuthorised]);
 
-    return (
-        <>
-            <Head>
-                <title>Task List</title>
-            </Head>
-            {!isAuthorised ? (
-                <Alert severity="error">
-                    You are not authorised to access this page. You will be redirected to the homepage.
-                </Alert>
-            ) : (
-                <TaskList tasks={tasks} setTasks={setTasks} />
-            )}
-        </>
-    );
+  return (
+    <>
+      <Head>
+        <title>Task List</title>
+      </Head>
+      {!isAuthorised ? (
+        <Alert severity="error">
+          You are not authorised to access this page. You will be redirected to the homepage.
+        </Alert>
+      ) : (
+        <TaskList tasks={tasks} setTasks={setTasks} />
+      )}
+    </>
+  );
 }
 
 export const getServerSideProps = withPageAuthRequired({
-    async getServerSideProps(ctx) {
-        try {
-            const session = await getSession(ctx.req, ctx.res);
-            const prisma = new PrismaClient();
-            const { id } = ctx.query;
-            let data;
+  async getServerSideProps(ctx) {
+    try {
+      const session = await getSession(ctx.req, ctx.res);
+      const prisma = new PrismaClient();
+      const { id } = ctx.query;
+      let data;
 
-            const tasks = await prisma.task.findMany({
-                where: {
-                    projectId: id as string,
-                },
-                include: { Project: true, comments: true },
-            });
+      const tasks = await prisma.task.findMany({
+        where: {
+          projectId: id as string,
+        },
+        include: { Project: true, comments: true },
+      });
 
-            if (
-                tasks.some(
-                    (task) =>
-                        task.authorId === session?.user.email || task.Project.assignees.includes(session?.user.email)
-                )
-            ) {
-                data = {
-                    tasks,
-                    isAuthorised: true,
-                };
-            } else {
-                const project = await prisma.project.findFirst({
-                    where: {
-                        id: id as string,
-                    },
-                });
+      if (
+        tasks.some(
+          (task) => task.authorId === session?.user.email || task.Project.assignees.includes(session?.user.email),
+        )
+      ) {
+        data = {
+          tasks,
+          isAuthorised: true,
+        };
+      } else {
+        const project = await prisma.project.findFirst({
+          where: {
+            id: id as string,
+          },
+        });
 
-                if (project?.creator === session?.user.email || project?.assignees.includes(session?.user.email)) {
-                    data = {
-                        tasks: [],
-                        isAuthorised: true,
-                    };
-                } else {
-                    data = {
-                        tasks: [],
-                        isAuthorised: false,
-                    };
-                }
-            }
-
-            return {
-                props: {
-                    ...data,
-                },
-            };
-        } catch (err) {
-            return {
-                props: {
-                    isAuthorised: false,
-                    tasks: [],
-                },
-            };
+        if (project?.creator === session?.user.email || project?.assignees.includes(session?.user.email)) {
+          data = {
+            tasks: [],
+            isAuthorised: true,
+          };
+        } else {
+          data = {
+            tasks: [],
+            isAuthorised: false,
+          };
         }
-    },
+      }
+
+      return {
+        props: {
+          ...data,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          isAuthorised: false,
+          tasks: [],
+        },
+      };
+    }
+  },
 });
