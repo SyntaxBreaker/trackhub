@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   TextField,
@@ -11,9 +11,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Tabs,
-  Tab,
-  Paper,
 } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -54,10 +51,12 @@ export default function TaskForm({
   });
   const [error, setError] = useState<null | string>(null);
   const [duration, setDuration] = useState(task?.duration || 0);
-  const [currentTabValue, setCurrentTabValue] = useState("Preview");
+  const [isEditing, setIsEditing] = useState(formData.description.length === 0 || method === "POST" ? true : false);
 
   const router = useRouter();
   const { id } = router.query;
+
+  const textFieldRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
@@ -106,6 +105,12 @@ export default function TaskForm({
     }
   };
 
+  useEffect(() => {
+    if (isEditing && textFieldRef.current) {
+      textFieldRef.current.focus();
+    }
+  }, [isEditing]);
+
   return (
     <Box
       component="form"
@@ -138,35 +143,47 @@ export default function TaskForm({
         value={formData.name}
         onChange={handleChange}
       />
-      <Paper
-        elevation={3}
+      <Box
         sx={{
           width: method === "POST" ? "350px" : "100%",
-          padding: 1,
-          borderRadius: 2,
         }}
       >
-        <Tabs value={currentTabValue} onChange={(e, newValue) => setCurrentTabValue(newValue)}>
-          <Tab label="Preview" value="Preview" />
-          <Tab label="Edit" value="Edit" />
-        </Tabs>
-        <Box sx={{ marginTop: 2, padding: 1 }}>
-          {currentTabValue === "Edit" ? (
-            <TextField
-              id="description"
-              name="description"
-              label="Description"
-              variant="outlined"
-              multiline={true}
-              fullWidth
-              value={formData.description}
-              onChange={handleChange}
-            />
-          ) : (
+        {isEditing ? (
+          <TextField
+            id="description"
+            name="description"
+            variant="outlined"
+            label="Description"
+            multiline={true}
+            fullWidth
+            value={formData.description}
+            onChange={handleChange}
+            onBlur={() => formData.description.length > 0 && setIsEditing(false)}
+            inputRef={textFieldRef}
+          />
+        ) : (
+          <Box
+            onClick={() => setIsEditing(true)}
+            sx={{ padding: 1, position: "relative", border: "1px solid gray", borderRadius: "4px" }}
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                top: "-10px",
+                left: 6,
+                fontSize: ".75rem",
+                color: "text.secondary",
+                zIndex: 1,
+                paddingX: 1,
+                backgroundColor: "background.default",
+              }}
+            >
+              Description
+            </Typography>
             <ReactMarkdown className={styles.reactMarkdown}>{formData.description}</ReactMarkdown>
-          )}
-        </Box>
-      </Paper>
+          </Box>
+        )}
+      </Box>
       <FormControl
         fullWidth={method !== "POST"}
         sx={[

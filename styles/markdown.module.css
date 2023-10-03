@@ -1,3 +1,7 @@
+.reactMarkdown {
+  white-space: pre-wrap;
+}
+
 .reactMarkdown ul,
 .reactMarkdown ol {
   margin-left: 16px !important;
