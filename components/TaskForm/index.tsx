@@ -136,6 +136,7 @@ export default function TaskForm({
         name="name"
         label="Name"
         variant="outlined"
+        multiline={true}
         fullWidth={method !== "POST"}
         sx={[
           method === "POST" && {
