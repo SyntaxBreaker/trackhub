@@ -123,7 +123,7 @@ export default function TaskList({
             >
               Important: Task &quot;{task.name}&quot; is overdue. You can change the deadline.
             </Alert>
-          ),
+          )
       )}
       {tasks && tasks.length > 0 ? (
         <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -141,12 +141,12 @@ export default function TaskList({
                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
                 "&:hover": {
                   cursor: "pointer",
-                  transform: "scale3d(1.006, 1.006, 1)",
+                  transform: "scale3d(1.004, 1.004, 1)",
                 },
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
+                <Typography variant="subtitle1" component="h3">
                   {task.name}
                 </Typography>
                 <IconButton
@@ -156,7 +156,7 @@ export default function TaskList({
                   }}
                   aria-label="Options"
                 >
-                  <MoreVertIcon fontSize="medium" />
+                  <MoreVertIcon fontSize="small" />
                 </IconButton>
               </Box>
               {task.description && (
