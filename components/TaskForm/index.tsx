@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Box,
   TextField,
@@ -51,7 +51,8 @@ export default function TaskForm({
   });
   const [error, setError] = useState<null | string>(null);
   const [duration, setDuration] = useState(task?.duration || 0);
-  const [isEditing, setIsEditing] = useState(formData.description.length === 0 || method === "POST" ? true : false);
+  const [isEditing, setIsEditing] = useState(formData.description.length === 0);
+  const [isTextFieldFocused, setIsTextFieldFocus] = useState(false);
 
   const router = useRouter();
   const { id } = router.query;
@@ -105,11 +106,12 @@ export default function TaskForm({
     }
   };
 
-  useEffect(() => {
-    if (isEditing && textFieldRef.current) {
-      textFieldRef.current.focus();
+  const handleBlur = () => {
+    if (formData.description.length > 0) {
+      setIsEditing(false);
     }
-  }, [isEditing]);
+    setIsTextFieldFocus(false);
+  };
 
   return (
     <Box
@@ -158,8 +160,9 @@ export default function TaskForm({
             fullWidth
             value={formData.description}
             onChange={handleChange}
-            onBlur={() => formData.description.length > 0 && setIsEditing(false)}
+            onBlur={handleBlur}
             inputRef={textFieldRef}
+            autoFocus={isTextFieldFocused || formData.description.length > 0}
           />
         ) : (
           <Box
