@@ -48,6 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         color="inherit"
         onClick={changeTheme}
         sx={{ position: "fixed", bottom: "20px", right: "20px" }}
+        aria-label="Toggle Dark Mode"
       >
         {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
