@@ -96,8 +96,8 @@ export default function ProjectForm({
           setError(null);
           const { updatedProject } = res.data;
           setProjects &&
-            setProjects(
-              (projects) => projects?.map((project) => (project.id === updatedProject.id ? updatedProject : project)),
+            setProjects((projects) =>
+              projects?.map((project) => (project.id === updatedProject.id ? updatedProject : project))
             );
           setIsOpen && setIsOpen(false);
         })
@@ -167,7 +167,7 @@ export default function ProjectForm({
                       color: "primary.contrastText",
                     }}
                   >
-                    Email:
+                    Assignee&lsquo;s email address
                   </TableCell>
                   <TableCell align="right"></TableCell>
                 </TableRow>
@@ -188,7 +188,7 @@ export default function ProjectForm({
                     <TextField
                       id="assignee"
                       name="assignee"
-                      label="Assignee"
+                      label="Enter assignee's email address"
                       variant="standard"
                       multiline={false}
                       value={formData.assignee}
