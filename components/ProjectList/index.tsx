@@ -102,7 +102,9 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
                     onClick={(e) => isMobile && handleClick(e, project)}
                   >
                     <TableCell>{project.name}</TableCell>
-                    <TableCell sx={{ whiteSpace: "pre-wrap" }}>{project.description}</TableCell>
+                    <TableCell sx={{ whiteSpace: "pre-wrap", minWidth: "250px" }}>
+                      {project.description}
+                    </TableCell>
                     <TableCell>{project.creator}</TableCell>
                     <TableCell align="right">
                       <IconButton onClick={(e) => handleClick(e, project)} aria-label="Options">
