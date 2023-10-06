@@ -81,7 +81,7 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
       )}
       {projects.length > 0 ? (
         <TableContainer component={Paper} sx={{ marginTop: 2 }}>
-          <Table aria-label="simple table">
+          <Table aria-label="Project list">
             <TableHead sx={{ backgroundColor: "primary.main" }}>
               <TableRow>
                 <TableCell sx={{ color: "primary.contrastText" }}>Name</TableCell>
