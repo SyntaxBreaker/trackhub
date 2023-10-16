@@ -14,6 +14,7 @@ import {
   ListItemText,
   ListItemButton,
   Link,
+  Icon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -24,6 +25,7 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/router";
 
 const drawerWidth = 240;
 
@@ -60,6 +62,7 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const { user } = useUser();
+  const { pathname } = useRouter();
 
   const menuItems = [
     {
@@ -123,10 +126,10 @@ export default function PersistentDrawerLeft() {
         <List>
           {menuItems.map((menuItem) => (
             <Link href={menuItem.link} underline="none" color="inherit" key={menuItem.id}>
-              <ListItem disablePadding>
+              <ListItem disablePadding sx={{ backgroundColor: pathname === menuItem.link ? "primary.main" : "transparent", color: pathname === menuItem.link ? "white" : "inherit" }}>
                 <ListItemButton>
                   <ListItemIcon>
-                    <menuItem.icon />
+                    <Icon component={menuItem.icon} sx={{ color: pathname === menuItem.link ? "white" : "inherit" }} />
                   </ListItemIcon>
                   <ListItemText primary={menuItem.name} />
                 </ListItemButton>
