@@ -226,7 +226,8 @@ export default function TaskList({
                   Edit task
                 </MenuItem>
                 <MenuItem
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     handleClose();
                     handleDeleteTask();
                   }}
