@@ -139,7 +139,7 @@ export default function TaskList({
               sx={{
                 padding: 1,
                 borderRadius: 2,
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                boxShadow: "rgba(0, 0, 0, 0.18) 0px 0px 0px 1px",
                 "&:hover": {
                   cursor: "pointer",
                   transform: "scale3d(1.004, 1.004, 1)",
