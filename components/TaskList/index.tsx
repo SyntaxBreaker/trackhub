@@ -72,6 +72,7 @@ export default function TaskList({
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          alignItems: "center",
           marginBottom: "16px",
           gap: "8px",
           flexWrap: "wrap",
@@ -126,7 +127,7 @@ export default function TaskList({
           )
       )}
       {tasks && tasks.length > 0 ? (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Box sx={{ display: "flex", flexDirection: "row", flexWrap: 'wrap', gap: "16px" }}>
           {tasks.map((task) => (
             <Card
               key={task.id}
@@ -143,6 +144,7 @@ export default function TaskList({
                   cursor: "pointer",
                   transform: "scale3d(1.004, 1.004, 1)",
                 },
+                flexBasis: 'calc(33% - 7px)',
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
