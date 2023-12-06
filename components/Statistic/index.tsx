@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
 
-export default function GridItem({
+export default function Statistic({
   icon,
   title,
   description,
