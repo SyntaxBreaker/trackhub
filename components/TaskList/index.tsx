@@ -81,7 +81,7 @@ export default function TaskList({
         <Typography variant="h5" component="h2">
           Recent Tasks ({tasks?.length})
         </Typography>
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Box sx={{display: "flex", gap: 1 }}>
           <Button component={Link} href={`/`} startIcon={<ArrowBackIcon />} variant="contained" color="primary">
             Back to projects
           </Button>
@@ -127,7 +127,7 @@ export default function TaskList({
           )
       )}
       {tasks && tasks.length > 0 ? (
-        <Box sx={{ display: "flex", flexDirection: "row", flexWrap: 'wrap', gap: "16px" }}>
+        <Box sx={{ marginTop: 4, display: "flex", flexDirection: {xs: "column", md: "row"}, flexWrap: 'wrap', gap: "16px" }}>
           {tasks.map((task) => (
             <Card
               key={task.id}
@@ -144,7 +144,7 @@ export default function TaskList({
                   cursor: "pointer",
                   transform: "scale3d(1.004, 1.004, 1)",
                 },
-                flexBasis: 'calc(33% - 7px)',
+                flexBasis: {xs: '100%', md: 'calc(33% - 7px)'},
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
