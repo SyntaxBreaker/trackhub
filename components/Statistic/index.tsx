@@ -11,7 +11,7 @@ export default function Statistic({
 }) {
   return (
     <Grid item xs={12} sm={6}>
-      <Paper elevation={4} sx={{ padding: 2, display: "flex", alignItems: "center", gap: 2 }}>
+      <Paper variant="outlined" sx={{ padding: 2, display: "flex", alignItems: "center", gap: 2 }}>
         {icon}
         <Box>
           <Typography variant="body2" component="h2">
