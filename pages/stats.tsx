@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import TimerIcon from "@mui/icons-material/Timer";
 import DoneIcon from "@mui/icons-material/Done";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -13,6 +13,8 @@ import Head from "next/head";
 import ITask from "../types/task";
 import ProjectStats from "../components/ProjectStats";
 import { IStatsPerProject } from "../types/project";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useRouter } from "next/router";
 
 function UserStats({
   totalTime,
@@ -28,6 +30,7 @@ function UserStats({
   statsPerProject: IStatsPerProject;
 }) {
   const { user } = useUser();
+  const router = useRouter();
 
   return (
     <>
@@ -35,17 +38,41 @@ function UserStats({
         <title>Stats Overview</title>
       </Head>
       <Box sx={{ paddingTop: 1 }}>
-        <Typography variant="h5" component="h1">
-          Welcome back, {user?.nickname}!
-        </Typography>
-        <Typography variant="body1" component="p">
-          Here&apos;s what&apos;s happening with your stats:
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 1,
+            flexWrap: "wrap",
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography variant="h5" component="h1">
+              Welcome back, {user?.nickname}!
+            </Typography>
+            <Typography variant="body1" component="p">
+              Here&apos;s what&apos;s happening with your stats:
+            </Typography>
+          </Box>
+          <Button
+            onClick={() => router.back()}
+            startIcon={<ArrowBackIcon />}
+            variant="outlined"
+            color="primary"
+            size="medium"
+          >
+            Back
+          </Button>
+        </Box>
         <Grid container spacing={2} direction="row" sx={{ marginTop: 1 }}>
           <Statistic
             icon={<TimerIcon fontSize="large" />}
             title="Total Time Tracker"
-            description={secondsToDhms(totalTime) ? secondsToDhms(totalTime) : "-"}
+            description={
+              secondsToDhms(totalTime) ? secondsToDhms(totalTime) : "-"
+            }
           />
           <Statistic
             icon={<DoneIcon fontSize="large" />}
@@ -55,7 +82,11 @@ function UserStats({
           <Statistic
             icon={<AccessTimeIcon fontSize="large" />}
             title="Average Time per Task Analysis"
-            description={secondsToDhms(averageTimePerTask) ? secondsToDhms(averageTimePerTask) : "-"}
+            description={
+              secondsToDhms(averageTimePerTask)
+                ? secondsToDhms(averageTimePerTask)
+                : "-"
+            }
           />
           <Statistic
             icon={<EventBusyIcon fontSize="large" />}
@@ -90,9 +121,12 @@ export const getServerSideProps = withPageAuthRequired({
 
     const totalTime = tasks.reduce((acc, curr) => acc + curr.duration, 0);
     const completedTasks = tasks.filter((task) => task.status === "COMPLETED");
-    const averageTimePerTask = completedTasks.reduce((acc, curr) => acc + curr.duration, 0) / completedTasks.length;
+    const averageTimePerTask =
+      completedTasks.reduce((acc, curr) => acc + curr.duration, 0) /
+      completedTasks.length;
     const missedDeadlines = tasks.filter(
-      (task) => task.status !== "COMPLETED" && calculateRemainingDays(task.deadline) < 0,
+      (task) =>
+        task.status !== "COMPLETED" && calculateRemainingDays(task.deadline) < 0
     ).length;
 
     let statsPerProject: IStatsPerProject = {};
@@ -108,7 +142,10 @@ export const getServerSideProps = withPageAuthRequired({
       const { projectId } = task;
       projectGroup[projectId] = projectGroup[projectId] || { tasks: [] };
       projectGroup[projectId]["name"] = task.Project.name;
-      projectGroup[projectId]["tasks"] = [...projectGroup[projectId]["tasks"], task as ITask];
+      projectGroup[projectId]["tasks"] = [
+        ...projectGroup[projectId]["tasks"],
+        task as ITask,
+      ];
     });
 
     for (const project in projectGroup) {
@@ -118,7 +155,9 @@ export const getServerSideProps = withPageAuthRequired({
       projectGroup[project]["tasks"].forEach((task) => {
         totalTimePerProject += task.duration;
         task.status === "COMPLETED" && (completedTasksPerProject += 1);
-        task.status !== "COMPLETED" && calculateRemainingDays(task.deadline) < 0 && (missedDeadlinesPerProject += 1);
+        task.status !== "COMPLETED" &&
+          calculateRemainingDays(task.deadline) < 0 &&
+          (missedDeadlinesPerProject += 1);
       });
 
       statsPerProject[project] = {
@@ -127,7 +166,10 @@ export const getServerSideProps = withPageAuthRequired({
         completedTasks: completedTasksPerProject,
         missedDeadlines: missedDeadlinesPerProject,
         averageTime:
-          totalTimePerProject / projectGroup[project].tasks.filter((task) => task.status === "COMPLETED").length || 0,
+          totalTimePerProject /
+            projectGroup[project].tasks.filter(
+              (task) => task.status === "COMPLETED"
+            ).length || 0,
       };
     }
 
