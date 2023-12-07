@@ -82,7 +82,7 @@ export default function TaskList({
           Recent Tasks ({tasks?.length})
         </Typography>
         <Box sx={{display: "flex", gap: 1 }}>
-          <Button component={Link} href={`/`} startIcon={<ArrowBackIcon />} variant="contained" color="primary">
+          <Button component={Link} href={`/`} startIcon={<ArrowBackIcon />} variant="outlined" color="primary">
             Back to projects
           </Button>
           <Button
