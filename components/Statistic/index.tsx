@@ -11,13 +11,22 @@ export default function Statistic({
 }) {
   return (
     <Grid item xs={12} sm={6}>
-      <Paper variant="outlined" sx={{ padding: 2, display: "flex", alignItems: "center", gap: 2 }}>
+      <Paper
+        variant="outlined"
+        sx={{
+          padding: 2,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+        }}
+      >
         {icon}
         <Box>
-          <Typography variant="body2" component="h2">
+          <Typography variant="body2" component="h2" color="grey.600">
             {title}
           </Typography>
-          <Typography variant="h6" component="p">
+          <Typography variant="h6" component="p" textAlign="right">
             {description}
           </Typography>
         </Box>
