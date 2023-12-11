@@ -35,7 +35,7 @@ function UserStats({
   return (
     <>
       <Head>
-        <title>Stats Overview</title>
+        <title>TrackHub | Stats Overview</title>
       </Head>
       <Box sx={{ paddingTop: 1 }}>
         <Box

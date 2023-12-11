@@ -27,7 +27,7 @@ export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
   return (
     <>
       <Head>
-        <title>Create a new task</title>
+        <title>TrackHub | Create a new task</title>
       </Head>
       {!isAuthorised ? (
         <Alert severity="error">

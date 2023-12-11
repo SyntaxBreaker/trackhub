@@ -22,7 +22,7 @@ export default function Tasks({ tasks: propTasks, isAuthorised }: { tasks?: ITas
   return (
     <>
       <Head>
-        <title>Task List</title>
+        <title>TrackHub | Task List</title>
       </Head>
       {!isAuthorised ? (
         <Alert severity="error">

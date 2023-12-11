@@ -14,7 +14,7 @@ export default function Create() {
   return (
     <>
       <Head>
-        <title>Create a new project</title>
+        <title>TrackHub | Create a new project</title>
       </Head>
       <Box sx={{ marginTop: "32px" }}>
         <ProjectForm user={user} method="POST" />

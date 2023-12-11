@@ -8,7 +8,7 @@ function Home({ projects }: { projects: IProject[] }) {
   return (
     <>
       <Head>
-        <title>Project List</title>
+        <title>TrackHub | Project List</title>
       </Head>
       <ProjectList projects={projects} />
     </>
