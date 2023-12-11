@@ -1,4 +1,14 @@
-import { Alert, Box, Button, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Fragment, useEffect, useState } from "react";
 import IProject from "../../types/project";
@@ -20,7 +30,11 @@ import axios from "axios";
 import ProjectModal from "../ProjectModal";
 import useIsMobileView from "../../hooks/useIsMobileView";
 
-export default function ProjectList({ projects: propProjects }: { projects: IProject[] }) {
+export default function ProjectList({
+  projects: propProjects,
+}: {
+  projects: IProject[];
+}) {
   const [projects, setProjects] = useState(propProjects);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedItem, setSelectedItem] = useState<IProject | null>(null);
@@ -35,7 +49,10 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
     if (!isLoading && !user) router.push("/api/auth/login");
   }, [user, isLoading]);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLTableRowElement>, item: IProject) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLTableRowElement>,
+    item: IProject,
+  ) => {
     setAnchorEl(e.currentTarget);
     setSelectedItem(item);
   };
@@ -51,7 +68,9 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
       .then((res) => {
         setError("");
         const { deletedProject } = res.data;
-        setProjects((projects) => projects.filter((project) => project.id !== deletedProject.id));
+        setProjects((projects) =>
+          projects.filter((project) => project.id !== deletedProject.id),
+        );
         setSelectedItem(null);
         setIsOpen(false);
       })
@@ -70,7 +89,13 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
         <Typography variant="h5" component="h1">
           Project list:
         </Typography>
-        <Button component={Link} href="/projects/create" startIcon={<AddIcon />} variant="contained" color="primary">
+        <Button
+          component={Link}
+          href="/projects/create"
+          startIcon={<AddIcon />}
+          variant="contained"
+          color="primary"
+        >
           New project
         </Button>
       </Box>
@@ -80,13 +105,23 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
         </Alert>
       )}
       {projects.length > 0 ? (
-        <TableContainer component={Paper} variant="outlined" sx={{ marginTop: 2 }}>
+        <TableContainer
+          component={Paper}
+          variant="outlined"
+          sx={{ marginTop: 2 }}
+        >
           <Table aria-label="Project list">
             <TableHead sx={{ backgroundColor: "primary.main" }}>
               <TableRow>
-                <TableCell sx={{ color: "primary.contrastText" }}>Name</TableCell>
-                <TableCell sx={{ color: "primary.contrastText" }}>Description</TableCell>
-                <TableCell sx={{ color: "primary.contrastText" }}>Creator</TableCell>
+                <TableCell sx={{ color: "primary.contrastText" }}>
+                  Name
+                </TableCell>
+                <TableCell sx={{ color: "primary.contrastText" }}>
+                  Description
+                </TableCell>
+                <TableCell sx={{ color: "primary.contrastText" }}>
+                  Creator
+                </TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
@@ -102,17 +137,26 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
                     onClick={(e) => isMobile && handleClick(e, project)}
                   >
                     <TableCell>{project.name}</TableCell>
-                    <TableCell sx={{ whiteSpace: "pre-wrap", minWidth: "250px" }}>
+                    <TableCell
+                      sx={{ whiteSpace: "pre-wrap", minWidth: "250px" }}
+                    >
                       {project.description}
                     </TableCell>
                     <TableCell>{project.creator}</TableCell>
                     <TableCell align="right">
-                      <IconButton onClick={(e) => handleClick(e, project)} aria-label="Options">
+                      <IconButton
+                        onClick={(e) => handleClick(e, project)}
+                        aria-label="Options"
+                      >
                         <MoreVertIcon fontSize="small" />
                       </IconButton>
                     </TableCell>
                   </TableRow>
-                  <Menu open={Boolean(anchorEl) && selectedItem === project} onClose={handleClose} anchorEl={anchorEl}>
+                  <Menu
+                    open={Boolean(anchorEl) && selectedItem === project}
+                    onClose={handleClose}
+                    anchorEl={anchorEl}
+                  >
                     <MenuItem
                       onClick={() => {
                         handleClose();

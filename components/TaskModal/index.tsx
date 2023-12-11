@@ -165,20 +165,27 @@ export default function TaskModal({
           }}
         >
           <Typography sx={{ fontSize: 12 }} color="text.secondary">
-            <AccessTimeIcon color="warning" sx={{ fontSize: 12, verticalAlign: "text-top" }} />{" "}
+            <AccessTimeIcon
+              color="warning"
+              sx={{ fontSize: 12, verticalAlign: "text-top" }}
+            />{" "}
             {task.status === "COMPLETED"
               ? "Completed"
               : calculateRemainingDays(task.deadline) >= 1
-              ? `Due in ${calculateRemainingDays(task.deadline)} ${
-                  calculateRemainingDays(task.deadline) === 1 ? "day" : "days"
-                }`
-              : calculateRemainingDays(task.deadline) === 0
-              ? "Due is Today"
-              : "Overdue"}
+                ? `Due in ${calculateRemainingDays(task.deadline)} ${
+                    calculateRemainingDays(task.deadline) === 1 ? "day" : "days"
+                  }`
+                : calculateRemainingDays(task.deadline) === 0
+                  ? "Due is Today"
+                  : "Overdue"}
           </Typography>
           <AvatarGroup>
             <Tooltip title={task.authorName} arrow>
-              <Avatar src={task.authorAvatar} alt={task.authorName} sx={{ width: 24, height: 24 }} />
+              <Avatar
+                src={task.authorAvatar}
+                alt={task.authorName}
+                sx={{ width: 24, height: 24 }}
+              />
             </Tooltip>
           </AvatarGroup>
         </Box>

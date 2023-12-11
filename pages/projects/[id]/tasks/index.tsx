@@ -7,7 +7,13 @@ import { useRouter } from "next/router";
 import { Alert } from "@mui/material";
 import Head from "next/head";
 
-export default function Tasks({ tasks: propTasks, isAuthorised }: { tasks?: ITask[]; isAuthorised: boolean }) {
+export default function Tasks({
+  tasks: propTasks,
+  isAuthorised,
+}: {
+  tasks?: ITask[];
+  isAuthorised: boolean;
+}) {
   const [tasks, setTasks] = useState(propTasks);
   const router = useRouter();
 
@@ -26,7 +32,8 @@ export default function Tasks({ tasks: propTasks, isAuthorised }: { tasks?: ITas
       </Head>
       {!isAuthorised ? (
         <Alert severity="error">
-          You are not authorised to access this page. You will be redirected to the homepage.
+          You are not authorised to access this page. You will be redirected to
+          the homepage.
         </Alert>
       ) : (
         <TaskList tasks={tasks} setTasks={setTasks} />
@@ -52,7 +59,9 @@ export const getServerSideProps = withPageAuthRequired({
 
       if (
         tasks.some(
-          (task) => task.authorId === session?.user.email || task.Project.assignees.includes(session?.user.email),
+          (task) =>
+            task.authorId === session?.user.email ||
+            task.Project.assignees.includes(session?.user.email),
         )
       ) {
         data = {
@@ -66,7 +75,10 @@ export const getServerSideProps = withPageAuthRequired({
           },
         });
 
-        if (project?.creator === session?.user.email || project?.assignees.includes(session?.user.email)) {
+        if (
+          project?.creator === session?.user.email ||
+          project?.assignees.includes(session?.user.email)
+        ) {
           data = {
             tasks: [],
             isAuthorised: true,

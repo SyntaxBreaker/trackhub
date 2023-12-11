@@ -89,7 +89,7 @@ export default function TaskList({
               Important: Task &quot;{task.name}&quot; is overdue. You can change
               the deadline.
             </Alert>
-          )
+          ),
       )}
       {tasks && tasks.length > 0 ? (
         <Box

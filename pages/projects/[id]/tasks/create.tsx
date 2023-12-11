@@ -31,7 +31,8 @@ export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
       </Head>
       {!isAuthorised ? (
         <Alert severity="error">
-          You are not authorised to access this page. You will be redirected to the homepage.
+          You are not authorised to access this page. You will be redirected to
+          the homepage.
         </Alert>
       ) : (
         <Box sx={{ marginTop: "32px" }}>
@@ -54,7 +55,9 @@ export const getServerSideProps = withPageAuthRequired({
       },
     });
 
-    const isAuthorised = project?.creator === session?.user.email || project?.assignees.includes(session?.user.email);
+    const isAuthorised =
+      project?.creator === session?.user.email ||
+      project?.assignees.includes(session?.user.email);
 
     return {
       props: {

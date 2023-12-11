@@ -25,7 +25,9 @@ export default function CommentList({
           id: "",
         });
         const { deletedComment } = res.data;
-        setComments((comments) => comments.filter((comment) => comment.id !== deletedComment.id));
+        setComments((comments) =>
+          comments.filter((comment) => comment.id !== deletedComment.id),
+        );
       })
       .catch((err) =>
         setError({
@@ -70,7 +72,11 @@ export default function CommentList({
               </IconButton>
             )}
           </Box>
-          <Typography variant="body1" color="text.secondary" sx={{ wordBreak: "break-word", marginTop: 1 }}>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{ wordBreak: "break-word", marginTop: 1 }}
+          >
             {comment.text}
           </Typography>
           {error.id === comment.id && error.message.length > 0 && (

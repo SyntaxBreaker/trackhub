@@ -59,8 +59,8 @@ export default function Task({
       .then((res) => {
         setError("");
         const { deletedTask } = res.data;
-        setTasks((tasks) =>
-          tasks?.filter((task) => task.id !== deletedTask.id)
+        setTasks(
+          (tasks) => tasks?.filter((task) => task.id !== deletedTask.id),
         );
       })
       .catch((err) => setError(err.message));
@@ -151,12 +151,12 @@ export default function Task({
           {task.status === "COMPLETED"
             ? "Completed"
             : calculateRemainingDays(task.deadline) >= 1
-            ? `Due in ${calculateRemainingDays(task.deadline)} ${
-                calculateRemainingDays(task.deadline) === 1 ? "day" : "days"
-              }`
-            : calculateRemainingDays(task.deadline) === 0
-            ? "Due is Today"
-            : "Overdue"}
+              ? `Due in ${calculateRemainingDays(task.deadline)} ${
+                  calculateRemainingDays(task.deadline) === 1 ? "day" : "days"
+                }`
+              : calculateRemainingDays(task.deadline) === 0
+                ? "Due is Today"
+                : "Overdue"}
         </Typography>
         <AvatarGroup sx={{ marginRight: 0.75 }}>
           <Tooltip title={task.authorName} arrow>

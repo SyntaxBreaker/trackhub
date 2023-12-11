@@ -120,7 +120,8 @@ export const getServerSideProps = withPageAuthRequired({
       completedTasks.length;
     const missedDeadlines = tasks.filter(
       (task) =>
-        task.status !== "COMPLETED" && calculateRemainingDays(task.deadline) < 0
+        task.status !== "COMPLETED" &&
+        calculateRemainingDays(task.deadline) < 0,
     ).length;
 
     let statsPerProject: IStatsPerProject = {};
@@ -161,11 +162,11 @@ export const getServerSideProps = withPageAuthRequired({
         missedDeadlines: missedDeadlinesPerProject,
         averageTime:
           projectGroup[project].tasks.filter(
-            (task) => task.status === "COMPLETED"
+            (task) => task.status === "COMPLETED",
           ).length > 0
             ? totalTimePerProject /
               projectGroup[project].tasks.filter(
-                (task) => task.status === "COMPLETED"
+                (task) => task.status === "COMPLETED",
               ).length
             : 0,
       };

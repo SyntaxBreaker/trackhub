@@ -99,7 +99,13 @@ export default function TaskForm({
         .then((res) => {
           setError(null);
           const { updatedTask } = res.data;
-          setTasks && setTasks((tasks) => tasks?.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
+          setTasks &&
+            setTasks(
+              (tasks) =>
+                tasks?.map((task) =>
+                  task.id === updatedTask.id ? updatedTask : task,
+                ),
+            );
           setIsOpen && setIsOpen(false);
         })
         .catch((err) => setError(err.message));
@@ -131,7 +137,10 @@ export default function TaskForm({
       {error && <Alert severity="error">{error}</Alert>}
       <TextField
         error={!validateField(formData.name) ? true : false}
-        helperText={!validateField(formData.name) && "This name should have at least one character."}
+        helperText={
+          !validateField(formData.name) &&
+          "This name should have at least one character."
+        }
         id="name"
         name="name"
         label="Name"
@@ -168,7 +177,12 @@ export default function TaskForm({
         ) : (
           <Box
             onClick={() => setIsEditing(true)}
-            sx={{ padding: 1, position: "relative", border: "1px solid gray", borderRadius: "4px" }}
+            sx={{
+              padding: 1,
+              position: "relative",
+              border: "1px solid gray",
+              borderRadius: "4px",
+            }}
           >
             <Typography
               sx={{
@@ -184,7 +198,9 @@ export default function TaskForm({
             >
               Description
             </Typography>
-            <ReactMarkdown className={styles.reactMarkdown}>{formData.description}</ReactMarkdown>
+            <ReactMarkdown className={styles.reactMarkdown}>
+              {formData.description}
+            </ReactMarkdown>
           </Box>
         )}
       </Box>
@@ -253,7 +269,12 @@ export default function TaskForm({
             label="Completed"
           />
           {task && user?.email === task.assignedUser && (
-            <Timer id={task.id} duration={duration} setDuration={setDuration} handleSubmit={handleSubmit} />
+            <Timer
+              id={task.id}
+              duration={duration}
+              setDuration={setDuration}
+              handleSubmit={handleSubmit}
+            />
           )}
         </>
       )}

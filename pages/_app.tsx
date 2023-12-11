@@ -3,7 +3,11 @@ import type { AppProps } from "next/app";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import Sidebar from "../components/Sidebar";
 import { Box, IconButton } from "@mui/material";
-import { createTheme, ThemeProvider, useColorScheme } from "@mui/material/styles";
+import {
+  createTheme,
+  ThemeProvider,
+  useColorScheme,
+} from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";

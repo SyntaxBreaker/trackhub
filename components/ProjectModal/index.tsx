@@ -43,7 +43,10 @@ export default function ProjectModal({
   };
 
   return (
-    <Modal open={isOpen && selectedItem?.id === project.id} onClose={() => setIsOpen(!isOpen)}>
+    <Modal
+      open={isOpen && selectedItem?.id === project.id}
+      onClose={() => setIsOpen(!isOpen)}
+    >
       <Box sx={style}>
         <>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -51,7 +54,13 @@ export default function ProjectModal({
               <CloseIcon />
             </IconButton>
           </Box>
-          <ProjectForm user={user} method="PATCH" project={project} setIsOpen={setIsOpen} setProjects={setProjects} />
+          <ProjectForm
+            user={user}
+            method="PATCH"
+            project={project}
+            setIsOpen={setIsOpen}
+            setProjects={setProjects}
+          />
         </>
       </Box>
     </Modal>

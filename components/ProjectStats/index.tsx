@@ -1,14 +1,28 @@
-import { Paper, Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
 import { secondsToDhms } from "../../utils/time";
 import { IStatsPerProject } from "../../types/project";
 
-export default function ProjectStats({ statsPerProject }: { statsPerProject: IStatsPerProject }) {
+export default function ProjectStats({
+  statsPerProject,
+}: {
+  statsPerProject: IStatsPerProject;
+}) {
   return (
     <TableContainer component={Paper} variant="outlined" sx={{ mt: 4 }}>
       <Table aria-label="Project Statistics">
         <TableHead sx={{ backgroundColor: "primary.main" }}>
           <TableRow>
-            <TableCell sx={{ color: "primary.contrastText" }}>Project name</TableCell>
+            <TableCell sx={{ color: "primary.contrastText" }}>
+              Project name
+            </TableCell>
             <TableCell align="left" sx={{ color: "primary.contrastText" }}>
               Completed tasks
             </TableCell>
@@ -30,8 +44,12 @@ export default function ProjectStats({ statsPerProject }: { statsPerProject: ISt
                 {stat.name}
               </TableCell>
               <TableCell align="left">{stat.completedTasks}</TableCell>
-              <TableCell align="left">{secondsToDhms(stat.totalTime) || "-"}</TableCell>
-              <TableCell align="left">{secondsToDhms(stat.averageTime) || "-"}</TableCell>
+              <TableCell align="left">
+                {secondsToDhms(stat.totalTime) || "-"}
+              </TableCell>
+              <TableCell align="left">
+                {secondsToDhms(stat.averageTime) || "-"}
+              </TableCell>
               <TableCell align="left">{stat.missedDeadlines}</TableCell>
             </TableRow>
           ))}

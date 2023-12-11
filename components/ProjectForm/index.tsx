@@ -96,8 +96,11 @@ export default function ProjectForm({
           setError(null);
           const { updatedProject } = res.data;
           setProjects &&
-            setProjects((projects) =>
-              projects?.map((project) => (project.id === updatedProject.id ? updatedProject : project))
+            setProjects(
+              (projects) =>
+                projects?.map((project) =>
+                  project.id === updatedProject.id ? updatedProject : project,
+                ),
             );
           setIsOpen && setIsOpen(false);
         })
@@ -124,7 +127,10 @@ export default function ProjectForm({
       {error && <Alert severity="error">{error}</Alert>}
       <TextField
         error={!validateField(formData.name) ? true : false}
-        helperText={!validateField(formData.name) && "This name should have at least one character."}
+        helperText={
+          !validateField(formData.name) &&
+          "This name should have at least one character."
+        }
         id="name"
         name="name"
         label="Name"
@@ -177,7 +183,9 @@ export default function ProjectForm({
                   <TableRow key={assignee}>
                     <TableCell>{assignee}</TableCell>
                     <TableCell align="right">
-                      <IconButton onClick={() => handleRemoveAssignee(assignee)}>
+                      <IconButton
+                        onClick={() => handleRemoveAssignee(assignee)}
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -218,7 +226,12 @@ export default function ProjectForm({
           </TableContainer>
         </>
       )}
-      <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 1 }}>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        sx={{ marginTop: 1 }}
+      >
         {method === "POST" ? "Add a new project" : "Edit the project"}
       </Button>
     </Box>

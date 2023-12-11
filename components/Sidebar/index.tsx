@@ -119,17 +119,38 @@ export default function PersistentDrawerLeft() {
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
           {menuItems.map((menuItem) => (
-            <Link href={menuItem.link} underline="none" color="inherit" key={menuItem.id}>
-              <ListItem disablePadding sx={{ backgroundColor: pathname === menuItem.link ? "primary.main" : "transparent", color: pathname === menuItem.link ? "white" : "inherit" }}>
+            <Link
+              href={menuItem.link}
+              underline="none"
+              color="inherit"
+              key={menuItem.id}
+            >
+              <ListItem
+                disablePadding
+                sx={{
+                  backgroundColor:
+                    pathname === menuItem.link ? "primary.main" : "transparent",
+                  color: pathname === menuItem.link ? "white" : "inherit",
+                }}
+              >
                 <ListItemButton>
                   <ListItemIcon>
-                    <Icon component={menuItem.icon} sx={{ color: pathname === menuItem.link ? "white" : "inherit" }} />
+                    <Icon
+                      component={menuItem.icon}
+                      sx={{
+                        color: pathname === menuItem.link ? "white" : "inherit",
+                      }}
+                    />
                   </ListItemIcon>
                   <ListItemText primary={menuItem.name} />
                 </ListItemButton>
@@ -137,7 +158,14 @@ export default function PersistentDrawerLeft() {
             </Link>
           ))}
         </List>
-        <List sx={{ width: "100%", position: "absolute", bottom: 0, borderTop: "1px solid rgba(0, 0, 0, 0.12)" }}>
+        <List
+          sx={{
+            width: "100%",
+            position: "absolute",
+            bottom: 0,
+            borderTop: "1px solid rgba(0, 0, 0, 0.12)",
+          }}
+        >
           {user ? (
             <Link href="/api/auth/logout" underline="none" color="inherit">
               <ListItem disablePadding>
