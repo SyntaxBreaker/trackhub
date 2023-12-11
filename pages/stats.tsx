@@ -70,9 +70,7 @@ function UserStats({
           <Statistic
             icon={<TimerIcon fontSize="large" />}
             title="Total Time Tracker"
-            description={
-              secondsToDhms(totalTime) ? secondsToDhms(totalTime) : "-"
-            }
+            description={secondsToDhms(totalTime) || "-"}
           />
           <Statistic
             icon={<DoneIcon fontSize="large" />}
@@ -82,11 +80,7 @@ function UserStats({
           <Statistic
             icon={<AccessTimeIcon fontSize="large" />}
             title="Average Time per Task Analysis"
-            description={
-              secondsToDhms(averageTimePerTask)
-                ? secondsToDhms(averageTimePerTask)
-                : "-"
-            }
+            description={secondsToDhms(averageTimePerTask) || "-"}
           />
           <Statistic
             icon={<EventBusyIcon fontSize="large" />}
@@ -166,10 +160,14 @@ export const getServerSideProps = withPageAuthRequired({
         completedTasks: completedTasksPerProject,
         missedDeadlines: missedDeadlinesPerProject,
         averageTime:
-          totalTimePerProject /
-            projectGroup[project].tasks.filter(
-              (task) => task.status === "COMPLETED"
-            ).length || 0,
+          projectGroup[project].tasks.filter(
+            (task) => task.status === "COMPLETED"
+          ).length > 0
+            ? totalTimePerProject /
+              projectGroup[project].tasks.filter(
+                (task) => task.status === "COMPLETED"
+              ).length
+            : 0,
       };
     }
 
