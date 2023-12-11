@@ -118,7 +118,7 @@ export default function ProjectForm({
         gap: "16px",
       }}
     >
-      <Typography variant="h5" component="h2">
+      <Typography variant="h5" component="h1">
         {method === "POST" ? "Create a new project" : "Edit the project"}
       </Typography>
       {error && <Alert severity="error">{error}</Alert>}

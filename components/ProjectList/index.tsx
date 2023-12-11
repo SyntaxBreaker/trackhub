@@ -67,7 +67,7 @@ export default function ProjectList({ projects: propProjects }: { projects: IPro
           alignItems: "center",
         }}
       >
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h1">
           Project list:
         </Typography>
         <Button component={Link} href="/projects/create" startIcon={<AddIcon />} variant="contained" color="primary">

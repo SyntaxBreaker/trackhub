@@ -125,7 +125,7 @@ export default function TaskForm({
         margin: "0 auto",
       }}
     >
-      <Typography variant="h5" component="h2">
+      <Typography variant="h5" component="h1">
         {method === "POST" ? "Create a new task" : "Edit the task"}
       </Typography>
       {error && <Alert severity="error">{error}</Alert>}

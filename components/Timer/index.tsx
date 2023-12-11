@@ -33,7 +33,7 @@ export default function Timer({
 
   return (
     <Box sx={{ marginTop: 1, textAlign: "center" }}>
-      <Typography variant="h6">{secondsToDhms(duration)}</Typography>
+      <Typography variant="h6" component="p">{secondsToDhms(duration)}</Typography>
       <Box sx={{ marginTop: 1, display: "flex", gap: 1, justifyContent: "center" }}>
         <Button variant="outlined" onClick={() => setIsStarted(true)}>
           Start timer

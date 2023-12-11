@@ -36,7 +36,7 @@ export default function TaskList({
           flexWrap: "wrap",
         }}
       >
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h1">
           Recent Tasks ({tasks?.length})
         </Typography>
         <Box sx={{ display: "flex", gap: 1 }}>
