@@ -91,7 +91,15 @@ export default function Task({
           alignItems: "center",
         }}
       >
-        <Typography variant="subtitle1" component="h3">
+        <Typography
+          variant="subtitle1"
+          component="h3"
+          sx={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
           {task.name}
         </Typography>
         <IconButton

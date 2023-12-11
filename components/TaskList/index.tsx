@@ -97,6 +97,7 @@ export default function TaskList({
             marginTop: 4,
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
+            alignItems: "flex-start",
             flexWrap: "wrap",
             gap: "16px",
           }}
