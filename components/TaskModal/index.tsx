@@ -31,7 +31,7 @@ const style = {
   width: {
     xs: "350px",
     sm: "550px",
-    md: "750px",
+    md: "75%",
   },
   bgcolor: "background.paper",
   borderRadius: 2,
