@@ -81,7 +81,11 @@ export default function Task({
           cursor: "pointer",
           transform: "scale3d(1.004, 1.004, 1)",
         },
-        flexBasis: { xs: "100%", md: "calc(33% - 7px)" },
+        flexBasis: {
+          xs: "100%",
+          md: "calc(50% - 8px)",
+          lg: "calc(33% - 7px)",
+        },
       }}
     >
       <Box
@@ -98,6 +102,10 @@ export default function Task({
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
+            width: {
+              xs: "250px",
+              sm: "400px",
+            },
           }}
         >
           {task.name}
