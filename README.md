@@ -13,7 +13,7 @@ TrackHub is an application designed to help freelancers and small businesses eas
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -46,6 +46,8 @@ A list of key features of the project, each described in detail:
 - Task Management: Within each project, users can create tasks, set priorities, and assign them to specific team members. They can track task completion status and add comments.
 
 - Time Tracking: "TrackHub" offers built-in time tracking functionality, allowing users to record the time spent on each task. It helps freelancers and businesses accurately track billable hours and maintain transparency with clients.
+
+- Project Chat (Work in progress): Engage in project discussions with project-dedicated chat designed to improve communication within your team.
 
 ## License
 
