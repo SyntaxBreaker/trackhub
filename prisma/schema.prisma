@@ -34,6 +34,7 @@ model Project {
   creator     String
   assignees   String[]
   tasks       Task[]
+  chat        Chat[]
 }
 
 model Comment {
@@ -44,6 +45,23 @@ model Comment {
   text         String
   Task         Task?   @relation(fields: [taskId], references: [id])
   taskId       String? @db.ObjectId
+}
+
+model Chat {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  Project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String    @db.ObjectId
+  messages  Message[]
+}
+
+model Message {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  authorId     String
+  authorName   String
+  authorAvatar String
+  text         String
+  chat         Chat   @relation(fields: [chatId], references: [id])
+  chatId       String @db.ObjectId
 }
 
 enum Status {
