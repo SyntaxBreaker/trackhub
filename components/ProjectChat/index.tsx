@@ -48,13 +48,18 @@ function ProjectChat({ chat }: { chat: IChat }) {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Paper elevation={1} sx={{ p: 2 }}>
+      <Paper
+        elevation={2}
+        sx={{ display: "flex", flexDirection: "column", gap: 2, p: 2 }}
+      >
         <Typography variant="h5" component="h1" textAlign="center">
           {projectTitle}
         </Typography>
-        {messages.map((message) => (
-          <Message message={message} key={message.id} />
-        ))}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {messages.map((message) => (
+            <Message message={message} key={message.id} />
+          ))}
+        </Box>
         <FormControl
           component="form"
           sx={{ display: "flex", gap: 1 }}
