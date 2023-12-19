@@ -7,19 +7,20 @@ import {
   Typography,
 } from "@mui/material";
 import { IChat } from "../../types/chat";
-import { useRouter } from "next/navigation";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import axios from "axios";
 import Message from "../Message";
 
 function ProjectChat({ chat }: { chat: IChat }) {
   const [message, setMessage] = useState("");
+  const [conversations, setConversations] = useState<IChat | null>(null);
 
   const projectTitle = chat.Project.name;
-  const messages = chat.messages;
+  const messages = conversations?.messages;
 
   const { user } = useUser();
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const addMessage = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -36,8 +37,8 @@ function ProjectChat({ chat }: { chat: IChat }) {
       .patch("/api/chat/create", {
         ...data,
       })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        getConversations();
       })
       .catch((err) => {
         console.log(err);
@@ -46,17 +47,42 @@ function ProjectChat({ chat }: { chat: IChat }) {
     setMessage("");
   };
 
+  const getConversations = async () => {
+    let { data } = await axios.get(`/api/chat/${chat.Project.id}`);
+    setConversations(data.chat);
+  };
+
+  useEffect(() => {
+    ref.current?.lastElementChild?.scrollIntoView();
+    const interval = setInterval(getConversations, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Box sx={{ p: 2 }}>
       <Paper
         elevation={2}
-        sx={{ display: "flex", flexDirection: "column", gap: 2, p: 2 }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          p: 2,
+          height: "calc(100vh - 192px)",
+        }}
       >
         <Typography variant="h5" component="h1" textAlign="center">
           {projectTitle}
         </Typography>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          {messages.map((message) => (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            overflowY: "auto",
+          }}
+          ref={ref}
+        >
+          {(messages ?? chat.messages).map((message) => (
             <Message message={message} key={message.id} />
           ))}
         </Box>
