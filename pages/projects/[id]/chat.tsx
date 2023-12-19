@@ -2,6 +2,7 @@ import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import ProjectChat from "../../../components/ProjectChat";
 import { IChat } from "../../../types/chat";
 import axios from "axios";
+import Head from "next/head";
 
 export default function Chat({
   chat: chatProps,
@@ -10,7 +11,14 @@ export default function Chat({
   chat?: IChat;
   isAuthorised: boolean;
 }) {
-  return isAuthorised && chatProps && <ProjectChat chat={chatProps} />;
+  return (
+    <>
+      <Head>
+        <title>TrackHub | Project Chat</title>
+      </Head>
+      {isAuthorised && chatProps && <ProjectChat chat={chatProps} />}
+    </>
+  );
 }
 
 export const getServerSideProps = withPageAuthRequired({
