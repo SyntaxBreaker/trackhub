@@ -1,6 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { IMessage } from "../../types/chat";
 import Image from "next/image";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 function Message({ message }: { message: IMessage }) {
   return (
@@ -20,15 +21,21 @@ function Message({ message }: { message: IMessage }) {
           maxWidth: "75%",
         }}
       >
-        <Typography variant="subtitle1" component="h2">
-          {message.authorName}
-        </Typography>
+        <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
+          <Typography variant="subtitle1" component="h2">
+            {message.authorName}
+          </Typography>
+          <IconButton size="small">
+            <MoreVertIcon />
+          </IconButton>
+        </Box>
         <Typography
           variant="body2"
           sx={{
             padding: 1,
             borderRadius: "4px",
             backgroundColor: "#f5f5f5",
+            color: "black",
           }}
         >
           {message.text}
