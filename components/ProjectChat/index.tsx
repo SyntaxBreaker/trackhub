@@ -11,10 +11,13 @@ import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import axios from "axios";
 import Message from "../Message";
+import { IAlertStatus } from "../../types/alertStatus";
+import Alert from "../Alert";
 
 function ProjectChat({ chat }: { chat: IChat }) {
   const [message, setMessage] = useState("");
   const [conversations, setConversations] = useState<IChat | null>(null);
+  const [alertStatus, setAlertStatus] = useState<null | IAlertStatus>(null);
 
   const projectTitle = chat.Project.name;
   const messages = conversations?.messages;
@@ -37,11 +40,12 @@ function ProjectChat({ chat }: { chat: IChat }) {
       .patch("/api/chat/create", {
         ...data,
       })
-      .then(() => {
+      .then((res) => {
+        setAlertStatus({ status: "success", message: res.data.message });
         getConversations();
       })
       .catch((err) => {
-        console.log(err);
+        setAlertStatus({ status: "error", message: err.message });
       });
 
     setMessage("");
@@ -58,6 +62,14 @@ function ProjectChat({ chat }: { chat: IChat }) {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setAlertStatus(null);
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [alertStatus]);
+
   return (
     <Box sx={{ p: 2 }}>
       <Paper
@@ -73,6 +85,7 @@ function ProjectChat({ chat }: { chat: IChat }) {
         <Typography variant="h5" component="h1" textAlign="center">
           {projectTitle}
         </Typography>
+        {alertStatus && <Alert {...alertStatus}></Alert>}
         <Box
           sx={{
             display: "flex",
@@ -83,7 +96,11 @@ function ProjectChat({ chat }: { chat: IChat }) {
           ref={ref}
         >
           {(messages ?? chat.messages).map((message) => (
-            <Message message={message} key={message.id} />
+            <Message
+              message={message}
+              setAlertStatus={setAlertStatus}
+              key={message.id}
+            />
           ))}
         </Box>
         <FormControl

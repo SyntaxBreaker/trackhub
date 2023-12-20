@@ -12,8 +12,15 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { SyntheticEvent, useState } from "react";
 import MessageMenu from "../MessageMenu";
 import axios from "axios";
+import { IAlertStatus } from "../../types/alertStatus";
 
-function Message({ message }: { message: IMessage }) {
+function Message({
+  message,
+  setAlertStatus,
+}: {
+  message: IMessage;
+  setAlertStatus: React.Dispatch<React.SetStateAction<IAlertStatus | null>>;
+}) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedMessage, setUpdatedMessage] = useState<null | string>(null);
@@ -31,12 +38,13 @@ function Message({ message }: { message: IMessage }) {
       e.preventDefault();
       handleClose();
       setIsEditing(false);
-      await axios.patch(`/api/chat/edit`, {
+      const { data } = await axios.patch(`/api/chat/edit`, {
         message: updatedMessage,
         id: message.id,
       });
-    } catch (err) {
-      console.log(err);
+      setAlertStatus({ status: "success", message: data.message });
+    } catch (err: any) {
+      setAlertStatus({ status: "error", message: err.message });
     }
   };
 
@@ -98,6 +106,7 @@ function Message({ message }: { message: IMessage }) {
         message={message}
         handleClose={handleClose}
         setIsEditing={setIsEditing}
+        setAlertStatus={setAlertStatus}
       />
     </Box>
   );
