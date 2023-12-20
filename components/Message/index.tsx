@@ -1,15 +1,43 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { IMessage } from "../../types/chat";
 import Image from "next/image";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import MessageMenu from "../MessageMenu";
+import axios from "axios";
 
 function Message({ message }: { message: IMessage }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedMessage, setUpdatedMessage] = useState<null | string>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEditMessage = async (e: SyntheticEvent) => {
+    try {
+      e.preventDefault();
+      handleClose();
+      setIsEditing(false);
+      await axios.patch(`/api/chat/edit`, {
+        message: updatedMessage,
+        id: message.id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -37,22 +65,39 @@ function Message({ message }: { message: IMessage }) {
             <MoreVertIcon />
           </IconButton>
         </Box>
-        <Typography
-          variant="body2"
-          sx={{
-            padding: 1,
-            borderRadius: "4px",
-            backgroundColor: "#f5f5f5",
-            color: "black",
-          }}
-        >
-          {message.text}
-        </Typography>
+        {isEditing ? (
+          <FormControl
+            component="form"
+            sx={{ display: "flex", gap: 1 }}
+            onSubmit={handleEditMessage}
+          >
+            <TextField
+              value={updatedMessage ? updatedMessage : message.text}
+              onChange={(e) => setUpdatedMessage(e.target.value)}
+            />
+            <Button variant="contained" type="submit">
+              Edit message
+            </Button>
+          </FormControl>
+        ) : (
+          <Typography
+            variant="body2"
+            sx={{
+              padding: 1,
+              borderRadius: "4px",
+              backgroundColor: "#f5f5f5",
+              color: "black",
+            }}
+          >
+            {message.text}
+          </Typography>
+        )}
       </Box>
       <MessageMenu
         anchorEl={anchorEl}
-        setAnchorEl={setAnchorEl}
         message={message}
+        handleClose={handleClose}
+        setIsEditing={setIsEditing}
       />
     </Box>
   );

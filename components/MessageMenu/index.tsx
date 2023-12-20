@@ -4,15 +4,13 @@ import axios from "axios";
 
 interface IProps {
   anchorEl: HTMLElement | null;
-  setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
   message: IMessage;
+  handleClose: () => void;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function MessageMenu({ anchorEl, setAnchorEl, message }: IProps) {
+function MessageMenu({ anchorEl, message, handleClose, setIsEditing }: IProps) {
   const open = Boolean(anchorEl);
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleRemoveMessage = async () => {
     try {
@@ -25,7 +23,14 @@ function MessageMenu({ anchorEl, setAnchorEl, message }: IProps) {
 
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-      <MenuItem>Edit</MenuItem>
+      <MenuItem
+        onClick={() => {
+          setIsEditing(true);
+          handleClose();
+        }}
+      >
+        Edit
+      </MenuItem>
       <MenuItem onClick={handleRemoveMessage}>Remove</MenuItem>
     </Menu>
   );
