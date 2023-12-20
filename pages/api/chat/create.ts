@@ -31,7 +31,6 @@ export default async function handler(
       messages: chat,
     });
   } catch (err) {
-    console.error("Error in API", err);
     res.status(500).json(err);
   }
 }
