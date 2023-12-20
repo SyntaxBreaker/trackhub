@@ -1,5 +1,6 @@
 import { Menu, MenuItem } from "@mui/material";
 import { IMessage } from "../../types/chat";
+import axios from "axios";
 
 interface IProps {
   anchorEl: HTMLElement | null;
@@ -13,10 +14,19 @@ function MessageMenu({ anchorEl, setAnchorEl, message }: IProps) {
     setAnchorEl(null);
   };
 
+  const handleRemoveMessage = async () => {
+    try {
+      handleClose();
+      await axios.delete(`/api/chat/delete/${message.id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
       <MenuItem>Edit</MenuItem>
-      <MenuItem>Remove</MenuItem>
+      <MenuItem onClick={handleRemoveMessage}>Remove</MenuItem>
     </Menu>
   );
 }
