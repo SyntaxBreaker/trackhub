@@ -52,7 +52,13 @@ function Message({
   };
 
   return (
-    <Box sx={{ display: "flex", gap: 1.5 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: user?.email === message.authorId ? "row-reverse" : "row",
+        gap: 1.5,
+      }}
+    >
       <Image
         src={message.authorAvatar}
         width={32}
@@ -68,16 +74,6 @@ function Message({
           maxWidth: "75%",
         }}
       >
-        <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
-          <Typography variant="subtitle1" component="h2">
-            {message.authorName}
-          </Typography>
-          {user?.email === message.authorId && (
-            <IconButton size="small" onClick={handleClick}>
-              <MoreVertIcon />
-            </IconButton>
-          )}
-        </Box>
         {isEditing ? (
           <FormControl
             component="form"
@@ -93,17 +89,47 @@ function Message({
             </Button>
           </FormControl>
         ) : (
-          <Typography
-            variant="body2"
+          <Box
             sx={{
-              padding: 1,
-              borderRadius: "4px",
-              backgroundColor: "#f5f5f5",
-              color: "black",
+              display: "flex",
+              gap: 0.5,
+              alignItems: "center",
+              flexDirection:
+                user?.email === message.authorId ? "row-reverse" : "row",
             }}
           >
-            {message.text}
-          </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 0.5,
+                backgroundColor:
+                  user?.email === message.authorId ? "#1976d2" : "#f5f5f5",
+                padding: 1,
+                borderRadius: "4px",
+              }}
+            >
+              <Typography
+                variant="subtitle1"
+                component="h2"
+                color={user?.email === message.authorId ? "white" : "black"}
+                sx={{ fontWeight: "bold" }}
+              >
+                {message.authorName}
+              </Typography>
+              <Typography
+                variant="body2"
+                color={user?.email === message.authorId ? "white" : "black"}
+              >
+                {message.text}
+              </Typography>
+            </Box>
+            {user?.email === message.authorId && (
+              <IconButton size="small" onClick={handleClick}>
+                <MoreVertIcon />
+              </IconButton>
+            )}
+          </Box>
         )}
       </Box>
       <MessageMenu
