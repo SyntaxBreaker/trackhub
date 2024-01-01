@@ -9,7 +9,7 @@ import {
 import { IMessage } from "../../types/chat";
 import Image from "next/image";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import MessageMenu from "../MessageMenu";
 import axios from "axios";
 import { IAlertStatus } from "../../types/alertStatus";
@@ -39,6 +39,7 @@ function Message({
   const handleEditMessage = async (e: SyntheticEvent) => {
     try {
       e.preventDefault();
+      if (updatedMessage?.length === 0) return;
       handleClose();
       setIsEditing(false);
       const { data } = await axios.patch(`/api/chat/edit`, {
@@ -50,6 +51,10 @@ function Message({
       setAlertStatus({ status: "error", message: err.message });
     }
   };
+
+  useEffect(() => {
+    message.text && setUpdatedMessage(message.text);
+  }, []);
 
   return (
     <Box
@@ -81,10 +86,14 @@ function Message({
             onSubmit={handleEditMessage}
           >
             <TextField
-              value={updatedMessage ? updatedMessage : message.text}
+              value={updatedMessage}
               onChange={(e) => setUpdatedMessage(e.target.value)}
             />
-            <Button variant="contained" type="submit">
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={updatedMessage?.length === 0}
+            >
               Edit message
             </Button>
           </FormControl>
