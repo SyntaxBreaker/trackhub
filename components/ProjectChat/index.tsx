@@ -36,6 +36,10 @@ function ProjectChat({ chat }: { chat: IChat }) {
       chatId: chat.id,
     };
 
+    if(message.length === 0) {
+      return;
+    }
+
     axios
       .patch("/api/chat/create", {
         ...data,
@@ -120,7 +124,7 @@ function ProjectChat({ chat }: { chat: IChat }) {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={!message}>
             Submit
           </Button>
         </FormControl>
