@@ -80,6 +80,7 @@ function ProjectChat({ chat }: { chat: IChat }) {
           gap: 2,
           p: 2,
           height: "calc(100vh - 192px)",
+          position: "relative",
         }}
       >
         <Typography variant="h5" component="h1" textAlign="center">
@@ -105,7 +106,13 @@ function ProjectChat({ chat }: { chat: IChat }) {
         </Box>
         <FormControl
           component="form"
-          sx={{ display: "flex", gap: 1 }}
+          sx={{
+            display: "flex",
+            gap: 1,
+            position: "absolute",
+            bottom: "16px",
+            width: "calc(100% - 32px)",
+          }}
           onSubmit={addMessage}
         >
           <TextField
