@@ -13,6 +13,7 @@ import { SyntheticEvent, useState } from "react";
 import MessageMenu from "../MessageMenu";
 import axios from "axios";
 import { IAlertStatus } from "../../types/alertStatus";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 function Message({
   message,
@@ -24,6 +25,8 @@ function Message({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedMessage, setUpdatedMessage] = useState<null | string>(null);
+
+  const { user } = useUser();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -69,9 +72,11 @@ function Message({
           <Typography variant="subtitle1" component="h2">
             {message.authorName}
           </Typography>
-          <IconButton size="small" onClick={handleClick}>
-            <MoreVertIcon />
-          </IconButton>
+          {user?.email === message.authorId && (
+            <IconButton size="small" onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+          )}
         </Box>
         {isEditing ? (
           <FormControl
