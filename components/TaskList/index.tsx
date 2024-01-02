@@ -6,6 +6,7 @@ import { calculateRemainingDays } from "../../utils/date";
 import ITask from "../../types/task";
 import { useEffect, useState } from "react";
 import Task from "../Task";
+import TaskSearchBox from "../TaskSearchBox";
 
 export default function TaskList({
   tasks,
@@ -18,6 +19,7 @@ export default function TaskList({
   const [selectedItem, setSelectedItem] = useState<ITask | null>(null);
   const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [filteredTasks, setFilteredTasks] = useState<ITask[] | null>(null);
 
   useEffect(() => {
     setID(window.location.href.split("/")[4]);
@@ -89,32 +91,35 @@ export default function TaskList({
               Important: Task &quot;{task.name}&quot; is overdue. You can change
               the deadline.
             </Alert>
-          ),
+          )
       )}
       {tasks && tasks.length > 0 ? (
-        <Box
-          sx={{
-            marginTop: 4,
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
-          {tasks.map((task) => (
-            <Task
-              key={task.id}
-              task={task}
-              setTasks={setTasks}
-              setError={setError}
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-              selectedItem={selectedItem}
-              setSelectedItem={setSelectedItem}
-            />
-          ))}
-        </Box>
+        <>
+          <TaskSearchBox tasks={tasks} setFilteredTasks={setFilteredTasks} />
+          <Box
+            sx={{
+              marginTop: 4,
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+              gap: "16px",
+            }}
+          >
+            {(filteredTasks ?? tasks)?.map((task) => (
+              <Task
+                key={task.id}
+                task={task}
+                setTasks={setTasks}
+                setError={setError}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                selectedItem={selectedItem}
+                setSelectedItem={setSelectedItem}
+              />
+            ))}
+          </Box>
+        </>
       ) : (
         <Alert severity="info" variant="outlined">
           There are no tasks.
