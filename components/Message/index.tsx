@@ -86,6 +86,8 @@ function Message({
             onSubmit={handleEditMessage}
           >
             <TextField
+              multiline
+              maxRows={4}
               value={updatedMessage}
               onChange={(e) => setUpdatedMessage(e.target.value)}
             />

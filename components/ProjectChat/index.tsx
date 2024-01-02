@@ -36,7 +36,7 @@ function ProjectChat({ chat }: { chat: IChat }) {
       chatId: chat.id,
     };
 
-    if(message.length === 0) {
+    if (message.length === 0) {
       return;
     }
 
@@ -120,6 +120,8 @@ function ProjectChat({ chat }: { chat: IChat }) {
           onSubmit={addMessage}
         >
           <TextField
+            multiline
+            maxRows={4}
             placeholder="Type your message here..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
