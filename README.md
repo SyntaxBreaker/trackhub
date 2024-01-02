@@ -47,8 +47,6 @@ A list of key features of the project, each described in detail:
 
 - Time Tracking: "TrackHub" offers built-in time tracking functionality, allowing users to record the time spent on each task. It helps freelancers and businesses accurately track billable hours and maintain transparency with clients.
 
-- Project Chat (Work in progress): Engage in project discussions with project-dedicated chat designed to improve communication within your team.
-
 ## License
 
 The project is under the MIT License.
