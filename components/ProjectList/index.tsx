@@ -51,7 +51,7 @@ export default function ProjectList({
 
   const handleClick = (
     e: React.MouseEvent<HTMLButtonElement | HTMLTableRowElement>,
-    item: IProject,
+    item: IProject
   ) => {
     setAnchorEl(e.currentTarget);
     setSelectedItem(item);
@@ -69,7 +69,7 @@ export default function ProjectList({
         setError("");
         const { deletedProject } = res.data;
         setProjects((projects) =>
-          projects.filter((project) => project.id !== deletedProject.id),
+          projects.filter((project) => project.id !== deletedProject.id)
         );
         setSelectedItem(null);
         setIsOpen(false);
@@ -140,7 +140,9 @@ export default function ProjectList({
                     <TableCell
                       sx={{ whiteSpace: "pre-wrap", minWidth: "250px" }}
                     >
-                      {project.description}
+                      {project.description.length === 0
+                        ? "-"
+                        : project.description}
                     </TableCell>
                     <TableCell>{project.creator}</TableCell>
                     <TableCell align="right">
