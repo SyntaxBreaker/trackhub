@@ -19,7 +19,7 @@ export default async function handler(
       },
     });
 
-    res.status(200).json("Project was created");
+    res.status(201).json("Project was created");
   } catch (err) {
     res.status(500).json(err);
   }

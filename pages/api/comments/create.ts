@@ -26,7 +26,7 @@ export default async function handler(
       },
     });
 
-    res.status(200).json({
+    res.status(201).json({
       message: "Comment was created",
       comments: comments.comments,
     });
