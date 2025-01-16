@@ -16,7 +16,7 @@ export default function Header() {
         width: "100%",
       }}
     >
-      <Link href="/" color="inherit" underline="hover">
+      <Link href="/" color="inherit" underline="hover" fontWeight={600}>
         TrackHub
       </Link>
       {user ? (
