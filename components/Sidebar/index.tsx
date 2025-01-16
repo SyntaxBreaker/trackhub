@@ -23,11 +23,25 @@ import ListIcon from "@mui/icons-material/List";
 import Header from "../Header";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import LoginIcon from "@mui/icons-material/Login";
-import LogoutIcon from "@mui/icons-material/Logout";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
 
-const drawerWidth = 240;
+const sidebarWidth = 240;
+
+const menuItems = [
+  {
+    id: "projectList",
+    name: "Project list",
+    icon: ListIcon,
+    link: "/",
+  },
+  {
+    id: "stats",
+    name: "Your stats",
+    icon: QueryStatsIcon,
+    link: "/stats",
+  },
+];
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -41,8 +55,8 @@ const AppBar = styled(MuiAppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
+    width: `calc(100% - ${sidebarWidth}px)`,
+    marginLeft: `${sidebarWidth}px`,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -50,7 +64,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const DrawerHeader = styled("div")(({ theme }) => ({
+const SidebarHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
@@ -58,32 +72,17 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawerLeft() {
+export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const { user } = useUser();
   const { pathname } = useRouter();
 
-  const menuItems = [
-    {
-      id: "projectList",
-      name: "Project list",
-      icon: ListIcon,
-      link: "/",
-    },
-    {
-      id: "stats",
-      name: "Your stats",
-      icon: QueryStatsIcon,
-      link: "/stats",
-    },
-  ];
-
-  const handleDrawerOpen = () => {
+  const handleSidebarOpen = () => {
     setOpen(true);
   };
 
-  const handleDrawerClose = () => {
+  const handleSidebarClose = () => {
     setOpen(false);
   };
 
@@ -94,8 +93,8 @@ export default function PersistentDrawerLeft() {
         <Toolbar>
           <IconButton
             color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            aria-label="open sidebar"
+            onClick={handleSidebarOpen}
             edge="start"
             sx={{ mr: 2, ...(open && { display: "none" }) }}
           >
@@ -106,10 +105,10 @@ export default function PersistentDrawerLeft() {
       </AppBar>
       <Drawer
         sx={{
-          width: drawerWidth,
+          width: sidebarWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
-            width: drawerWidth,
+            width: sidebarWidth,
             boxSizing: "border-box",
           },
         }}
@@ -117,15 +116,15 @@ export default function PersistentDrawerLeft() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+        <SidebarHeader>
+          <IconButton onClick={handleSidebarClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
             ) : (
               <ChevronRightIcon />
             )}
           </IconButton>
-        </DrawerHeader>
+        </SidebarHeader>
         <Divider />
         <List>
           {menuItems.map((menuItem) => (
