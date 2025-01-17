@@ -1,13 +1,11 @@
 import {
   Alert,
   Box,
-  Button,
   IconButton,
   ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
-  Typography,
 } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Fragment, useEffect, useState } from "react";
@@ -19,8 +17,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Link from "next/link";
-import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import EditIcon from "@mui/icons-material/Edit";
@@ -78,27 +74,7 @@ export default function ProjectList({
   };
 
   return (
-    <Box sx={{ p: 2 }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h5" component="h1">
-          Project list:
-        </Typography>
-        <Button
-          component={Link}
-          href="/projects/create"
-          startIcon={<AddIcon />}
-          variant="contained"
-          color="primary"
-        >
-          New project
-        </Button>
-      </Box>
+    <Box>
       {error && (
         <Alert severity="error" sx={{ marginTop: 2 }}>
           {error}

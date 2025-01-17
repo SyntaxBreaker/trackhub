@@ -3,6 +3,8 @@ import { PrismaClient } from "@prisma/client";
 import IProject from "../types/project";
 import ProjectList from "../components/ProjectList";
 import Head from "next/head";
+import { Box } from "@mui/material";
+import ProjectListHeader from "../components/ProjectListHeader";
 
 function Home({ projects }: { projects: IProject[] }) {
   return (
@@ -10,7 +12,10 @@ function Home({ projects }: { projects: IProject[] }) {
       <Head>
         <title>TrackHub | Project List</title>
       </Head>
-      <ProjectList projects={projects} />
+      <Box p={2}>
+        <ProjectListHeader />
+        <ProjectList projects={projects} />
+      </Box>
     </>
   );
 }
