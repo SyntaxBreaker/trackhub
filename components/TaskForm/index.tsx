@@ -256,7 +256,7 @@ export default function TaskForm({
             control={
               <Checkbox
                 checked={formData.status === "COMPLETED" ? true : false}
-                disabled={task?.assignedUser !== user?.email}
+                disabled={formData.assignedUser !== user?.email}
                 onChange={(event) =>
                   setFormData((prevData) => ({
                     ...prevData,
