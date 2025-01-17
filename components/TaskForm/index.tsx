@@ -100,11 +100,10 @@ export default function TaskForm({
           setError(null);
           const { updatedTask } = res.data;
           setTasks &&
-            setTasks(
-              (tasks) =>
-                tasks?.map((task) =>
-                  task.id === updatedTask.id ? updatedTask : task,
-                ),
+            setTasks((tasks) =>
+              tasks?.map((task) =>
+                task.id === updatedTask.id ? updatedTask : task
+              )
             );
           setIsOpen && setIsOpen(false);
         })
@@ -131,7 +130,7 @@ export default function TaskForm({
         margin: "0 auto",
       }}
     >
-      <Typography variant="h5" component="h1">
+      <Typography variant="h5" component="h1" fontWeight={600}>
         {method === "POST" ? "Create a new task" : "Edit the task"}
       </Typography>
       {error && <Alert severity="error">{error}</Alert>}
