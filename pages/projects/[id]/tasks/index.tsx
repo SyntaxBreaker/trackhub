@@ -4,8 +4,9 @@ import { PrismaClient } from "@prisma/client";
 import TaskList from "../../../../components/TaskList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Alert } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import Head from "next/head";
+import TaskListHeader from "../../../../components/TaskListHeader";
 
 export default function Tasks({
   tasks: propTasks,
@@ -14,6 +15,7 @@ export default function Tasks({
   tasks?: ITask[];
   isAuthorised: boolean;
 }) {
+  const [ID, setID] = useState<undefined | string>();
   const [tasks, setTasks] = useState(propTasks);
   const router = useRouter();
 
@@ -22,6 +24,8 @@ export default function Tasks({
       setTimeout(() => {
         router.push("/");
       }, 3000);
+    } else {
+      setID(window.location.href.split("/")[4]);
     }
   }, [isAuthorised]);
 
@@ -36,7 +40,10 @@ export default function Tasks({
           the homepage.
         </Alert>
       ) : (
-        <TaskList tasks={tasks} setTasks={setTasks} />
+        <Box p={2}>
+          <TaskListHeader ID={ID} />
+          <TaskList tasks={tasks} setTasks={setTasks} />
+        </Box>
       )}
     </>
   );
@@ -61,7 +68,7 @@ export const getServerSideProps = withPageAuthRequired({
         tasks.some(
           (task) =>
             task.authorId === session?.user.email ||
-            task.Project.assignees.includes(session?.user.email),
+            task.Project.assignees.includes(session?.user.email)
         )
       ) {
         data = {
