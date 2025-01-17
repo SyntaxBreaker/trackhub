@@ -96,11 +96,10 @@ export default function ProjectForm({
           setError(null);
           const { updatedProject } = res.data;
           setProjects &&
-            setProjects(
-              (projects) =>
-                projects?.map((project) =>
-                  project.id === updatedProject.id ? updatedProject : project,
-                ),
+            setProjects((projects) =>
+              projects?.map((project) =>
+                project.id === updatedProject.id ? updatedProject : project
+              )
             );
           setIsOpen && setIsOpen(false);
         })
@@ -121,7 +120,7 @@ export default function ProjectForm({
         gap: "16px",
       }}
     >
-      <Typography variant="h5" component="h1">
+      <Typography variant="h5" component="h1" fontWeight={600}>
         {method === "POST" ? "Create a new project" : "Edit the project"}
       </Typography>
       {error && <Alert severity="error">{error}</Alert>}
