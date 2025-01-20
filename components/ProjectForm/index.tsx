@@ -231,7 +231,7 @@ export default function ProjectForm({
         color="primary"
         sx={{ marginTop: 1 }}
       >
-        {method === "POST" ? "Add a new project" : "Edit the project"}
+        {method === "POST" ? "Add project" : "Edit project"}
       </Button>
     </Box>
   );

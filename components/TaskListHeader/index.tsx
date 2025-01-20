@@ -40,7 +40,7 @@ export default function TaskListHeader({ ID }: TaskListHeaderProps) {
           variant="contained"
           color="primary"
         >
-          New task
+          Add task
         </Button>
       </Box>
     </Box>

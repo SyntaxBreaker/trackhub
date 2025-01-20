@@ -21,7 +21,7 @@ export default function ProjectListHeader() {
         variant="contained"
         color="primary"
       >
-        New project
+        Add project
       </Button>
     </Box>
   );

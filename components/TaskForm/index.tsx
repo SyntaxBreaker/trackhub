@@ -290,7 +290,7 @@ export default function TaskForm({
         />
       </LocalizationProvider>
       <Button type="submit" variant="contained" color="primary">
-        {method === "POST" ? "Add a new task" : "Edit the task"}
+        {method === "POST" ? "Add task" : "Edit task"}
       </Button>
     </Box>
   );
