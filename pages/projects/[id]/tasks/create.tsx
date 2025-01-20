@@ -35,7 +35,7 @@ export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
           the homepage.
         </Alert>
       ) : (
-        <Box sx={{ marginTop: "32px" }}>
+        <Box>
           <TaskForm user={user} method="POST" />
         </Box>
       )}

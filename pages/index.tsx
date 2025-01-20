@@ -12,7 +12,7 @@ function Home({ projects }: { projects: IProject[] }) {
       <Head>
         <title>TrackHub | Project List</title>
       </Head>
-      <Box p={2}>
+      <Box>
         <ProjectListHeader />
         <ProjectList projects={projects} />
       </Box>

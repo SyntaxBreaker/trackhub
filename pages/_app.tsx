@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <UserProvider>
       <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
         <Sidebar />
-        <Box sx={{ p: 1, maxWidth: "1280px", marginX: "auto" }}>
+        <Box sx={{ maxWidth: "1280px", marginX: "auto", marginTop: "32px" }}>
           <Component {...pageProps} />
         </Box>
       </ThemeProvider>

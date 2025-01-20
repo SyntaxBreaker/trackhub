@@ -40,7 +40,7 @@ export default function Tasks({
           the homepage.
         </Alert>
       ) : (
-        <Box p={2}>
+        <Box>
           <TaskListHeader ID={ID} />
           <TaskList tasks={tasks} setTasks={setTasks} />
         </Box>
