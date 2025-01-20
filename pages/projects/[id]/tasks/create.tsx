@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import TaskForm from "../../../../components/TaskForm";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { PrismaClient } from "@prisma/client";
 import { useRouter } from "next/router";
 import { Alert, Box } from "@mui/material";
 import Head from "next/head";
+import { prismaClient } from "../../../../utils/prisma";
 
 export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
   const { user, isLoading } = useUser();
@@ -46,7 +46,7 @@ export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
     const session = await getSession(ctx.req, ctx.res);
-    const prisma = new PrismaClient();
+    const prisma = prismaClient;
     const { id } = ctx.query;
 
     const project = await prisma.project.findUnique({

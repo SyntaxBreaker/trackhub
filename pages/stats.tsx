@@ -4,7 +4,6 @@ import DoneIcon from "@mui/icons-material/Done";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { PrismaClient } from "@prisma/client";
 import { calculateRemainingDays } from "../utils/date";
 import { secondsToDhms } from "../utils/time";
 import Statistic from "../components/Statistic";
@@ -13,6 +12,7 @@ import ITask from "../types/task";
 import ProjectStats from "../components/ProjectStats";
 import { IStatsPerProject } from "../types/project";
 import StatsHeader from "../components/StatsHeader";
+import { prismaClient } from "../utils/prisma";
 
 function UserStats({
   totalTime,
@@ -65,7 +65,7 @@ function UserStats({
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
     const session = await getSession(ctx.req, ctx.res);
-    const prisma = new PrismaClient();
+    const prisma = prismaClient;
 
     const tasks = await prisma.task.findMany({
       where: {

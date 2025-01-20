@@ -1,12 +1,12 @@
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import ITask from "../../../../types/task";
-import { PrismaClient } from "@prisma/client";
 import TaskList from "../../../../components/TaskList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Alert, Box } from "@mui/material";
 import Head from "next/head";
 import TaskListHeader from "../../../../components/TaskListHeader";
+import { prismaClient } from "../../../../utils/prisma";
 
 export default function Tasks({
   tasks: propTasks,
@@ -53,7 +53,7 @@ export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
     try {
       const session = await getSession(ctx.req, ctx.res);
-      const prisma = new PrismaClient();
+      const prisma = prismaClient;
       const { id } = ctx.query;
       let data;
 
