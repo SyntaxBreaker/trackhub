@@ -1,9 +1,8 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import TimerIcon from "@mui/icons-material/Timer";
 import DoneIcon from "@mui/icons-material/Done";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { PrismaClient } from "@prisma/client";
 import { calculateRemainingDays } from "../utils/date";
@@ -13,8 +12,7 @@ import Head from "next/head";
 import ITask from "../types/task";
 import ProjectStats from "../components/ProjectStats";
 import { IStatsPerProject } from "../types/project";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useRouter } from "next/router";
+import StatsHeader from "../components/StatsHeader";
 
 function UserStats({
   totalTime,
@@ -29,43 +27,13 @@ function UserStats({
   missedDeadlines: number;
   statsPerProject: IStatsPerProject;
 }) {
-  const { user } = useUser();
-  const router = useRouter();
-
   return (
     <>
       <Head>
         <title>TrackHub | Stats Overview</title>
       </Head>
-      <Box sx={{ paddingTop: 1 }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 1,
-            flexWrap: "wrap",
-          }}
-        >
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" component="h1">
-              Welcome back, {user?.nickname}!
-            </Typography>
-            <Typography variant="body1" component="p">
-              Here&apos;s what&apos;s happening with your stats:
-            </Typography>
-          </Box>
-          <Button
-            onClick={() => router.back()}
-            startIcon={<ArrowBackIcon />}
-            variant="outlined"
-            color="primary"
-            size="medium"
-          >
-            Back
-          </Button>
-        </Box>
+      <Box>
+        <StatsHeader />
         <Grid container spacing={2} direction="row" sx={{ marginTop: 1 }}>
           <Statistic
             icon={<TimerIcon fontSize="large" />}
@@ -120,8 +88,7 @@ export const getServerSideProps = withPageAuthRequired({
       completedTasks.length;
     const missedDeadlines = tasks.filter(
       (task) =>
-        task.status !== "COMPLETED" &&
-        calculateRemainingDays(task.deadline) < 0,
+        task.status !== "COMPLETED" && calculateRemainingDays(task.deadline) < 0
     ).length;
 
     let statsPerProject: IStatsPerProject = {};
@@ -162,11 +129,11 @@ export const getServerSideProps = withPageAuthRequired({
         missedDeadlines: missedDeadlinesPerProject,
         averageTime:
           projectGroup[project].tasks.filter(
-            (task) => task.status === "COMPLETED",
+            (task) => task.status === "COMPLETED"
           ).length > 0
             ? totalTimePerProject /
               projectGroup[project].tasks.filter(
-                (task) => task.status === "COMPLETED",
+                (task) => task.status === "COMPLETED"
               ).length
             : 0,
       };
