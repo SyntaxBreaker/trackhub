@@ -1,18 +1,13 @@
-import { Box, Grid } from "@mui/material";
-import TimerIcon from "@mui/icons-material/Timer";
-import DoneIcon from "@mui/icons-material/Done";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import EventBusyIcon from "@mui/icons-material/EventBusy";
+import { Box } from "@mui/material";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { calculateRemainingDays } from "../utils/date";
-import { secondsToDhms } from "../utils/time";
-import Statistic from "../components/Statistic";
 import Head from "next/head";
 import ITask from "../types/task";
 import ProjectStats from "../components/ProjectStats";
 import { IStatsPerProject } from "../types/project";
 import StatsHeader from "../components/StatsHeader";
 import { prismaClient } from "../utils/prisma";
+import StatisticList from "../components/StatisticList";
 
 function UserStats({
   totalTime,
@@ -34,28 +29,12 @@ function UserStats({
       </Head>
       <Box>
         <StatsHeader />
-        <Grid container spacing={2} direction="row" sx={{ marginTop: 1 }}>
-          <Statistic
-            icon={<TimerIcon fontSize="large" />}
-            title="Total Time Tracker"
-            description={secondsToDhms(totalTime) || "-"}
-          />
-          <Statistic
-            icon={<DoneIcon fontSize="large" />}
-            title="Completed Tasks Overview"
-            description={`${completedTasks} Tasks`}
-          />
-          <Statistic
-            icon={<AccessTimeIcon fontSize="large" />}
-            title="Average Time per Task Analysis"
-            description={secondsToDhms(averageTimePerTask) || "-"}
-          />
-          <Statistic
-            icon={<EventBusyIcon fontSize="large" />}
-            title="Missed Deadlines Report"
-            description={`${missedDeadlines} Tasks`}
-          />
-        </Grid>
+        <StatisticList
+          totalTime={totalTime}
+          completedTasks={completedTasks}
+          averageTimePerTask={averageTimePerTask}
+          missedDeadlines={missedDeadlines}
+        />
         <ProjectStats statsPerProject={statsPerProject} />
       </Box>
     </>
