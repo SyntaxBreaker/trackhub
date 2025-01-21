@@ -89,13 +89,19 @@ export default function ProjectList({
           <Table aria-label="Project list">
             <TableHead sx={{ backgroundColor: "primary.main" }}>
               <TableRow>
-                <TableCell sx={{ color: "primary.contrastText" }}>
+                <TableCell
+                  sx={{ color: "primary.contrastText", fontWeight: 600 }}
+                >
                   Name
                 </TableCell>
-                <TableCell sx={{ color: "primary.contrastText" }}>
+                <TableCell
+                  sx={{ color: "primary.contrastText", fontWeight: 600 }}
+                >
                   Description
                 </TableCell>
-                <TableCell sx={{ color: "primary.contrastText" }}>
+                <TableCell
+                  sx={{ color: "primary.contrastText", fontWeight: 600 }}
+                >
                   Creator
                 </TableCell>
                 <TableCell></TableCell>
