@@ -1,4 +1,4 @@
-import { Alert, Box, Button } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
 import { calculateRemainingDays } from "../../utils/date";
 import ITask from "../../types/task";
 import { useState } from "react";
@@ -45,8 +45,13 @@ export default function TaskList({
                 </Button>
               }
             >
-              Important: Task &quot;{task.name}&quot; is overdue. You can change
-              the deadline.
+              <Typography display="inline" fontWeight={600} variant="body2">
+                Important:
+              </Typography>{" "}
+              <Typography display="inline" variant="body2">
+                Task &quot;{task.name}&quot; is overdue. You can change the
+                deadline.
+              </Typography>
             </Alert>
           )
       )}
