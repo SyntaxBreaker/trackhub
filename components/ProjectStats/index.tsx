@@ -20,19 +20,31 @@ export default function ProjectStats({
       <Table aria-label="Project Statistics">
         <TableHead sx={{ backgroundColor: "primary.main" }}>
           <TableRow>
-            <TableCell sx={{ color: "primary.contrastText" }}>
+            <TableCell sx={{ color: "primary.contrastText", fontWeight: 600 }}>
               Project name
             </TableCell>
-            <TableCell align="left" sx={{ color: "primary.contrastText" }}>
+            <TableCell
+              align="left"
+              sx={{ color: "primary.contrastText", fontWeight: 600 }}
+            >
               Completed tasks
             </TableCell>
-            <TableCell align="left" sx={{ color: "primary.contrastText" }}>
+            <TableCell
+              align="left"
+              sx={{ color: "primary.contrastText", fontWeight: 600 }}
+            >
               Total time
             </TableCell>
-            <TableCell align="left" sx={{ color: "primary.contrastText" }}>
+            <TableCell
+              align="left"
+              sx={{ color: "primary.contrastText", fontWeight: 600 }}
+            >
               Average time
             </TableCell>
-            <TableCell align="left" sx={{ color: "primary.contrastText" }}>
+            <TableCell
+              align="left"
+              sx={{ color: "primary.contrastText", fontWeight: 600 }}
+            >
               Missed deadlines
             </TableCell>
           </TableRow>
