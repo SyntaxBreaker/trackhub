@@ -7,7 +7,7 @@ import { Alert } from "@mui/material";
 import Head from "next/head";
 import { prismaClient } from "../../../../utils/prisma";
 
-export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
+export default function Create({ isAuthorized }: { isAuthorized: boolean }) {
   const { user, isLoading } = useUser();
 
   const router = useRouter();
@@ -17,21 +17,21 @@ export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
   }, [user, isLoading]);
 
   useEffect(() => {
-    if (!isAuthorised) {
+    if (!isAuthorized) {
       setTimeout(() => {
         router.push("/");
       }, 3000);
     }
-  }, [isAuthorised]);
+  }, [isAuthorized]);
 
   return (
     <>
       <Head>
         <title>TrackHub | Create a new task</title>
       </Head>
-      {!isAuthorised ? (
+      {!isAuthorized ? (
         <Alert severity="error">
-          You are not authorised to access this page. You will be redirected to
+          You are not authorized to access this page. You will be redirected to
           the homepage.
         </Alert>
       ) : (
@@ -53,13 +53,13 @@ export const getServerSideProps = withPageAuthRequired({
       },
     });
 
-    const isAuthorised =
+    const isAuthorized =
       project?.creator === session?.user.email ||
       project?.assignees.includes(session?.user.email);
 
     return {
       props: {
-        isAuthorised,
+        isAuthorized,
       },
     };
   },

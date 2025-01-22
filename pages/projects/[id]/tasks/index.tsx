@@ -10,33 +10,33 @@ import { prismaClient } from "../../../../utils/prisma";
 
 export default function Tasks({
   tasks: propTasks,
-  isAuthorised,
+  isAuthorized,
 }: {
   tasks?: ITask[];
-  isAuthorised: boolean;
+  isAuthorized: boolean;
 }) {
   const [ID, setID] = useState<undefined | string>();
   const [tasks, setTasks] = useState(propTasks);
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthorised) {
+    if (!isAuthorized) {
       setTimeout(() => {
         router.push("/");
       }, 3000);
     } else {
       setID(window.location.href.split("/")[4]);
     }
-  }, [isAuthorised]);
+  }, [isAuthorized]);
 
   return (
     <>
       <Head>
         <title>TrackHub | Task List</title>
       </Head>
-      {!isAuthorised ? (
+      {!isAuthorized ? (
         <Alert severity="error">
-          You are not authorised to access this page. You will be redirected to
+          You are not authorized to access this page. You will be redirected to
           the homepage.
         </Alert>
       ) : (
@@ -73,7 +73,7 @@ export const getServerSideProps = withPageAuthRequired({
       ) {
         data = {
           tasks,
-          isAuthorised: true,
+          isAuthorized: true,
         };
       } else {
         const project = await prisma.project.findFirst({
@@ -88,12 +88,12 @@ export const getServerSideProps = withPageAuthRequired({
         ) {
           data = {
             tasks: [],
-            isAuthorised: true,
+            isAuthorized: true,
           };
         } else {
           data = {
             tasks: [],
-            isAuthorised: false,
+            isAuthorized: false,
           };
         }
       }
@@ -106,7 +106,7 @@ export const getServerSideProps = withPageAuthRequired({
     } catch (err) {
       return {
         props: {
-          isAuthorised: false,
+          isAuthorized: false,
           tasks: [],
         },
       };
