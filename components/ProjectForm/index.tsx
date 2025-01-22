@@ -174,7 +174,7 @@ export default function ProjectForm({
                   >
                     Assignee&lsquo;s email address
                   </TableCell>
-                  <TableCell align="right"></TableCell>
+                  <TableCell align="right" width={40}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -206,12 +206,7 @@ export default function ProjectForm({
                           handleAssigneeAddition();
                         }
                       }}
-                      sx={{
-                        width: {
-                          xs: "100%",
-                          sm: "65%",
-                        },
-                      }}
+                      fullWidth
                     />
                   </TableCell>
                   <TableCell align="right">
