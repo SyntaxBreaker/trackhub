@@ -1,6 +1,6 @@
 import { Avatar, Box, Typography, IconButton, Alert } from "@mui/material";
 import IComment from "../../types/comment";
-import ClearIcon from "@mui/icons-material/Clear";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import axios from "axios";
 import { useState } from "react";
@@ -26,14 +26,14 @@ export default function CommentList({
         });
         const { deletedComment } = res.data;
         setComments((comments) =>
-          comments.filter((comment) => comment.id !== deletedComment.id),
+          comments.filter((comment) => comment.id !== deletedComment.id)
         );
       })
       .catch((err) =>
         setError({
           message: err.message,
           id: id,
-        }),
+        })
       );
   };
 
@@ -68,7 +68,7 @@ export default function CommentList({
             </Box>
             {user?.email === comment.authorId && (
               <IconButton onClick={() => handleDeleteComment(comment.id)}>
-                <ClearIcon />
+                <DeleteIcon />
               </IconButton>
             )}
           </Box>
