@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import ProjectForm from "../../components/ProjectForm";
 import Head from "next/head";
-import { Box } from "@mui/material";
 
 export default function Create() {
   const { user, isLoading } = useUser();
@@ -16,9 +15,7 @@ export default function Create() {
       <Head>
         <title>TrackHub | Create a new project</title>
       </Head>
-      <Box>
-        <ProjectForm user={user} method="POST" />
-      </Box>
+      <ProjectForm user={user} method="POST" />
     </>
   );
 }
