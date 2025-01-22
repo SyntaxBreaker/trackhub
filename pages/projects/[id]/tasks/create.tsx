@@ -3,7 +3,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import TaskForm from "../../../../components/TaskForm";
 import { getSession, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
-import { Alert, Box } from "@mui/material";
+import { Alert } from "@mui/material";
 import Head from "next/head";
 import { prismaClient } from "../../../../utils/prisma";
 
@@ -35,9 +35,7 @@ export default function Create({ isAuthorised }: { isAuthorised: boolean }) {
           the homepage.
         </Alert>
       ) : (
-        <Box>
-          <TaskForm user={user} method="POST" />
-        </Box>
+        <TaskForm user={user} method="POST" />
       )}
     </>
   );
