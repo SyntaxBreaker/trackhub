@@ -1,4 +1,4 @@
-# TrackHub (Under construction)
+# TrackHub
 
 TrackHub is an application designed to help freelancers and small businesses easily track and manage their projects, tasks, and time. It provides a simple and intuitive interface to keep track of ongoing projects, monitor task progress, and record time spent on each task.
 
@@ -25,7 +25,7 @@ What you need to install the software and how to install them:
 
 Step-by-step instructions on how to install the project:
 
-1. Clone the repository: `git clone https://github.com/SyntaxBreaker/TrackHub.git`
+1. Clone the repository: `git clone git@github.com:SyntaxBreaker/trackhub.git`
 2. Navigate to the project directory: `cd trackhub`
 3. Install the dependencies: `npm install`
 
